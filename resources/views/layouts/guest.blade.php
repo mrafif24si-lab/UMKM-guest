@@ -1,4 +1,3 @@
-<!-- resources/views/layouts/guest.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,6 +168,7 @@
     <!-- Spinner End -->
 
     <!-- Navbar start -->
+     
     <div class="container-fluid fixed-top">
         <div class="container topbar bg-primary d-none d-lg-block">
             <div class="d-flex justify-content-between">
@@ -190,18 +190,21 @@
                     <span class="fa fa-bars text-primary"></span>
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
-    <div class="navbar-nav mx-auto">
-        <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
-        <a href="{{ route('produk.index') }}" class="nav-item nav-link {{ request()->is('produk*') ? 'active' : '' }}">Produk</a>
-        <a href="{{ route('warga.index') }}" class="nav-item nav-link {{ request()->is('warga*') ? 'active' : '' }}">Warga</a>
-        <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle {{ request()->is('produk/create') || request()->is('warga/create') ? 'active' : '' }}" data-bs-toggle="dropdown">Tambah Data</a>
-            <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                <a href="{{ route('produk.create') }}" class="dropdown-item">Tambah Produk</a>
-                <a href="{{ route('warga.create') }}" class="dropdown-item">Tambah Warga</a>
-            </div>
+  <div class="navbar-nav mx-auto">
+    <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
+    <a href="{{ route('produk.index') }}" class="nav-item nav-link {{ request()->is('produk*') ? 'active' : '' }}">Produk</a>
+    <a href="{{ route('warga.index') }}" class="nav-item nav-link {{ request()->is('warga*') ? 'active' : '' }}">Warga</a>
+    <a href="{{ route('user.index') }}" class="nav-item nav-link {{ request()->is('user*') ? 'active' : '' }}">User</a>
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle {{ request()->is('produk/create') || request()->is('warga/create') || request()->is('user/create') ? 'active' : '' }}" data-bs-toggle="dropdown">Tambah Data</a>
+        <div class="dropdown-menu m-0 bg-secondary rounded-0">
+            <a href="{{ route('produk.create') }}" class="dropdown-item">Tambah Produk</a>
+            <a href="{{ route('warga.create') }}" class="dropdown-item">Tambah Warga</a>
+            <a href="{{ route('user.create') }}" class="dropdown-item">Tambah User</a>
         </div>
     </div>
+    <a href="{{ route('login') }}" class="nav-item nav-link {{ request()->is('user*') ? 'active' : '' }}">Login</a>
+</div>
     <div class="d-flex m-3 me-0">
         <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal">
             <i class="fas fa-search text-primary"></i>
@@ -237,6 +240,29 @@
             </div>
         </div>
     </div>
+    @auth
+<div class="dropdown">
+    <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+        <i class="fas fa-user me-2"></i>{{ Auth::user()->name }}
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item text-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>
+@else
+<a href="{{ route('login') }}" class="btn btn-outline-light">
+    <i class="fas fa-sign-in-alt me-2"></i>Login
+</a>
+@endauth
     <!-- Modal Search End -->
 
     <!-- Main Content -->
@@ -263,6 +289,7 @@
 
         @yield('content')
     </main>
+    <!-- end Content -->
 
     <!-- Footer Start -->
     <div class="container-fluid footer mt-5">
@@ -316,7 +343,7 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
 
-    <!-- JavaScript Libraries -->
+    <!-- start java -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('assets-guest/lib/easing/easing.min.js') }}"></script>
@@ -324,8 +351,9 @@
     <script src="{{ asset('assets-guest/lib/lightbox/js/lightbox.min.js') }}"></script>
     <script src="{{ asset('assets-guest/lib/owlcarousel/owl.carousel.min.js') }}"></script>
 
-    <!-- Template Javascript -->
+   
     <script src="{{ asset('assets-guest/js/main.js') }}"></script>
+     <!-- end java -->
     
     @yield('scripts')
 </body>

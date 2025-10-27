@@ -140,7 +140,7 @@
     </div>
 </div>
 
-{{-- Tambahkan JavaScript untuk handling form --}}
+{{-- Start JS --}}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('produkForm');
@@ -179,4 +179,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+{{-- end JS --}}
 @endsection

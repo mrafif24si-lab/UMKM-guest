@@ -1,4 +1,4 @@
-<!-- resources/views/warga/index.blade.php -->
+
 @extends('layouts.guest')
 
 @section('title', 'Data Warga')
@@ -76,6 +76,7 @@
                 </table>
             </div>
             
+           
             <div class="card-footer bg-light py-3">
                 <div class="row align-items-center">
                     <div class="col-md-6">
@@ -84,10 +85,11 @@
                     <div class="col-md-6 text-end">
                         <a href="{{ route('warga.create') }}" class="btn btn-primary">
                             <i class="fas fa-plus me-1"></i> Tambah Warga Baru
-                        </a>
+                        </a> 
                     </div>
                 </div>
             </div>
+             
             @else
             <div class="text-center py-5">
                 <i class="fas fa-users fa-4x text-muted mb-3"></i>

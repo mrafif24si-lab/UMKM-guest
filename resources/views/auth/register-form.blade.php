@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login - UMKM Desa</title>
+    <title>Register - UMKM Desa</title>
     <style>
         body { 
             font-family: Arial; 
@@ -13,7 +13,7 @@
             align-items: center;
             min-height: 100vh;
         }
-        .login-container {
+        .register-container {
             background: white;
             padding: 30px;
             border-radius: 10px;
@@ -21,7 +21,7 @@
             width: 100%;
             max-width: 400px;
         }
-        .login-header {
+        .register-header {
             background: orange;
             color: white;
             padding: 20px;
@@ -38,6 +38,7 @@
             font-weight: bold;
             color: #333;
         }
+        input[type="text"],
         input[type="email"],
         input[type="password"] {
             width: 100%;
@@ -47,12 +48,13 @@
             font-size: 16px;
             box-sizing: border-box;
         }
+        input[type="text"]:focus,
         input[type="email"]:focus,
         input[type="password"]:focus {
             border-color: orange;
             outline: none;
         }
-        .btn-login {
+        .btn-register {
             background: orange;
             color: white;
             border: none;
@@ -63,7 +65,7 @@
             width: 100%;
             transition: background 0.3s;
         }
-        .btn-login:hover {
+        .btn-register:hover {
             background: #e65c00;
         }
         .error-message {
@@ -79,13 +81,13 @@
             color: orange;
             text-decoration: none;
         }
-        .register-link {
+        .login-link {
             text-align: center;
             margin-top: 15px;
             padding-top: 15px;
             border-top: 1px solid #eee;
         }
-        .register-link a {
+        .login-link a {
             color: orange;
             text-decoration: none;
             font-weight: bold;
@@ -93,9 +95,9 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-header">
-            <h2>Login UMKM Desa</h2>
+    <div class="register-container">
+        <div class="register-header">
+            <h2>Register UMKM Desa</h2>
         </div>
         
         @if($errors->any())
@@ -106,17 +108,19 @@
             </div>
         @endif
 
-        @if(session('success'))
-            <div style="background: #e8f5e8; color: #2e7d32; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                <p>{{ session('success') }}</p>
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('login.submit') }}">
+        <form method="POST" action="{{ route('register.submit') }}">
             @csrf
             <div class="form-group">
+                <label for="name">Nama Lengkap:</label>
+                <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus>
+                <div class="error-message">
+                    @error('name') {{ $message }} @enderror
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus>
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required>
                 <div class="error-message">
                     @error('email') {{ $message }} @enderror
                 </div>
@@ -130,11 +134,16 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-login">Login</button>
+            <div class="form-group">
+                <label for="password_confirmation">Konfirmasi Password:</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" required>
+            </div>
+
+            <button type="submit" class="btn-register">Daftar</button>
         </form>
 
-        <div class="register-link">
-            <p>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
+        <div class="login-link">
+            <p>Sudah punya akun? <a href="{{ route('login') }}">Login di sini</a></p>
         </div>
 
         <div class="back-link">

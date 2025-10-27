@@ -151,18 +151,21 @@
                     <span class="fa fa-bars text-primary"></span>
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
-    <div class="navbar-nav mx-auto">
-        <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
-        <a href="{{ route('produk.index') }}" class="nav-item nav-link {{ request()->is('produk*') ? 'active' : '' }}">Produk</a>
-        <a href="{{ route('warga.index') }}" class="nav-item nav-link {{ request()->is('warga*') ? 'active' : '' }}">Warga</a>
-        <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle {{ request()->is('produk/create') || request()->is('warga/create') ? 'active' : '' }}" data-bs-toggle="dropdown">Tambah Data</a>
-            <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                <a href="{{ route('produk.create') }}" class="dropdown-item">Tambah Produk</a>
-                <a href="{{ route('warga.create') }}" class="dropdown-item">Tambah Warga</a>
-            </div>
+     <div class="navbar-nav mx-auto">
+    <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
+    <a href="{{ route('produk.index') }}" class="nav-item nav-link {{ request()->is('produk*') ? 'active' : '' }}">Produk</a>
+    <a href="{{ route('warga.index') }}" class="nav-item nav-link {{ request()->is('warga*') ? 'active' : '' }}">Warga</a>
+    <a href="{{ route('user.index') }}" class="nav-item nav-link {{ request()->is('user*') ? 'active' : '' }}">User</a>
+    <div class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle {{ request()->is('produk/create') || request()->is('warga/create') || request()->is('user/create') ? 'active' : '' }}" data-bs-toggle="dropdown">Tambah Data</a>
+        <div class="dropdown-menu m-0 bg-secondary rounded-0">
+            <a href="{{ route('produk.create') }}" class="dropdown-item">Tambah Produk</a>
+            <a href="{{ route('warga.create') }}" class="dropdown-item">Tambah Warga</a>
+            <a href="{{ route('user.create') }}" class="dropdown-item">Tambah User</a>
         </div>
     </div>
+    <a href="{{ route('login') }}" class="nav-item nav-link {{ request()->is('user*') ? 'active' : '' }}">Login</a>
+</div>
     <div class="d-flex m-3 me-0">
         <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal">
             <i class="fas fa-search text-primary"></i>

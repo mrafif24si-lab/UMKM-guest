@@ -149,3 +149,23 @@
 
 })(jQuery);
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const userDropdownToggle = document.getElementById('userDropdownToggle');
+            const userDropdownMenu = document.getElementById('userDropdownMenu');
+            
+            // Toggle dropdown when clicking the user icon
+            userDropdownToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdownMenu.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                userDropdownMenu.classList.remove('show');
+            });
+            
+            // Prevent dropdown from closing when clicking inside
+            userDropdownMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
