@@ -16,7 +16,7 @@ Route::get('/', function () {
 // Routes untuk Warga (Guest)
 Route::resource('warga', WargaController::class);
 
-// Routes untuk Produk (Guest)  
+// Routes untuk Produk (Guest)
 Route::resource('produk', ProdukController::class);
 
 // Route untuk halaman login
@@ -34,8 +34,12 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.su
 // Route untuk logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::resource('user', UserController::class); 
+Route::resource('user', UserController::class);
 
 Route::fallback(function () {
     return redirect('/');
 });
+
+Route::get('/tentang', function () {
+    return view('tentang'); // atau 'tentang.tentang'
+})->name('tentang');
