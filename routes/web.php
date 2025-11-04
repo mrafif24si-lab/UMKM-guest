@@ -41,5 +41,5 @@ Route::fallback(function () {
 });
 
 Route::get('/tentang', function () {
-    return view('tentang'); // atau 'tentang.tentang'
+    return view('guest/tentang');
 })->name('tentang');
