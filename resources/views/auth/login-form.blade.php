@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - UMKM Desa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { 
-            font-family: Arial; 
-            background-color: #fff8f0; 
-            margin: 0; 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%);
+            margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
@@ -15,131 +19,242 @@
         }
         .login-container {
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 0;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            overflow: hidden;
         }
         .login-header {
-            background: orange;
+            background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%);
             color: white;
-            padding: 20px;
+            padding: 30px 20px;
             text-align: center;
-            border-radius: 8px 8px 0 0;
-            margin: -30px -30px 20px -30px;
+            position: relative;
+        }
+        .login-header h2 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        .login-header i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .login-body {
+            padding: 30px;
         }
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 45px 12px 45px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
             color: #333;
         }
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
+        .form-control::placeholder {
+            color: #999;
+            font-size: 14px;
         }
-        input[type="email"]:focus,
-        input[type="password"]:focus {
-            border-color: orange;
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
             outline: none;
         }
         .btn-login {
-            background: orange;
+            background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
+            padding: 14px 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: 600;
             width: 100%;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
         }
         .btn-login:hover {
-            background: #e65c00;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+        .btn-login:active {
+            transform: translateY(0);
         }
         .error-message {
-            color: red;
-            font-size: 14px;
+            color: #dc3545;
+            font-size: 13px;
             margin-top: 5px;
+            display: block;
         }
-        .back-link {
+        .alert {
+            border-radius: 8px;
+            border: none;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border-left: 4px solid #dc3545;
+        }
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+            border-left: 4px solid #28a745;
+        }
+        .links-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        .register-link, .back-link {
             text-align: center;
-            margin-top: 15px;
+            margin-bottom: 10px;
         }
-        .back-link a {
-            color: orange;
+        .register-link a, .back-link a {
+            color: #17a2b8;
             text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
-        .register-link {
-            text-align: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
+        .register-link a:hover, .back-link a:hover {
+            color: #28a745;
+            text-decoration: underline;
         }
-        .register-link a {
-            color: orange;
-            text-decoration: none;
-            font-weight: bold;
+        .input-with-icon {
+            position: relative;
+        }
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            z-index: 2;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+            z-index: 2;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        .password-toggle:hover {
+            color: #666;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="login-header">
+            <i class="fas fa-store"></i>
             <h2>Login UMKM Desa</h2>
-        </div>
-        
-        @if($errors->any())
-            <div style="background: #ffebee; color: #c62828; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                @foreach($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
-
-        @if(session('success'))
-            <div style="background: #e8f5e8; color: #2e7d32; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                <p>{{ session('success') }}</p>
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('login.submit') }}">
-            @csrf
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus>
-                <div class="error-message">
-                    @error('email') {{ $message }} @enderror
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                <div class="error-message">
-                    @error('password') {{ $message }} @enderror
-                </div>
-            </div>
-
-            <button type="submit" class="btn-login">Login</button>
-        </form>
-
-        <div class="register-link">
-            <p>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
+            <p class="mb-0 mt-2 opacity-75">Masuk ke akun Anda</p>
         </div>
 
-        <div class="back-link">
-            <a href="{{ route('home') }}">← Kembali ke Beranda</a>
+        <div class="login-body">
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <strong><i class="fas fa-exclamation-triangle me-2"></i>Error!</strong>
+                    @foreach($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="alert alert-success">
+                    <strong><i class="fas fa-check-circle me-2"></i>Sukses!</strong>
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('login.submit') }}">
+                @csrf
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="email" name="email" class="form-control"
+                               value="{{ old('email') }}" placeholder="Masukkan email Anda" required autofocus>
+                    </div>
+                    <span class="error-message">
+                        @error('email') <i class="fas fa-exclamation-circle me-1"></i>{{ $message }} @enderror
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="password" name="password" class="form-control"
+                               placeholder="Masukkan password Anda" required>
+                        <button type="button" class="password-toggle" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <span class="error-message">
+                        @error('password') <i class="fas fa-exclamation-circle me-1"></i>{{ $message }} @enderror
+                    </span>
+                </div>
+
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </button>
+            </form>
+
+            <div class="links-section">
+                <div class="register-link">
+                    <p>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
+                </div>
+
+                <div class="back-link">
+                    <a href="{{ route('home') }}">
+                        <i class="fas fa-arrow-left me-1"></i>Kembali ke Beranda
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.querySelector('#togglePassword');
+            const password = document.querySelector('#password');
+
+            togglePassword.addEventListener('click', function() {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+
+                const icon = this.querySelector('i');
+                if (type === 'password') {
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                } else {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
