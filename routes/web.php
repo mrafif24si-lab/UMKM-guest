@@ -10,7 +10,7 @@ use App\Http\Controllers\DashboardController;
 
 // Route utama
 Route::get('/', function () {
-    return view('guest.dashboard');
+    return view('pages.guest.dashboard');
 })->name('home');
 
 // Routes untuk Warga (Guest)
@@ -41,5 +41,5 @@ Route::fallback(function () {
 });
 
 Route::get('/tentang', function () {
-    return view('guest/tentang');
+    return view('pages/guest/tentang');
 })->name('tentang');

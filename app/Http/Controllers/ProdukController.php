@@ -14,7 +14,7 @@ class ProdukController extends Controller
     public function index()
     {
         $dataProduk = Produk::with('umkm')->get(); // Perbaiki: 'umkm' bukan 'Umkm'
-        return view('produk.index', compact('dataProduk'));
+        return view('pages.guest.produk.index', compact('dataProduk'));
     }
 
     /**
@@ -23,7 +23,7 @@ class ProdukController extends Controller
     public function create()
     {
         // Tidak perlu kirim data UMKM karena menggunakan input text
-        return view('produk.create');
+        return view('pages.guest.produk.create');
     }
 
     /**
@@ -59,7 +59,7 @@ class ProdukController extends Controller
     public function edit(string $id)
     {
         $produk = Produk::with('umkm')->findOrFail($id);
-        return view('produk.edit', compact('produk')); // Perbaiki: 'produk.edit' bukan 'admin.produk.edit'
+        return view('pages.guest.produk.edit', compact('produk')); // Perbaiki: 'produk.edit' bukan 'admin.produk.edit'
     }
 
     /**
