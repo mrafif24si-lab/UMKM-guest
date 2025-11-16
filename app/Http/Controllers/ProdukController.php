@@ -1,95 +1,78 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
-use App\Models\Umkm;  
+use App\Models\Umkm;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class ProdukController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $dataProduk = Produk::with('umkm')->get(); // Perbaiki: 'umkm' bukan 'Umkm'
+        $dataProduk = Produk::with('umkm.pemilik')->get();
         return view('pages.guest.produk.index', compact('dataProduk'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        // Tidak perlu kirim data UMKM karena menggunakan input text
-        return view('pages.guest.produk.create');
+        $umkm = Umkm::with('pemilik')->get();
+        return view('pages.guest.produk.create', compact('umkm'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        // dd($request->all());
+        $validated = $request->validate([
+            'umkm_id' => 'required|exists:umkm,umkm_id',
+            'nama_produk' => 'required|string|max:100',
+            'jenis_produk' => 'required|string|max:100',
+            'deskripsi' => 'nullable|string',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'status' => 'required|in:Aktif,Nonaktif',
+        ]);
 
-        $data['nama_produk'] = $request->nama_produk;
-		$data['deksripsi'] = $request->deksripsi;
-		$data['jenis_produk'] = $request->jenis_produk;
-		$data['harga'] = $request->harga;
-		$data['stok'] = $request->stok;
-		$data['status'] = $request->status;
-		
-		Produk::create($data);
+        Produk::create($validated);
 
-        return redirect()->route('produk.index')->with('success', 'Data produk berhasil ditambahkan!');
+        return redirect()->route('produk.index')
+            ->with('success', 'Produk berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Produk $produk)
     {
-        //
+        $produk->load('umkm.pemilik');
+        return view('pages.guest.produk.show', compact('produk'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Produk $produk)
     {
-        $produk = Produk::with('umkm')->findOrFail($id);
-        return view('pages.guest.produk.edit', compact('produk')); // Perbaiki: 'produk.edit' bukan 'admin.produk.edit'
+        $umkm = Umkm::with('pemilik')->get();
+        return view('pages.guest.produk.edit', compact('produk', 'umkm'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Produk $produk): RedirectResponse
     {
-        
-        $produk_id = $id;
-        $produk = Produk::findOrFail($produk_id);
+        $validated = $request->validate([
+            'umkm_id' => 'required|exists:umkm,umkm_id',
+            'nama_produk' => 'required|string|max:100',
+            'jenis_produk' => 'required|string|max:100',
+            'deskripsi' => 'nullable|string',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'status' => 'required|in:Aktif,Nonaktif',
+        ]);
 
-        $produk->nama_produk = $request->nama_produk;
-        $produk->deskripsi = $request->desksripsi;
-        $produk->jenis_produk = $request->jenis_produk;
-        $produk->harga = $request->harga;
-        $produk->stok = $request->stok;
-        $produk->status = $request->status;
+        $produk->update($validated);
 
-        $produk->save();
-        return redirect()->route('produk.index')->with('success', 'Data produk berhasil diupdate!');
+        return redirect()->route('produk.index')
+            ->with('success', 'Produk berhasil diupdate.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Produk $produk): RedirectResponse
     {
-        $produk = Produk::findOrFail($id);
         $produk->delete();
 
-        return redirect()->route('produk.index')->with('success', 'Data produk berhasil dihapus!');
+        return redirect()->route('produk.index')
+            ->with('success', 'Produk berhasil dihapus.');
     }
 }

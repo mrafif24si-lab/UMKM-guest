@@ -22,6 +22,21 @@
                         <form action="{{ route('produk.update', $produk->produk_id) }}" method="POST">
                             @csrf
                             @method('PUT')
+                            <div class="mb-4">
+    <label for="umkm_id" class="form-label">Pilih UMKM <span class="text-danger">*</span></label>
+    <select class="form-select @error('umkm_id') is-invalid @enderror" 
+            id="umkm_id" name="umkm_id" required>
+        <option value="">Pilih UMKM</option>
+        @foreach($umkm as $u)
+            <option value="{{ $u->umkm_id }}" {{ old('umkm_id', $produk->umkm_id) == $u->umkm_id ? 'selected' : '' }}>
+                {{ $u->nama_usaha }} - {{ $u->pemilik->nama ?? 'Tidak diketahui' }}
+            </option>
+        @endforeach
+    </select>
+    @error('umkm_id')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
 
                             <div class="row">
                                 <div class="col-md-6">

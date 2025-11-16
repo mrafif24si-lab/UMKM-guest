@@ -6,8 +6,8 @@
 @section('content')
 <div class="container-fluid page-header py-5">
     <div class="container text-center">
-        <h1 class="text-white display-4">Pembelian Produk</h1>
-        <p class="text-white lead">Form pembelian produk UMKM</p>
+        <h1 class="text-white display-4">Tambah Produk</h1>
+        <p class="text-white lead">Form tambah produk UMKM</p>
     </div>
 </div>
 
@@ -17,10 +17,9 @@
             <div class="col-lg-10">
                 <div class="form-container">
                     <div class="card-header bg-primary text-white py-4">
-                        <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Form Pembelian Produk</h5>
+                        <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Form Tambah Produk</h5>
                     </div>
                     <div class="card-body p-5">
-                        {{-- Tambahkan alert untuk success/error --}}
                         @if(session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
@@ -43,6 +42,24 @@
                         <form action="{{ route('produk.store') }}" method="POST" id="produkForm">
                             @csrf
                             
+                            <!-- Tambahkan dropdown UMKM -->
+      
+                            <div class="mb-4">
+                                <label for="umkm_id" class="form-label">Pilih UMKM <span class="text-danger">*</span></label>
+                                <select class="form-select @error('umkm_id') is-invalid @enderror" 
+                                        id="umkm_id" name="umkm_id" required>
+                                    <option value="">Pilih UMKM</option>
+                                    @foreach($umkm as $u)
+                                        <option value="{{ $u->umkm_id }}" {{ old('umkm_id') == $u->umkm_id ? 'selected' : '' }}>
+                                            {{ $u->nama_usaha }} - {{ $u->pemilik->nama ?? 'Tidak diketahui' }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('umkm_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-4">
@@ -68,18 +85,19 @@
                                 </div>
                             </div>
 
+                            <!-- Field lainnya tetap sama -->
                             <div class="mb-4">
                                 <label for="deskripsi" class="form-label">Deskripsi Produk</label>
                                 <textarea class="form-control @error('deskripsi') is-invalid @enderror" 
                                           id="deskripsi" name="deskripsi" rows="4" 
-                                          placeholder="Deskripsikan produk yang ingin dibeli..">{{ old('deskripsi') }}</textarea>
+                                          placeholder="Deskripsikan produk Anda...">{{ old('deskripsi') }}</textarea>
                                 @error('deskripsi')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="mb-4">
                                         <label for="harga" class="form-label">Harga (Rp) <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control @error('harga') is-invalid @enderror" 
@@ -90,12 +108,12 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="mb-4">
-                                        <label for="stok" class="form-label">Jumlah <span class="text-danger">*</span></label>
+                                        <label for="stok" class="form-label">Stok <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control @error('stok') is-invalid @enderror" 
                                                id="stok" name="stok" value="{{ old('stok') }}" 
-                                               min="1" placeholder="0" required>
+                                               min="0" placeholder="0" required>
                                         @error('stok')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -103,19 +121,18 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-4">
-                                        <label for="status" class="form-label">ketersediaan <span class="text-danger">*</span></label>
+                                        <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
                                         <select class="form-select @error('status') is-invalid @enderror" 
                                                 id="status" name="status" required>
-                                            <option value="">Pilih Kertesediaan</option>
-                                            <option value="Aktif">Tersedia</option>
-                                            <option value="Nonaktif">Tidak Tersedia</option>
+                                            <option value="">Pilih Status</option>
+                                            <option value="Aktif" {{ old('status') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                            <option value="Nonaktif" {{ old('status') == 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
                                         </select>
-                                        @error('ketersediaan')
+                                        @error('status')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
-                            
                             </div>
 
                             <div class="d-flex gap-3 pt-4 border-top">
@@ -140,7 +157,6 @@
     </div>
 </div>
 
-{{-- Start JS --}}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('produkForm');
@@ -149,9 +165,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitSpinner = document.getElementById('submitSpinner');
 
     form.addEventListener('submit', function(e) {
-        // Validasi client-side sederhana
         const harga = document.getElementById('harga').value;
         const stok = document.getElementById('stok').value;
+        const umkmId = document.getElementById('umkm_id').value;
+        
+        if (!umkmId) {
+            alert('Pilih UMKM terlebih dahulu');
+            e.preventDefault();
+            return;
+        }
         
         if (harga <= 0) {
             alert('Harga harus lebih dari 0');
@@ -159,19 +181,17 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        if (stok <= 0) {
-            alert('Jumlah harus lebih dari 0');
+        if (stok < 0) {
+            alert('Stok tidak boleh negatif');
             e.preventDefault();
             return;
         }
 
-        // Tampilkan loading state
         submitBtn.disabled = true;
         submitText.textContent = 'Menyimpan...';
         submitSpinner.classList.remove('d-none');
     });
 
-    // Reset loading state ketika form direset
     form.addEventListener('reset', function() {
         submitBtn.disabled = false;
         submitText.textContent = 'Simpan';
@@ -179,5 +199,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-{{-- end JS --}}
 @endsection

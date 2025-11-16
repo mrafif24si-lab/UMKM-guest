@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
@@ -43,3 +44,5 @@ Route::fallback(function () {
 Route::get('/tentang', function () {
     return view('pages/guest/tentang');
 })->name('tentang');
+
+Route::resource('umkm', UmkmController::class);

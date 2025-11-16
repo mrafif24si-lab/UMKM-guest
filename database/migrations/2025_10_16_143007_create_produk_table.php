@@ -6,13 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('produk', function (Blueprint $table) {
-            $table->increments('produk_id');
+            $table->id('produk_id'); // Konsisten menggunakan id()
+            $table->unsignedBigInteger('umkm_id'); // Diubah ke unsignedBigInteger
             $table->string('nama_produk', 100);
             $table->string('jenis_produk',100)->nullable();
             $table->text('deskripsi')->nullable();
@@ -20,12 +18,14 @@ return new class extends Migration
             $table->integer('stok');
             $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
             $table->timestamps();
+
+            $table->foreign('umkm_id')
+                  ->references('umkm_id')
+                  ->on('umkm')
+                  ->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('produk');
