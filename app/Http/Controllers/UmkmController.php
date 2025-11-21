@@ -8,9 +8,23 @@ use Illuminate\Http\RedirectResponse;
 
 class UmkmController extends Controller
 {
-    public function index()
+     public function index(Request $request) // Tambahkan parameter Request
     {
-        $umkm = Umkm::with('pemilik')->get();
+        // Daftar kolom yang bisa difilter sesuai name pada form
+        $filterableColumns = ['kategori'];
+        
+        
+        // Daftar kolom yang bisa dicari saat searching
+        $searchableColumns = ['nama_usaha', 'kategori', 'pemilik.nama']; // Tambahkan ini
+
+        // Gunakan scope filter untuk memproses query
+        $umkm = Umkm::filter($request, $filterableColumns)
+        ->search($request, $searchableColumns) // Tambahkan ini
+                    ->with('pemilik') // Eager load relasi pemilik
+                    ->orderBy('nama_usaha')
+                    ->paginate(10)
+                    ->withQueryString(); // Tambahkan ini untuk mempertahankan parameter filter
+
         return view('pages.guest.umkm.index', compact('umkm'));
     }
 

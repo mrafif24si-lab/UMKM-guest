@@ -10,15 +10,28 @@ use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
-    public function index()
+     public function index(Request $request) // Tambahkan parameter Request
     {
-        $users = User::all();
+        // Daftar kolom yang bisa difilter sesuai name pada form
+        $filterableColumns = ['huruf_awal'];
+        
+          // Daftar kolom yang bisa dicari saat searching
+        $searchableColumns = ['name', 'email']; // Tambahkan ini
+        
+        
+        // Gunakan scope filter untuk memproses query
+        $users = User::filter($request, $filterableColumns)
+         ->search($request, $searchableColumns) // Tambahkan ini
+                    ->orderBy('name')
+                    ->paginate(10)
+                    ->withQueryString(); // Tambahkan ini untuk mempertahankan parameter filter
+
         return view('pages.guest.user.index', compact('users'));
     }
 
     public function create()
     {
-        return view('user.create');
+        return view('pages.guest.user.create');
     }
 
     public function store(Request $request)

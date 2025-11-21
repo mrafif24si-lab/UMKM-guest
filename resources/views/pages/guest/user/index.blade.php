@@ -19,6 +19,54 @@
             </a>
         </div>
 
+        <!-- Form Filter dan Search -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="GET" action="{{ route('user.index') }}" id="searchForm">
+                    <div class="row align-items-center">
+                        <!-- Search Input -->
+                        <div class="col-md-4">
+                            <label for="search" class="form-label fw-bold">Cari User:</label>
+                            <div class="input-group">
+                                <input type="text" name="search" class="form-control" 
+                                       id="search" placeholder="Cari nama user atau email..."
+                                       value="{{ request('search') }}">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                                @if(request('search'))
+                                <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}" 
+                                   class="btn btn-outline-secondary" title="Hapus pencarian">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Filter Abjad -->
+                        <div class="col-md-4">
+                            <label for="huruf_awal" class="form-label fw-bold">Filter Huruf Awal Nama:</label>
+                            <select name="huruf_awal" id="huruf_awal" class="form-select" onchange="document.getElementById('searchForm').submit()">
+                                <option value="">Semua Huruf</option>
+                                @foreach(range('A', 'Z') as $huruf)
+                                    <option value="{{ $huruf }}" {{ request('huruf_awal') == $huruf ? 'selected' : '' }}>
+                                        Huruf {{ $huruf }}
+                                    </option>
+                                @endforeach
+                                <option value="other" {{ request('huruf_awal') == 'other' ? 'selected' : '' }}>
+                                    Lainnya (Angka/Simbol)
+                                </option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <a href="{{ route('user.index') }}" class="btn btn-secondary mt-4">Reset Semua</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         @if($users->count() > 0)
         <div class="row">
             @foreach($users as $item)
@@ -60,11 +108,33 @@
             @endforeach
         </div>
 
+        <!-- Pagination Horizontal -->
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation">
+                {{ $users->links('pagination::bootstrap-5') }}
+            </nav>
+        </div>
+
         <div class="card bg-light mt-4">
             <div class="card-body">
                 <div class="row align-items-center">
                     <div class="col-md-6">
-                        <p class="mb-0">Total: <strong>{{ $users->count() }}</strong> user</p>
+                        <p class="mb-0">
+                            Total: <strong>{{ $users->total() }}</strong> user
+                            @if(request('search'))
+                                | Pencarian: <strong>"{{ request('search') }}"</strong>
+                            @endif
+                            @if(request('huruf_awal'))
+                                | Filter: 
+                                <strong>
+                                    @if(request('huruf_awal') == 'other')
+                                        Nama dengan Angka/Simbol
+                                    @else
+                                        Huruf {{ request('huruf_awal') }}
+                                    @endif
+                                </strong>
+                            @endif
+                        </p>
                     </div>
                     <div class="col-md-6 text-end">
                         <a href="{{ route('user.create') }}" class="btn btn-custom">
@@ -78,8 +148,37 @@
         @else
         <div class="text-center py-5">
             <i class="fas fa-users fa-4x text-muted mb-3"></i>
-            <h4 class="text-muted">Belum ada data user</h4>
-            <p class="text-muted mb-4">Silakan tambah data user terlebih dahulu</p>
+            <h4 class="text-muted">
+                @if(request('search') && request('huruf_awal'))
+                    @if(request('huruf_awal') == 'other')
+                        Tidak ada user dengan pencarian "{{ request('search') }}" dan nama yang dimulai angka/simbol
+                    @else
+                        Tidak ada user dengan pencarian "{{ request('search') }}" dan nama yang dimulai huruf "{{ request('huruf_awal') }}"
+                    @endif
+                @elseif(request('search'))
+                    Tidak ada user dengan pencarian "{{ request('search') }}"
+                @elseif(request('huruf_awal'))
+                    @if(request('huruf_awal') == 'other')
+                        Tidak ada user dengan nama yang dimulai angka/simbol
+                    @else
+                        Tidak ada user dengan nama yang dimulai huruf "{{ request('huruf_awal') }}"
+                    @endif
+                @else
+                    Belum ada data user
+                @endif
+            </h4>
+            <p class="text-muted mb-4">
+                @if(request('search') || request('huruf_awal'))
+                    Silakan coba pencarian/filter lain atau reset filter
+                @else
+                    Silakan tambah data user terlebih dahulu
+                @endif
+            </p>
+            @if(request('search') || request('huruf_awal'))
+                <a href="{{ route('user.index') }}" class="btn btn-secondary btn-lg me-2">
+                    <i class="fas fa-times me-1"></i> Reset Semua
+                </a>
+            @endif
             <a href="{{ route('user.create') }}" class="btn btn-custom btn-lg">
                 <i class="fas fa-plus me-1"></i> Tambah User Pertama
             </a>
@@ -126,6 +225,82 @@
 
 .user-card-header:nth-child(3n+3) {
     background: linear-gradient(135deg, #fd7e14 0%, #28a745 100%) !important;
+}
+
+/* Custom Pagination Styles */
+.pagination {
+    margin-bottom: 0;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.page-link {
+    border: 1px solid #dee2e6;
+    color: #28a745;
+    font-weight: 600;
+    padding: 8px 16px;
+    margin: 0 3px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.page-item.active .page-link {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
+    border-color: #28a745;
+    color: white;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+.page-link:hover {
+    background-color: rgba(40, 167, 69, 0.1);
+    border-color: #28a745;
+    color: #28a745;
+    transform: translateY(-1px);
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+/* Responsive pagination */
+@media (max-width: 768px) {
+    .page-link {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        margin: 0 2px;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-link {
+        padding: 5px 10px;
+        margin: 2px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Memastikan pagination horizontal */
+.pagination {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+}
+
+.page-item {
+    display: inline-block !important;
+    float: none !important;
+}
+
+/* Style untuk input group search */
+.input-group .btn {
+    border-radius: 0 0.375rem 0.375rem 0;
 }
 </style>
 @endsection

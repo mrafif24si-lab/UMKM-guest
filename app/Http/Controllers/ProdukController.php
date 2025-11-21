@@ -8,9 +8,24 @@ use Illuminate\Http\RedirectResponse;
 
 class ProdukController extends Controller
 {
-    public function index()
+   
+      public function index(Request $request) // Tambahkan parameter Request
     {
-        $dataProduk = Produk::with('umkm.pemilik')->get();
+        // Daftar kolom yang bisa difilter sesuai name pada form
+        $filterableColumns = ['jenis_produk'];
+        
+        
+        // Daftar kolom yang bisa dicari saat searching
+        $searchableColumns = ['nama_produk', 'jenis_produk', 'stok']; // Tambahkan ini
+        
+        // Gunakan scope filter untuk memproses query
+        $dataProduk = Produk::filter($request, $filterableColumns)
+             ->search($request, $searchableColumns) // Tambahkan ini
+                        ->with('umkm') // Eager load relasi umkm
+                        ->orderBy('nama_produk')
+                        ->paginate(10)
+                        ->withQueryString(); // Tambahkan ini untuk mempertahankan parameter filter
+
         return view('pages.guest.produk.index', compact('dataProduk'));
     }
 

@@ -1,10 +1,12 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Umkm extends Model
 {
@@ -35,5 +37,34 @@ class Umkm extends Model
     public function produk(): HasMany
     {
         return $this->hasMany(Produk::class, 'umkm_id', 'umkm_id');
+    }
+    // Tambahkan scopeFilter untuk filter jenis usaha
+    public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
+    {
+        foreach ($filterableColumns as $column) {
+            if ($request->filled($column)) {
+                $query->where($column, $request->input($column));
+            }
+        }
+        return $query;
+    }
+    // Tambahkan scopeSearch untuk fitur pencarian
+    public function scopeSearch(Builder $query, $request, array $columns): Builder
+    {
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request, $columns) {
+                foreach ($columns as $column) {
+                    // Jika kolom adalah relasi pemilik (nama pemilik)
+                    if ($column === 'pemilik.nama') {
+                        $q->orWhereHas('pemilik', function($subQuery) use ($request) {
+                            $subQuery->where('nama', 'LIKE', '%'. $request->search . '%');
+                        });
+                    } else {
+                        $q->orWhere($column, 'LIKE', '%'. $request->search . '%');
+                    }
+                }
+            });
+        }
+        return $query;
     }
 }

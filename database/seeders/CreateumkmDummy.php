@@ -27,7 +27,7 @@ class CreateumkmDummy extends Seeder
         echo "Membuat data warga...\n";
 
         // 1. Buat data warga dummy (50 data)
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 100) as $index) {
             $wargaId = DB::table('warga')->insertGetId([
                 'no_ktp' => $faker->unique()->numerify('14############'),
                 'nama' => $faker->name(),
@@ -62,7 +62,7 @@ class CreateumkmDummy extends Seeder
 
         $umkmIds = [];
 
-        foreach (range(1, 30) as $index) {
+        foreach (range(1, 100) as $index) {
             $umkmId = DB::table('umkm')->insertGetId([
                 'nama_usaha' => $faker->company(),
                 'pemilik_warga_id' => $faker->randomElement($wargaIds),
