@@ -19,16 +19,16 @@
                     <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
                         <div class="carousel-inner" role="listbox">
                             <div class="carousel-item active rounded">
-                                <img src="{{ asset('assets-guest/img/hero-img-1.png') }}" class="img-fluid w-100 h-100 bg-white rounded" alt="First slide">
+                                <img src="{{ asset('assets-guest/img/umkm3.png') }}" class="img-fluid w-100 h-100 bg-white rounded" alt="First slide">
                             </div>
                             <div class="carousel-item rounded">
-                                <img src="{{ asset('assets-guest/img/hero-img-2.jpg') }}" class="img-fluid w-100 h-100 rounded" alt="Second slide">
+                                <img src="{{ asset('assets-guest/img/umkm4.png') }}" class="img-fluid w-100 h-100 rounded" alt="Second slide">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
-                        </button>
+                        </button>   
                         <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="featurs-content text-center">
                             <h5>Free Shipping</h5>
-                            <p class="mb-0">Free on order over $300</p>
+                            <p class="mb-0">Free on order over Rp.300.000</p>
                         </div>
                     </div>
                 </div>

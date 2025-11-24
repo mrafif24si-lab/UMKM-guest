@@ -50,6 +50,7 @@
                                 <option value="">Semua Jenis Kelamin</option>
                                 <option value="Laki-laki" {{ request('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                                 <option value="Perempuan" {{ request('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                
                             </select>
                         </div>
                         
