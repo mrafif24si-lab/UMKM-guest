@@ -6,7 +6,7 @@
 <div class="container-fluid page-header py-5">
     <div class="container text-center">
         <h1 class="text-white display-4">Tentang Kami</h1>
-        <p class="text-white lead">Mengenal lebih dekat dengan UMKM Store</p>
+        <p class="text-white lead">Mengenal lebih dekat dengan UMKM </p>
     </div>
 </div>
 
@@ -66,7 +66,7 @@
                     <div class="card-body p-5">
                         <div class="row align-items-center">
                             <div class="col-lg-8">
-                                <h2 class="mb-4">Sejarah UMKM Store</h2>
+                                <h2 class="mb-4">Sejarah UMKM </h2>
                                 <p class="mb-4">
                                     UMKM Store didirikan pada tahun 2023 dengan tujuan mulia untuk
                                     memberdayakan para pelaku Usaha Mikro, Kecil, dan Menengah
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 text-center">
-                                <img src="{{ asset('assets-guest/img/about-us.jpg') }}"
+                                <img src="{{ asset('assets-guest/img/maskot.png') }}"
                                      class="img-fluid rounded shadow"
                                      alt="Sejarah UMKM Store"
                                      style="max-height: 400px;">

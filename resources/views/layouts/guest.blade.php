@@ -1516,8 +1516,8 @@
             <div class="row g-5">
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-4">UMKM </h4>
-                    <p class="mb-4">We provide high quality handmade fashion and craft items with unique designs and
-                        excellent craftsmanship.</p>
+                    <p class="mb-4">
+Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan pengerjaan yang sangat baik.</p>
                     <div class="d-flex pt-2">
                         <a class="btn btn-square btn-footer me-2" href=""><i class="fab fa-twitter"></i></a>
                         <a class="btn btn-square btn-footer me-2" href=""><i class="fab fa-facebook-f"></i></a>
@@ -1526,24 +1526,24 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Quick Links</h4>
-                    <a class="btn btn-link btn-footer" href="">About Us</a>
-                    <a class="btn btn-link btn-footer" href="">Contact Us</a>
-                    <a class="btn btn-link btn-footer" href="">Our Services</a>
-                    <a class="btn btn-link btn-footer" href="">Privacy Policy</a>
-                    <a class="btn btn-link btn-footer" href="">Terms & Condition</a>
+                    <h4 class="text-white mb-4">Akses Cepat</h4>
+                    <a class="btn btn-link btn-footer" href="">Tentang Kami</a>
+                    <a class="btn btn-link btn-footer" href="">Kontak Kami</a>
+                    <a class="btn btn-link btn-footer" href="">Servis Kami</a>
+                    <a class="btn btn-link btn-footer" href="">Pivasi & Kebijakan</a>
+                    <a class="btn btn-link btn-footer" href="">Syarat & Ketentuan</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Contact</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Paus Street, Pekanbaru, Indonesia</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                    <h4 class="text-white mb-4">Kontak</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Jalan Paus, Pekanbaru, Indonesia</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+62 826 5345 7890</p>
                     <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@umkm.com</p>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Newsletter</h4>
+                    <h4 class="text-white mb-4">Email</h4>
                     <div class="position-relative mx-auto" style="max-width: 400px;">
                         <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text"
-                            placeholder="Your email">
+                            placeholder="Masukan Email">
                         <button type="button"
                             class="btn btn-primary border-0 py-3 position-absolute top-0 end-0 mt-0 me-0">SignUp</button>
                     </div>
@@ -1554,7 +1554,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="text-white" href="#">UMKM</a>, All Right Reserved.
+                        &copy; <a class="text-white" href="#">UMKM</a>, Hak Cipta Dilindungi Undang-Undang.
                     </div>
                 </div>
             </div>
