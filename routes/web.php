@@ -1,8 +1,9 @@
 <?php
 
+use App\Models\Media;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
@@ -46,3 +47,29 @@ Route::get('/tentang', function () {
 })->name('tentang');
 
 Route::resource('umkm', UmkmController::class);
+
+
+Route::delete('/umkm/media/{media}', [UmkmController::class, 'deleteMedia'])->name('umkm.delete-media');
+
+// Debug routes
+Route::get('/debug/files', function() {
+    $files = Media::all();
+    return view('debug.files', compact('files'));
+});
+
+Route::get('/debug/storage', function() {
+    $storagePath = storage_path('app/public/uploads');
+    $files = [];
+    
+    if (file_exists($storagePath)) {
+        $files = scandir($storagePath);
+        $files = array_diff($files, ['.', '..']);
+    }
+    
+    return response()->json([
+        'storage_path' => $storagePath,
+        'files' => array_values($files),
+        'storage_link_exists' => file_exists(public_path('storage')),
+        'public_storage_files' => file_exists(public_path('storage')) ? scandir(public_path('storage')) : []
+    ]);
+});

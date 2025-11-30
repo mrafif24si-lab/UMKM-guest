@@ -2,7 +2,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,18 +26,27 @@ class Umkm extends Model
         'deskripsi'
     ];
 
-    // Relasi ke model Warga
     public function pemilik(): BelongsTo
     {
         return $this->belongsTo(Warga::class, 'pemilik_warga_id', 'warga_id');
     }
 
-    // Relasi ke model Produk
     public function produk(): HasMany
     {
         return $this->hasMany(Produk::class, 'umkm_id', 'umkm_id');
     }
-    // Tambahkan scopeFilter untuk filter jenis usaha
+
+    public function media(): HasMany
+    {
+        return $this->hasMany(Media::class, 'ref_id', 'umkm_id')
+                    ->where('ref_table', 'umkm');
+    }
+
+    public function getLogoAttribute()
+    {
+        return $this->media->first();
+    }
+
     public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
     {
         foreach ($filterableColumns as $column) {
@@ -48,13 +56,12 @@ class Umkm extends Model
         }
         return $query;
     }
-    // Tambahkan scopeSearch untuk fitur pencarian
+
     public function scopeSearch(Builder $query, $request, array $columns): Builder
     {
         if ($request->filled('search')) {
             $query->where(function($q) use ($request, $columns) {
                 foreach ($columns as $column) {
-                    // Jika kolom adalah relasi pemilik (nama pemilik)
                     if ($column === 'pemilik.nama') {
                         $q->orWhereHas('pemilik', function($subQuery) use ($request) {
                             $subQuery->where('nama', 'LIKE', '%'. $request->search . '%');

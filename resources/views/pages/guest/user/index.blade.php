@@ -73,9 +73,27 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 shadow-sm border-0 card-hover">
                     <div class="card-header text-white py-3 user-card-header">
-                        <h5 class="mb-0">{{ $item->name }}</h5>
-                        <small class="opacity-75">Bergabung: {{ $item->created_at->format('d/m/Y') }}</small>
-                    </div>
+                                   <!-- Tambahkan logo jika ada -->
+            @if($item->logo)
+            <div class="text-center mb-2">
+                <img src="{{ Storage::url('public/uploads/' . $item->logo->file_name) }}" 
+                     class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;" 
+                     alt="Logo {{ $item->nama_usaha }}"
+                     onerror="this.style.display='none'">
+            </div>
+            @else
+            <div class="text-center mb-2">
+                <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-light" 
+                     style="width: 60px; height: 60px;">
+                    <i class="fas fa-store text-secondary"></i>
+                </div>
+            </div>
+            @endif
+            <h5 class="mb-0">{{ $item->nama_usaha }}</h5>
+            <small class="opacity-75">Pemilik: {{ $item->pemilik->nama ?? '-' }}</small>
+        </div>
+
+                       
                     <div class="card-body">
                         <div class="mb-3">
                             <strong>Email:</strong><br>

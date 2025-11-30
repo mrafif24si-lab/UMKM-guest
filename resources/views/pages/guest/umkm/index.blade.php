@@ -77,6 +77,8 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 shadow-sm border-0 card-hover">
                     <div class="card-header text-white py-3 umkm-card-header">
+                        <!-- Tambahkan logo jika ada -->
+          
                         <h5 class="mb-0">{{ $item->nama_usaha }}</h5>
                         <small class="opacity-75">Pemilik: {{ $item->pemilik->nama ?? '-' }}</small>
                     </div>
