@@ -218,12 +218,23 @@
                                     <i class="fas fa-plus me-2"></i> Tambah Baru
                                 </a>
                             </div>
-                            <!-- Preview Upload -->
+
+
+
+
+
+                        </form>
+                                                    <!-- Preview Upload -->
 <div class="mb-4" id="preview-container" style="display: none;">
     <label class="form-label">Preview Gambar:</label>
     <div class="row" id="preview-images"></div>
 </div>
-
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     document.getElementById('files').addEventListener('change', function(event) {
         const files = event.target.files;
@@ -248,13 +259,4 @@
         });
     });
 </script>
-
-
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
