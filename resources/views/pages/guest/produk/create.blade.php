@@ -12,7 +12,9 @@
 </div>
 
 <div class="container-fluid py-5">
-    <div class="container">
+    <!-- <div class="container"> -->
+        {{-- Tambahkan style inline atau class baru --}}
+<div class="form-container" style="position: relative; z-index: 10; background: white; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1);">
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="form-container">

@@ -835,6 +835,10 @@
             background: conic-gradient(from 0deg, var(--primary), var(--secondary), var(--accent), var(--primary));
             opacity: 0.05;
             animation: rotate 15s linear infinite;
+
+            /* TAMBAHKAN 2 BARIS INI AGAR TIDAK MENUTUPI FORM */
+    z-index: -1; 
+    pointer-events: none;
         }
 
 
@@ -1371,6 +1375,27 @@
                 linear-gradient(90deg, rgba(246, 179, 92, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
         }
+        /* Custom Dropdown Style */
+.dropdown-menu {
+    border-radius: 15px !important;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+    animation: fadeInDown 0.3s ease-out;
+    margin-top: 15px !important;
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.dropdown-item:hover {
+    background-color: var(--light);
+    color: var(--primary);
+    transform: translateX(5px);
+}
     </style>
 </head>
 
@@ -1393,7 +1418,7 @@
 
 
     <!-- Advanced Cursor Follower -->
-    <div class="cursor-follower" id="cursorFollower"></div>
+   <!-- <div class="cursor-follower" id="cursorFollower"></div> -->
 
 
     <!-- Spinner Start -->
@@ -1433,13 +1458,13 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
                         <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
+                        <a href="{{ route('tentang') }}" class="nav-item nav-link {{ request()->is('tentang') ? 'active' : '' }}">Tentang</a>   
                         <a href="{{ route('produk.index') }}" class="nav-item nav-link {{ request()->is('produk*') ? 'active' : '' }}">Produk</a>
                         <!-- TAMBAHAN MENU UMKM -->
                         <a href="{{ route('umkm.index') }}" class="nav-item nav-link {{ request()->is('umkm*') ? 'active' : '' }}">UMKM</a>
                         <a href="{{ route('warga.index') }}" class="nav-item nav-link {{ request()->is('warga*') ? 'active' : '' }}">Warga</a>
                         <a href="{{ route('user.index') }}" class="nav-item nav-link {{ request()->is('user*') ? 'active' : '' }}">User</a>
-                        <a href="{{ route('tentang') }}" class="nav-item nav-link {{ request()->is('tentang') ? 'active' : '' }}">Tentang</a>
-                        <a href="{{ route('login') }}" class="nav-item nav-link {{ request()->is('login') ? 'active' : '' }}">Login</a>
+                        <!-- <a href="{{ route('login') }}" class="nav-item nav-link {{ request()->is('login') ? 'active' : '' }}">Login</a> -->
                     </div>
                     <div class="d-flex m-3 me-0">
                         <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal">
@@ -1449,9 +1474,40 @@
                             <i class="fa fa-shopping-bag fa-2x text-primary"></i>
                             <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                         </a>
-                        <a href="#" class="my-auto">
-                            <i class="fas fa-user fa-2x text-primary"></i>
-                        </a>
+                        <div class="nav-item dropdown my-auto">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="padding: 0 !important;">
+        <i class="fas fa-user fa-2x text-primary"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded-0 shadow-sm m-0">
+        
+        {{-- LOGIKA: Jika User BELUM Login (Guest) --}}
+        @guest
+            <a href="{{ route('login') }}" class="dropdown-item">Login</a>
+            <a href="{{ route('register') }}" class="dropdown-item">Register</a>
+        @endguest
+
+        {{-- LOGIKA: Jika User SUDAH Login (Auth) --}}
+        @auth
+            <div class="dropdown-item text-muted disabled" style="font-size: 0.8rem;">
+                Hai, {{ Auth::user()->name }}
+            </div>
+            
+            <div class="dropdown-divider"></div>
+
+            {{-- Opsi Profile (Nanti bisa diaktifkan) --}}
+            <a href="#" class="dropdown-item">Profil Saya</a>
+
+            {{-- Tombol Logout (Harus pakai Form untuk method POST) --}}
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item text-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </button>
+            </form>
+        @endauth
+
+    </div>
+</div>
                     </div>
                 </div>
             </nav>

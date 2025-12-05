@@ -11,7 +11,9 @@
 </div>
 
 <div class="container-fluid py-5">
-    <div class="container">
+    <!-- <div class="container"> -->
+        {{-- Tambahkan style inline atau class baru --}}
+<div class="form-container" style="position: relative; z-index: 10; background: white; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1);">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="form-container">
@@ -73,6 +75,19 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="mb-4">
+    <label for="role" class="form-label">Role  <span class="text-danger">*</span></label>
+    <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
+        <option value="">-- Pilih Role --</option>
+        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User </option>
+        <option value="warga" {{ old('role') == 'warga' ? 'selected' : '' }}>Warga</option>
+        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+    </select>
+    @error('role')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
                             
                             <div class="d-flex gap-3 pt-4 border-top">
                                 <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">

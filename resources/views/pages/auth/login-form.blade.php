@@ -7,138 +7,135 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%);
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            padding: 20px;
         }
-        .login-container {
-            background: white;
-            padding: 0;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+
+        .container-wrapper {
+            display: flex;
             width: 100%;
-            max-width: 420px;
+            max-width: 1000px;
+            min-height: 600px;
+            background: white;
+            border-radius: 15px;
             overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
-        .login-header {
-            background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%);
+
+        .image-section {
+            flex: 1;
+            background: linear-gradient(rgba(40, 167, 69, 0.9), rgba(23, 162, 184, 0.9)), 
+                        url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
             color: white;
-            padding: 30px 20px;
             text-align: center;
-            position: relative;
         }
-        .login-header h2 {
-            margin: 0;
+
+        .image-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
             font-weight: 700;
+        }
+
+        .image-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .image-icon {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.1);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .form-section {
+            flex: 1;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: #333;
+            font-weight: 700;
+            margin-bottom: 10px;
             font-size: 1.8rem;
         }
-        .login-header i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            display: block;
+
+        .form-header p {
+            color: #666;
+            font-size: 0.95rem;
         }
-        .login-body {
-            padding: 30px;
-        }
-        .form-group {
-            margin-bottom: 25px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-            font-size: 14px;
-        }
-        .form-control {
-            width: 100%;
-            padding: 12px 45px 12px 45px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 15px;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            color: #333;
-        }
-        .form-control::placeholder {
-            color: #999;
-            font-size: 14px;
-        }
-        .form-control:focus {
-            border-color: #28a745;
-            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
-            outline: none;
-        }
-        .btn-login {
-            background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%);
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
-        }
-        .btn-login:active {
-            transform: translateY(0);
-        }
-        .error-message {
-            color: #dc3545;
-            font-size: 13px;
-            margin-top: 5px;
-            display: block;
-        }
+
         .alert {
             border-radius: 8px;
             border: none;
             padding: 15px;
             margin-bottom: 20px;
+            font-size: 0.9rem;
         }
+
         .alert-danger {
             background: rgba(220, 53, 69, 0.1);
             color: #dc3545;
             border-left: 4px solid #dc3545;
         }
+
         .alert-success {
             background: rgba(40, 167, 69, 0.1);
             color: #28a745;
             border-left: 4px solid #28a745;
         }
-        .links-section {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #e9ecef;
+
+        .form-group {
+            margin-bottom: 20px;
         }
-        .register-link, .back-link {
-            text-align: center;
-            margin-bottom: 10px;
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9rem;
         }
-        .register-link a, .back-link a {
-            color: #17a2b8;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        .register-link a:hover, .back-link a:hover {
-            color: #28a745;
-            text-decoration: underline;
-        }
-        .input-with-icon {
+
+        .input-group {
             position: relative;
         }
-        .input-icon {
+
+        .input-group i {
             position: absolute;
             left: 15px;
             top: 50%;
@@ -146,32 +143,122 @@
             color: #999;
             z-index: 2;
         }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+            outline: none;
+        }
+
         .password-toggle {
             position: absolute;
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
-            cursor: pointer;
-            color: #999;
-            z-index: 2;
             background: none;
             border: none;
-            padding: 0;
+            color: #999;
+            cursor: pointer;
+            z-index: 2;
         }
-        .password-toggle:hover {
-            color: #666;
+
+        .btn-login {
+            background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        .links-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        .link-item {
+            margin-bottom: 10px;
+        }
+
+        .link-item a {
+            color: #17a2b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .link-item a:hover {
+            color: #28a745;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container-wrapper {
+                flex-direction: column;
+                max-width: 450px;
+            }
+            
+            .image-section {
+                padding: 30px 20px;
+                min-height: 200px;
+            }
+            
+            .image-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .form-section {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-header">
-            <i class="fas fa-store"></i>
-            <h2>Login UMKM Desa</h2>
-            <p class="mb-0 mt-2 opacity-75">Masuk ke akun Anda</p>
+    <div class="container-wrapper">
+        <!-- Bagian Gambar -->
+        <div class="image-section">
+            <div class="image-icon">
+                <i class="fas fa-store"></i>
+            </div>
+            <h1>UMKM Desa</h1>
+            <p>Bergabung dengan komunitas UMKM desa untuk mengembangkan usaha Anda dan terhubung dengan pelanggan setia.</p>
         </div>
 
-        <div class="login-body">
+        <!-- Bagian Form Login -->
+        <div class="form-section">
+            <div class="form-header">
+                <h2>Login UMKM Desa</h2>
+                <p>Masuk ke akun Anda</p>
+            </div>
+
             @if($errors->any())
                 <div class="alert alert-danger">
                     <strong><i class="fas fa-exclamation-triangle me-2"></i>Error!</strong>
@@ -188,12 +275,12 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login.submit') }}">
+            <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-envelope input-icon"></i>
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
                         <input type="email" id="email" name="email" class="form-control"
                                value="{{ old('email') }}" placeholder="Masukkan email Anda" required autofocus>
                     </div>
@@ -203,9 +290,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-lock input-icon"></i>
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
                         <input type="password" id="password" name="password" class="form-control"
                                placeholder="Masukkan password Anda" required>
                         <button type="button" class="password-toggle" id="togglePassword">
@@ -223,11 +310,10 @@
             </form>
 
             <div class="links-section">
-                <div class="register-link">
+                <div class="link-item">
                     <p>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
                 </div>
-
-                <div class="back-link">
+                <div class="link-item">
                     <a href="{{ route('home') }}">
                         <i class="fas fa-arrow-left me-1"></i>Kembali ke Beranda
                     </a>
