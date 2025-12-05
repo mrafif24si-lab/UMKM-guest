@@ -308,9 +308,9 @@
                 <div class="form-group">
                     <label for="role" class="form-label">Daftar Sebagai</label>
                     <select class="form-select" name="role" id="role" required>
-                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>Pengguna Umum (Pembeli)</option>
-                        <option value="warga" {{ old('role') == 'warga' ? 'selected' : '' }}>Warga (Pemilik UMKM)</option>
-                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Administrator</option>
+                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
+                        <option value="warga" {{ old('role') == 'warga' ? 'selected' : '' }}>Warga</option>
+                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                     </select>
                 </div>
 
