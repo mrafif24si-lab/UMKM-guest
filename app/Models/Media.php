@@ -18,7 +18,8 @@ class Media extends Model
         'file_name',
         'caption',
         'mime_type',
-        'sort_order'
+        'sort_order',
+    
     ];
 
     public $timestamps = true;

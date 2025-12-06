@@ -33,6 +33,10 @@ Route::middleware(['checkislogin'])->group(function () {
         return view('pages.guest.tentang');
     })->name('tentang');
 
+    // Route Profil
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile.edit');
+    Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+
 
     // --- KELOMPOK 1: MANAJEMEN BISNIS (Admin & Warga) ---
     // User biasa TIDAK BISA akses ini
@@ -41,6 +45,8 @@ Route::middleware(['checkislogin'])->group(function () {
         Route::resource('produk', ProdukController::class);
         Route::resource('warga', WargaController::class); 
     });
+
+    Route::delete('/umkm/media/{media}', [UmkmController::class, 'deleteMedia'])->name('umkm.delete-media');
 
 
     // --- KELOMPOK 2: MANAJEMEN USER (Admin & User) ---

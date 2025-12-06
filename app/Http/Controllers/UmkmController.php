@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Umkm;
@@ -33,7 +34,6 @@ class UmkmController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        // Validasi dasar dulu
         $validated = $request->validate([
             'nama_usaha' => 'required|string|max:255',
             'pemilik_warga_id' => 'required|exists:warga,warga_id',
@@ -43,22 +43,19 @@ class UmkmController extends Controller
             'kategori' => 'required|string|max:255',
             'kontak' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
+            'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048'
         ]);
 
         try {
-            // Simpan data UMKM
             $umkm = Umkm::create($validated);
 
-            // Upload file jika ada (sementara tanpa validasi ketat)
-      if ($request->hasFile('files')) {
-    $request->validate([
-        'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048'
-    ]);
-
-    foreach ($request->file('files') as $file) {
-        if ($file->isValid()) {
-            $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('public/uploads', $fileName);
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $file) {
+                    if ($file->isValid()) {
+                        $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                        
+                        // SIMPAN KE DISK PUBLIC, FOLDER MEDIA
+                        $file->storeAs('media', $fileName, 'public');
                         
                         Media::create([
                             'ref_table' => 'umkm',
@@ -72,13 +69,10 @@ class UmkmController extends Controller
                 }
             }
 
-            return redirect()->route('umkm.index')
-                ->with('success', 'Data UMKM berhasil ditambahkan.');
+            return redirect()->route('umkm.index')->with('success', 'Data UMKM berhasil ditambahkan.');
 
         } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
-                ->withInput();
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -91,13 +85,14 @@ class UmkmController extends Controller
     public function edit(Umkm $umkm)
     {
         $warga = Warga::all();
-        $umkm->load('media');
+        // Load media agar bisa ditampilkan di form edit
+        $umkm->load('media'); 
         return view('pages.guest.umkm.edit', compact('umkm', 'warga'));
     }
 
     public function update(Request $request, Umkm $umkm): RedirectResponse
     {
-        // Validasi dasar
+
         
         $validated = $request->validate([
             'nama_usaha' => 'required|string|max:255',
@@ -108,23 +103,19 @@ class UmkmController extends Controller
             'kategori' => 'required|string|max:255',
             'kontak' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
+            'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048'
         ]);
 
         try {
-         
-            // Update data UMKM
             $umkm->update($validated);
 
-            // Upload file baru jika ada
-           if ($request->hasFile('files')) {
-    $request->validate([
-        'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048'
-    ]);
-
-    foreach ($request->file('files') as $file) {
-        if ($file->isValid()) {
-            $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('public/uploads', $fileName);
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $file) {
+                    if ($file->isValid()) {
+                        $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+                        
+                        // SIMPAN KE DISK PUBLIC
+                        $file->storeAs('media', $fileName, 'public');
                         
                         Media::create([
                             'ref_table' => 'umkm',
@@ -138,36 +129,31 @@ class UmkmController extends Controller
                 }
             }
 
-            return redirect()->route('umkm.index')
-                ->with('success', 'Data UMKM berhasil diupdate.');
+            return redirect()->route('umkm.index')->with('success', 'Data UMKM berhasil diupdate.');
 
         } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
-                ->withInput();
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
 
     public function destroy(Umkm $umkm): RedirectResponse
     {
         try {
-            // Hapus file media terkait
-            $mediaFiles = Media::where('ref_table', 'umkm')
-                            ->where('ref_id', $umkm->umkm_id)
-                            ->get();
+            $mediaFiles = Media::where('ref_table', 'umkm')->where('ref_id', $umkm->umkm_id)->get();
 
             foreach ($mediaFiles as $media) {
-                if (Storage::exists('public/uploads/' . $media->file_name)) {
-                    Storage::delete('public/uploads/' . $media->file_name);
+                // HAPUS DARI DISK PUBLIC
+                if (Storage::disk('public')->exists('media/' . $media->file_name)) {
+                    Storage::disk('public')->delete('media/' . $media->file_name);
                 }
                 $media->delete();
             }
-
-          
+            
+            $umkm->delete();
+            return redirect()->route('umkm.index')->with('success', 'Data UMKM berhasil dihapus.');
 
         } catch (\Exception $e) {
-            return redirect()->route('umkm.index')
-                ->with('error', 'Gagal menghapus UMKM: ' . $e->getMessage());
+            return redirect()->route('umkm.index')->with('error', 'Gagal menghapus UMKM: ' . $e->getMessage());
         }
     }
 
@@ -176,12 +162,12 @@ class UmkmController extends Controller
         try {
             $media = Media::findOrFail($mediaId);
             
-            if (Storage::exists('public/uploads/' . $media->file_name)) {
-                Storage::delete('public/uploads/' . $media->file_name);
+            // HAPUS DARI DISK PUBLIC
+            if (Storage::disk('public')->exists('media/' . $media->file_name)) {
+                Storage::disk('public')->delete('media/' . $media->file_name);
             }
             
             $media->delete();
-
             return back()->with('success', 'File berhasil dihapus.');
 
         } catch (\Exception $e) {

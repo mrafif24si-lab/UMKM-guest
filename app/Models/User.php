@@ -2,33 +2,29 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Media;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne; // <--- PENTING: Ganti MorphOne jadi HasOne
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var list<string>
      */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role', // Tambahkan ini
+        'role',
     ];
 
     /**
      * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -37,8 +33,6 @@ class User extends Authenticatable
 
     /**
      * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
      */
     protected function casts(): array
     {
@@ -47,7 +41,31 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-     public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
+
+    // --- RELASI AVATAR (PERBAIKAN UTAMA) ---
+    public function avatar(): HasOne
+    {
+        // Hubungkan id user ke ref_id di tabel media
+        // Filter hanya yang ref_table-nya 'users'
+        return $this->hasOne(Media::class, 'ref_id', 'id')
+                    ->where('ref_table', 'users')
+                    ->latest(); // Ambil yang paling baru
+    }
+
+    public function getAvatarUrlAttribute()
+    {
+        // Cek apakah relasi avatar ada dan filenya ada
+        if ($this->avatar && $this->avatar->file_name) {
+            // PERBAIKAN DISINI: Arahkan ke folder 'media'
+            return asset('storage/media/' . $this->avatar->file_name);
+        }
+        
+        // Gambar default
+        return asset('assets-guest/img/avatar.jpg'); 
+    }
+    // ----------------------------------------
+
+    public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
     {
         foreach ($filterableColumns as $column) {
             if ($request->filled($column)) {
@@ -59,7 +77,6 @@ class User extends Authenticatable
         return $query;
     }
     
-    // Tambahkan scopeSearch untuk fitur pencarian
     public function scopeSearch(Builder $query, $request, array $columns): Builder
     {
         if ($request->filled('search')) {

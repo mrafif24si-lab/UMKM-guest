@@ -103,7 +103,7 @@
 
 
         /* Advanced Loading System */
-       
+
 
 
         /* Enhanced Spinner */
@@ -187,7 +187,7 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-           
+
             transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             padding: 1rem 0;
         }
@@ -196,7 +196,7 @@
         .navbar.scrolled {
             padding: 0.8rem 0;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.98) 100%) !important;
-       
+
             transform: translateY(-2px);
         }
 
@@ -837,7 +837,7 @@
             animation: rotate 15s linear infinite;
 
             /* TAMBAHKAN 2 BARIS INI AGAR TIDAK MENUTUPI FORM */
-    z-index: -1; 
+    z-index: -1;
     pointer-events: none;
         }
 
@@ -1329,7 +1329,7 @@
 
 
         /* Advanced Cursor Effects */
- 
+
 
 
         /* Advanced Text Effects */
@@ -1458,7 +1458,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
                         <a href="{{ url('/') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
-                        <a href="{{ route('tentang') }}" class="nav-item nav-link {{ request()->is('tentang') ? 'active' : '' }}">Tentang</a>   
+                        <a href="{{ route('tentang') }}" class="nav-item nav-link {{ request()->is('tentang') ? 'active' : '' }}">Tentang</a>
                         <a href="{{ route('produk.index') }}" class="nav-item nav-link {{ request()->is('produk*') ? 'active' : '' }}">Produk</a>
                         <!-- TAMBAHAN MENU UMKM -->
                         <a href="{{ route('umkm.index') }}" class="nav-item nav-link {{ request()->is('umkm*') ? 'active' : '' }}">UMKM</a>
@@ -1467,19 +1467,61 @@
                         <!-- <a href="{{ route('login') }}" class="nav-item nav-link {{ request()->is('login') ? 'active' : '' }}">Login</a> -->
                     </div>
                     <div class="d-flex m-3 me-0">
-                        <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal">
-                            <i class="fas fa-search text-primary"></i>
-                        </button>
-                        <a href="#" class="position-relative me-4 my-auto">
+                       <a href="#" class="position-relative me-4 my-auto">
                             <i class="fa fa-shopping-bag fa-2x text-primary"></i>
                             <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
                         </a>
                         <div class="nav-item dropdown my-auto">
-    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" style="padding: 0 !important;">
-        <i class="fas fa-user fa-2x text-primary"></i>
+
+    {{-- BAGIAN 1: TOMBOL PEMICU (TRIGGER) --}}
+    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" style="padding: 0 !important;">
+        @auth
+            {{-- Jika Login: Tampilkan FOTO --}}
+            <img src="{{ Auth::user()->avatar_url }}"
+                 alt="User"
+                 class="rounded-circle border border-white shadow-sm"
+                 style="width: 40px; height: 40px; object-fit: cover;">
+        @else
+            {{-- Jika Guest: Tampilkan IKON --}}
+            <i class="fas fa-user fa-2x text-primary"></i>
+        @endauth
     </a>
+
+    {{-- BAGIAN 2: ISI MENU DROPDOWN --}}
     <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded-0 shadow-sm m-0">
-        
+
+        {{-- OPSI UNTUK YANG SUDAH LOGIN --}}
+        @auth
+            <div class="dropdown-item text-muted disabled" style="font-size: 0.8rem; font-weight: bold;">
+                Hai, {{ Auth::user()->name }}
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                <i class="fas fa-user-circle me-2"></i> Profil Saya
+            </a>
+
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item text-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </button>
+            </form>
+        @endauth
+
+        {{-- OPSI UNTUK TAMU (BELUM LOGIN) --}}
+        @guest
+            <a href="{{ route('login') }}" class="dropdown-item">
+                <i class="fas fa-sign-in-alt me-2"></i> Login
+            </a>
+            <a href="{{ route('register') }}" class="dropdown-item">
+                <i class="fas fa-user-plus me-2"></i> Register
+            </a>
+        @endguest
+
+    </div>
+</div>
         {{-- LOGIKA: Jika User BELUM Login (Guest) --}}
         @guest
             <a href="{{ route('login') }}" class="dropdown-item">Login</a>
@@ -1491,19 +1533,10 @@
             <div class="dropdown-item text-muted disabled" style="font-size: 0.8rem;">
                 Hai, {{ Auth::user()->name }}
             </div>
-            
+
             <div class="dropdown-divider"></div>
 
-            {{-- Opsi Profile (Nanti bisa diaktifkan) --}}
-            <a href="#" class="dropdown-item">Profil Saya</a>
-
-            {{-- Tombol Logout (Harus pakai Form untuk method POST) --}}
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="dropdown-item text-danger">
-                    <i class="fas fa-sign-out-alt me-2"></i> Logout
-                </button>
-            </form>
+           
         @endauth
 
     </div>
@@ -1619,7 +1652,7 @@ Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan peng
     <!-- Footer End -->
 
 
- 
+
 
 
     <!-- WhatsApp Floating Button -->
@@ -1659,7 +1692,7 @@ Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan peng
             const loadingSystem = document.getElementById('loadingSystem');
             const loadingBar = document.querySelector('.loading-bar');
             let loadProgress = 0;
-           
+
             const loadingInterval = setInterval(() => {
                 if (loadProgress >= 100) {
                     clearInterval(loadingInterval);
@@ -1756,7 +1789,7 @@ Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan peng
                     this.style.zIndex = '20';
                     this.classList.add('hover-lift');
                 });
-               
+
                 card.addEventListener('mouseleave', function() {
                     this.style.zIndex = '1';
                     this.classList.remove('hover-lift');
@@ -1772,14 +1805,14 @@ Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan peng
                     const size = Math.max(rect.width, rect.height) * 2;
                     const x = e.clientX - rect.left - size / 2;
                     const y = e.clientY - rect.top - size / 2;
-                   
+
                     ripple.style.width = ripple.style.height = size + 'px';
                     ripple.style.left = x + 'px';
                     ripple.style.top = y + 'px';
                     ripple.classList.add('ripple-effect');
-                   
+
                     this.appendChild(ripple);
-                   
+
                     setTimeout(() => {
                         ripple.remove();
                     }, 1000);
@@ -1812,23 +1845,23 @@ Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan peng
         function createAdvancedParticles() {
             const particleSystem = document.getElementById('particleSystem');
             const particleCount = 50;
-           
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
-               
+
                 const size = Math.random() * 20 + 5;
                 const posX = Math.random() * 100;
                 const delay = Math.random() * 20;
                 const duration = Math.random() * 15 + 20;
-               
+
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.left = `${posX}%`;
                 particle.style.animationDelay = `${delay}s`;
                 particle.style.animationDuration = `${duration}s`;
                 particle.style.opacity = Math.random() * 0.3 + 0.1;
-               
+
                 particleSystem.appendChild(particle);
             }
         }
@@ -1838,22 +1871,22 @@ Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan peng
             const cursor = document.getElementById('cursorFollower');
             let mouseX = 0, mouseY = 0;
             let cursorX = 0, cursorY = 0;
-           
+
             document.addEventListener('mousemove', (e) => {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
             });
-           
+
             function animateCursor() {
                 cursorX += (mouseX - cursorX) * 0.1;
                 cursorY += (mouseY - cursorY) * 0.1;
-               
+
                 cursor.style.left = cursorX + 'px';
                 cursor.style.top = cursorY + 'px';
-               
+
                 requestAnimationFrame(animateCursor);
             }
-           
+
             animateCursor();
         }
 
@@ -1861,20 +1894,20 @@ Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan peng
         function createAdvancedFloatingElements() {
             const hero = document.querySelector('.hero-header');
             if (!hero) return;
-           
+
             const floatingSystem = document.createElement('div');
             floatingSystem.classList.add('floating-system');
-           
+
             for (let i = 0; i < 12; i++) {
                 const element = document.createElement('div');
                 element.classList.add('floating-element');
-               
+
                 const size = Math.random() * 80 + 30;
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
                 const delay = Math.random() * 15;
                 const duration = Math.random() * 15 + 20;
-               
+
                 element.style.width = `${size}px`;
                 element.style.height = `${size}px`;
                 element.style.left = `${posX}%`;
@@ -1882,10 +1915,10 @@ Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan peng
                 element.style.animationDelay = `${delay}s`;
                 element.style.animationDuration = `${duration}s`;
                 element.style.opacity = Math.random() * 0.2 + 0.1;
-               
+
                 floatingSystem.appendChild(element);
             }
-           
+
             hero.appendChild(floatingSystem);
         }
 
@@ -1901,7 +1934,7 @@ Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan peng
                 animation: advancedRipple 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
                 pointer-events: none;
             }
-           
+
             @keyframes advancedRipple {
                 0% {
                     transform: scale(0);
@@ -1951,4 +1984,3 @@ Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan peng
 
 
 </html>
-
