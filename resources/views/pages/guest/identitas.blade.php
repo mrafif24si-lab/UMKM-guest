@@ -53,7 +53,7 @@
                                         <i class="fas fa-university fa-2x text-white"></i>
                                     </div>
                                     <div>
-                                        <h5 class="mb-0">Universitas</h5>
+                                        <h5 class="mb-0">Perguruan Tinggi</h5>
                                         <p class="mb-0 text-secondary fs-5">Polteknik Caltex Riau</p>
                                     </div>
                                 </div>
