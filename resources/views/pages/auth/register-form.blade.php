@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - UMKM Desa</title>
+    <title>Register - UMKM </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -36,7 +36,7 @@
 
         .image-section {
             flex: 1;
-            background: linear-gradient(rgba(23, 162, 184, 0.9), rgba(40, 167, 69, 0.9)), 
+            background: linear-gradient(rgba(23, 162, 184, 0.9), rgba(40, 167, 69, 0.9)),
                         url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
             background-size: cover;
             background-position: center;
@@ -236,16 +236,16 @@
                 flex-direction: column;
                 max-width: 450px;
             }
-            
+
             .image-section {
                 padding: 30px 20px;
                 min-height: 200px;
             }
-            
+
             .image-section h1 {
                 font-size: 1.8rem;
             }
-            
+
             .form-section {
                 padding: 30px 20px;
             }
@@ -257,16 +257,23 @@
         <!-- Bagian Gambar -->
         <div class="image-section">
             <div class="image-icon">
-                <i class="fas fa-user-plus"></i>
+                <i class="fas fa-store"></i>
             </div>
             <h1>Bergabung Dengan Kami</h1>
-            <p>Daftarkan UMKM Anda dan mulai kembangkan usaha Anda bersama komunitas UMKM desa. Akses fitur lengkap untuk pemasaran dan manajemen usaha.</p>
+            <p>Daftarkan UMKM Anda dan mulai kembangkan usaha Anda bersama komunitas UMKM . Akses fitur lengkap untuk pemasaran dan manajemen usaha.</p>
         </div>
+        {{-- <div class="image-section">
+            <div class="image-icon">
+                <i class="fas fa-store"></i>
+            </div>
+            <h1>UMKM Desa</h1>
+            <p>Bergabung dengan komunitas UMKM desa untuk mengembangkan usaha Anda dan terhubung dengan pelanggan setia.</p>
+        </div> --}}
 
         <!-- Bagian Form Register -->
         <div class="form-section">
             <div class="form-header">
-                <h2>Register UMKM Desa</h2>
+                <h2>Register UMKM </h2>
                 <p>Buat akun baru Anda</p>
             </div>
 
@@ -372,7 +379,7 @@
                 togglePassword.addEventListener('click', function() {
                     const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
                     password.setAttribute('type', type);
-                    
+
                     const icon = this.querySelector('i');
                     if (type === 'password') {
                         icon.classList.remove('fa-eye-slash');
@@ -394,7 +401,7 @@
                 toggleConfirmPassword.addEventListener('click', function() {
                     const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
                     confirmPassword.setAttribute('type', type);
-                    
+
                     const icon = this.querySelector('i');
                     if (type === 'password') {
                         icon.classList.remove('fa-eye-slash');

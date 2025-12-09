@@ -200,8 +200,99 @@
             transform: translateY(-2px);
         }
 
+     /* PERBAIKAN: Navbar Logo */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-        .navbar-brand h1 {
+        .navbar-logo {
+            height: 50px; /* Atur tinggi logo */
+            width: auto; /* Biarkan lebar menyesuaikan */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            border-radius: 8px; /* Opsional: untuk logo dengan sudut lembut */
+        }
+
+        .navbar-brand:hover .navbar-logo {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+
+        .navbar-brand-text {
+            font-weight: 900;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 6s ease infinite;
+            background-size: 200% auto;
+            font-size: 2.4rem; /* Diperkecil sedikit untuk memberi ruang logo */
+            letter-spacing: 2px;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .navbar-brand-text::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .navbar-brand:hover .navbar-brand-text::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Responsive untuk logo */
+        @media (max-width: 768px) {
+            .navbar-logo {
+                height: 40px; /* Logo lebih kecil di mobile */
+            }
+
+            .navbar-brand-text {
+                font-size: 1.8rem; /* Teks lebih kecil di mobile */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand {
+                gap: 8px;
+            }
+
+            .navbar-logo {
+                height: 35px;
+            }
+
+            .navbar-brand-text {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Opsional: Alternatif jika hanya ingin logo tanpa teks */
+        .navbar-brand.logo-only {
+            gap: 0;
+        }
+
+        .navbar-brand.logo-only .navbar-logo {
+            height: 55px;
+        }
+
+        .navbar-brand.logo-only .navbar-brand-text {
+            display: none;
+        }
+        /* .navbar-brand h1 {
             font-weight: 900;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             -webkit-background-clip: text;
@@ -234,7 +325,7 @@
         .navbar-brand:hover h1::after {
             transform: scaleX(1);
             transform-origin: left;
-        }
+        } */
 
 
         @keyframes gradientShift {
@@ -1404,6 +1495,11 @@
 
 
     <!-- Advanced Loading System -->
+     <img src="{{ asset('assets-guest/img/logo-umkm.png') }}"
+         alt="Logo UMKM"
+         class="loading-logo-img"
+         style="height: 80px; margin-bottom: 20px;">
+
     <div class="loading-system" id="loadingSystem">
         <div class="loading-logo">UMKM</div>
         <div class="spinner-grow"></div>
@@ -1447,10 +1543,16 @@
             </div>
         </div>
         <div class="container px-0">
+               <!-- Logo Gambar -->
+                    <!-- GANTI SRC DENGAN PATH LOGO ANDA -->
             <nav class="navbar navbar-light navbar-expand-xl">
-                <a href="{{ url('/') }}" class="navbar-brand">
+                <img src="{{ asset('assets-guest/img/logo4..jpg') }}"
+                         alt="Logo UMKM"
+                         class="navbar-logo">
+
+                {{-- <a href="{{ url('/') }}" class="navbar-brand">
                     <h1 class="display-6"> UMKM </h1>
-                </a>
+                </a> --}}
                 <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars text-primary"></span>
@@ -1536,7 +1638,7 @@
 
             <div class="dropdown-divider"></div>
 
-           
+
         @endauth
 
     </div>

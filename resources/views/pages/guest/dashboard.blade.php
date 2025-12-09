@@ -28,7 +28,7 @@
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
-                        </button>   
+                        </button>
                         <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
@@ -120,7 +120,7 @@
     </div>
     <!-- Banners Section End -->
 
-    <!-- Fresh Vegetables Section Start -->
+    {{-- <!-- Fresh Vegetables Section Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="row g-4">
@@ -163,7 +163,7 @@
             </div>
         </div>
     </div>
-    <!-- Fresh Vegetables Section End -->
+    <!-- Fresh Vegetables Section End --> --}}
 
     <!-- Products Shop Start-->
     <div class="container-fluid fruite py-5">
@@ -212,11 +212,11 @@
                                     <div class="col-md-6 col-lg-4 col-xl-3">
                                         <div class="rounded position-relative fruite-item">
                                             <div class="fruite-img">
-                                                
+
                                             </div>
                                             <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Drink</div>
                                             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                
+
                                                 <h4>Susu Gepuk</h4>
                                                 <p>Dibuat dengan susu murni berkualitas tinggi,yang diolah dengan teknologi tinggi</p>
                                                 <div class="d-flex justify-content-between flex-lg-wrap">
@@ -338,7 +338,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Tambahkan product items lainnya sesuai kebutuhan -->
                                 </div>
                             </div>

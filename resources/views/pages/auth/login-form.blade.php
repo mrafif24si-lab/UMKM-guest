@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - UMKM Desa</title>
+    <title>Login - UMKM </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -36,7 +36,7 @@
 
         .image-section {
             flex: 1;
-            background: linear-gradient(rgba(40, 167, 69, 0.9), rgba(23, 162, 184, 0.9)), 
+            background: linear-gradient(rgba(40, 167, 69, 0.9), rgba(23, 162, 184, 0.9)),
                         url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
             background-size: cover;
             background-position: center;
@@ -225,16 +225,16 @@
                 flex-direction: column;
                 max-width: 450px;
             }
-            
+
             .image-section {
                 padding: 30px 20px;
                 min-height: 200px;
             }
-            
+
             .image-section h1 {
                 font-size: 1.8rem;
             }
-            
+
             .form-section {
                 padding: 30px 20px;
             }
