@@ -1566,6 +1566,10 @@
                         <a href="{{ route('umkm.index') }}" class="nav-item nav-link {{ request()->is('umkm*') ? 'active' : '' }}">UMKM</a>
                         <a href="{{ route('warga.index') }}" class="nav-item nav-link {{ request()->is('warga*') ? 'active' : '' }}">Warga</a>
                         <a href="{{ route('user.index') }}" class="nav-item nav-link {{ request()->is('user*') ? 'active' : '' }}">User</a>
+                        <a href="{{ route('identitas') }}" class="nav-item nav-link {{ request()->is('identitas') ? 'active' : '' }}">Identitas</a>
+
+                         {{-- <a href="{{ route('identitas.index') }}" class="nav-item nav-link {{ request()->is('identitas*') ? 'active' : '' }}">Identitas</a> --}}
+
                         <!-- <a href="{{ route('login') }}" class="nav-item nav-link {{ request()->is('login') ? 'active' : '' }}">Login</a> -->
                     </div>
                     <div class="d-flex m-3 me-0">

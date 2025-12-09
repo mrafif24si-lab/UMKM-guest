@@ -6,6 +6,8 @@ use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\DashboardController;
+
 
 // --- 1. AREA TAMU (GUEST - BELUM LOGIN) ---
 Route::middleware('guest')->group(function(){
@@ -19,13 +21,19 @@ Route::middleware('guest')->group(function(){
 Route::middleware(['checkislogin'])->group(function () {
 
     // --- FITUR UMUM (Bisa diakses Admin, Warga, dan User) ---
-    
+
     // 1. Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    
+
+      // 2. Dashboard / Home
+    Route::get('/', [DashboardController::class, 'index'])->name('home'); // Ubah ini
+
+    // 3. Halaman Tentang (Permintaan Anda: User harus bisa akses ini)
+    Route::get('/tentang', [DashboardController::class, 'tentang'])->name('tentang'); // Bisa juga pindah ke DashboardController
+
     // 2. Dashboard / Home
     Route::get('/', function () {
-        return view('pages.guest.dashboard'); 
+        return view('pages.guest.dashboard');
     })->name('home');
 
     // 3. Halaman Tentang (Permintaan Anda: User harus bisa akses ini)
@@ -43,7 +51,7 @@ Route::middleware(['checkislogin'])->group(function () {
     Route::middleware(['checkrole:admin,warga'])->group(function () {
         Route::resource('umkm', UmkmController::class);
         Route::resource('produk', ProdukController::class);
-        Route::resource('warga', WargaController::class); 
+        Route::resource('warga', WargaController::class);
     });
 
     Route::delete('/umkm/media/{media}', [UmkmController::class, 'deleteMedia'])->name('umkm.delete-media');
@@ -61,3 +69,9 @@ Route::middleware(['checkislogin'])->group(function () {
 Route::fallback(function () {
     return redirect()->route('home');
 });
+
+Route::get('/identitas', function () {
+    return view('pages.guest.identitas');
+})->name('identitas');
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

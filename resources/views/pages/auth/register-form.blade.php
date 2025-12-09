@@ -260,20 +260,13 @@
                 <i class="fas fa-store"></i>
             </div>
             <h1>Bergabung Dengan Kami</h1>
-            <p>Daftarkan UMKM Anda dan mulai kembangkan usaha Anda bersama komunitas UMKM . Akses fitur lengkap untuk pemasaran dan manajemen usaha.</p>
+            <p>Daftarkan UMKM Anda dan mulai kembangkan usaha Anda bersama komunitas UMKM desa. Akses fitur lengkap untuk pemasaran dan manajemen usaha.</p>
         </div>
-        {{-- <div class="image-section">
-            <div class="image-icon">
-                <i class="fas fa-store"></i>
-            </div>
-            <h1>UMKM Desa</h1>
-            <p>Bergabung dengan komunitas UMKM desa untuk mengembangkan usaha Anda dan terhubung dengan pelanggan setia.</p>
-        </div> --}}
 
         <!-- Bagian Form Register -->
         <div class="form-section">
             <div class="form-header">
-                <h2>Register UMKM </h2>
+                <h2>Register UMKM Desa</h2>
                 <p>Buat akun baru Anda</p>
             </div>
 
