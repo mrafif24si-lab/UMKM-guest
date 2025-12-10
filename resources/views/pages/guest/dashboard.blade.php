@@ -19,10 +19,10 @@
                     <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
                         <div class="carousel-inner" role="listbox">
                             <div class="carousel-item active rounded">
-                                <img src="{{ asset('assets-guest/img/umkm3.png') }}" class="img-fluid w-100 h-100 bg-white rounded" alt="First slide">
+                                <img src="{{ asset('assets-guest/img/show.jpg') }}" class="img-fluid w-100 h-100 bg-white rounded" alt="First slide">
                             </div>
                             <div class="carousel-item rounded">
-                                <img src="{{ asset('assets-guest/img/umkm4.png') }}" class="img-fluid w-100 h-100 rounded" alt="Second slide">
+                                <img src="{{ asset('assets-guest/img/show2.jpg') }}" class="img-fluid w-100 h-100 rounded" alt="Second slide">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">

@@ -74,4 +74,23 @@ class Umkm extends Model
         }
         return $query;
     }
+    // Di Model Umkm.php
+public function getFirstImageAttribute()
+{
+    $firstMedia = $this->media->first();
+    
+    if ($firstMedia && Str::startsWith($firstMedia->mime_type, 'image/')) {
+        return asset('storage/media/' . $firstMedia->file_name);
+    }
+    
+    // Return placeholder jika tidak ada gambar
+    return asset('images/placeholder.jpg');
+    // atau untuk external placeholder:
+    // return 'https://via.placeholder.com/300x300/cccccc/969696?text=No+Image';
+}
+
+public function hasImages()
+{
+    return $this->media->where('mime_type', 'like', 'image/%')->count() > 0;
+}
 }

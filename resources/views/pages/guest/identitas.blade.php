@@ -11,7 +11,7 @@
                 <div class="col-lg-8">
                     <div class="bg-light rounded p-5 mb-5 shadow-lg">
                         <h1 class="mb-4">Identitas Pengembang</h1>
-                        <p class="mb-4">Berikut adalah informasi mengenai pengembang platform UMKM Store yang bertanggung jawab dalam pembuatan dan pengembangan sistem ini.</p>
+                        <p class="mb-4">Berikut adalah informasi mengenai pengembang platform UMKM  yang bertanggung jawab dalam pembuatan dan pengembangan sistem ini.</p>
 
                         <div class="row g-4">
                             <div class="col-md-6">
@@ -126,7 +126,7 @@
                     <div class="bg-light rounded p-5 shadow-lg">
                         <h3 class="mb-4">Tentang Saya</h3>
                         <p class="mb-3">Saya adalah seorang pengembang web yang memiliki passion dalam menciptakan solusi digital untuk membantu UMKM Indonesia berkembang di era digital.</p>
-                        <p class="mb-3">Platform UMKM Store ini dikembangkan sebagai wujud kontribusi nyata dalam memberdayakan pelaku usaha kecil dan menengah melalui teknologi.</p>
+                        <p class="mb-3">Platform UMKM  ini dikembangkan sebagai wujud kontribusi nyata dalam memberdayakan pelaku usaha kecil dan menengah melalui teknologi.</p>
                         <p class="mb-0">Dengan latar belakang pendidikan di bidang teknologi informasi, saya berkomitmen untuk terus mengembangkan platform ini agar dapat memberikan manfaat yang lebih besar bagi masyarakat.</p>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                 <div class="col-lg-4">
                     <div class="bg-light rounded p-5 mb-5 text-center shadow-lg">
                         <div class="developer-photo mb-4">
-                            <img src="{{ asset('assets-guest/img/justin2.jpg') }}" class="img-fluid rounded-circle border border-5 border-primary shadow" alt="Developer Photo" style="width: 250px; height: 250px; object-fit: cover;">
+                            <img src="{{ asset('assets-guest/img/potoprofil.jpg') }}" class="img-fluid rounded-circle border border-5 border-primary shadow" alt="Developer Photo" style="width: 250px; height: 250px; object-fit: cover;">
                         </div>
                         <h3 class="mb-3">M.Rafif Zidane</h3>
                         <p class="text-muted mb-4">Full Stack Developer & Founder UMKM </p>

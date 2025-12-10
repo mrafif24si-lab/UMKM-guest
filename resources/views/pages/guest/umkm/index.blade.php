@@ -77,8 +77,32 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 shadow-sm border-0 card-hover">
                     <div class="card-header text-white py-3 umkm-card-header">
-                        <!-- Tambahkan logo jika ada -->
-          
+                        <!-- Logo atau Placeholder -->
+                        <div class="text-center mb-2">
+                            @if($item->media->count() > 0)
+                                @php
+                                    $firstImage = $item->media->first();
+                                @endphp
+                                @if(Str::startsWith($firstImage->mime_type, 'image/'))
+                                    <img src="{{ asset('storage/media/' . $firstImage->file_name) }}" 
+                                         class="rounded-circle border border-3 border-white" 
+                                         style="width: 80px; height: 80px; object-fit: cover;" 
+                                         alt="{{ $item->nama_usaha }}"
+                                         onerror="this.src='{{ asset('images/placeholder.jpg') }}'">
+                                @else
+                                    <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-light border border-3 border-white" 
+                                         style="width: 80px; height: 80px;">
+                                        <i class="fas fa-store fa-2x text-secondary"></i>
+                                    </div>
+                                @endif
+                            @else
+                                <!-- Placeholder Gambar -->
+                                <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-light border border-3 border-white" 
+                                     style="width: 80px; height: 80px;">
+                                    <i class="fas fa-store fa-2x text-secondary"></i>
+                                </div>
+                            @endif
+                        </div>
                         <h5 class="mb-0">{{ $item->nama_usaha }}</h5>
                         <small class="opacity-75">Pemilik: {{ $item->pemilik->nama ?? '-' }}</small>
                     </div>
@@ -103,18 +127,30 @@
                         </div>
                         @endif
                     </div>
-                    <div class="card-footer bg-light border-0">
-                        <div class="action-buttons d-flex justify-content-between">
-                            <a href="{{ route('umkm.edit', $item->umkm_id) }}" class="btn btn-warning btn-sm" title="Edit">
-                                <i class="fas fa-edit me-1"></i> Edit
+                    <div class="card-footer bg-light border-0 pt-3">
+                        <div class="action-buttons d-flex justify-content-between align-items-center">
+                            <!-- Tombol Detail -->
+                            <a href="{{ route('umkm.show', $item->umkm_id) }}" class="btn btn-info btn-sm" title="Detail">
+                                <i class="fas fa-eye me-1"></i> Detail
                             </a>
-                            <form action="{{ route('umkm.destroy', $item->umkm_id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus" onclick="return confirm('Yakin ingin menghapus UMKM {{ $item->nama_usaha }}?')">
-                                    <i class="fas fa-trash me-1"></i> Hapus
-                                </button>
-                            </form>
+                            
+                            <div class="d-flex gap-2">
+                                <!-- Tombol Edit -->
+                                <a href="{{ route('umkm.edit', $item->umkm_id) }}" class="btn btn-warning btn-sm" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                
+                                <!-- Tombol Hapus -->
+                                <form action="{{ route('umkm.destroy', $item->umkm_id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" 
+                                            title="Hapus" 
+                                            onclick="return confirm('Yakin ingin menghapus UMKM {{ $item->nama_usaha }}?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -154,7 +190,13 @@
 
         @else
         <div class="text-center py-5">
-            <i class="fas fa-store fa-4x text-muted mb-3"></i>
+            <!-- Placeholder untuk tidak ada data -->
+            <div class="mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle" 
+                     style="width: 120px; height: 120px;">
+                    <i class="fas fa-store fa-4x text-muted"></i>
+                </div>
+            </div>
             <h4 class="text-muted">
                 @if(request('search') && request('kategori'))
                     Tidak ada UMKM dengan jenis usaha "{{ request('kategori') }}" dan pencarian "{{ request('search') }}"
@@ -202,12 +244,15 @@
 
 .umkm-card-header {
     background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%) !important;
+    text-align: center;
 }
 
 .custom-badge {
     background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
     color: white;
     border: none;
+    font-size: 0.85em;
+    padding: 5px 10px;
 }
 
 .card-hover {
@@ -289,6 +334,11 @@
         margin: 2px;
         font-size: 0.85rem;
     }
+    
+    .action-buttons .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
 }
 
 /* Memastikan pagination horizontal */
@@ -306,6 +356,15 @@
 /* Style untuk input group search */
 .input-group .btn {
     border-radius: 0 0.375rem 0.375rem 0;
+}
+
+/* Style untuk tombol action */
+.action-buttons .btn {
+    min-width: 80px;
+}
+
+.action-buttons .btn-sm i {
+    font-size: 0.9rem;
 }
 </style>
 @endsection

@@ -19,7 +19,7 @@
                         <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Form Edit UMKM</h5>
                     </div>
                     <div class="card-body p-5">
-                        
+
                         {{-- [FIX] TAMBAHKAN INI (ERROR VALIDASI) --}}
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -49,8 +49,8 @@
 
                         <form action="{{ route('umkm.update', $umkm->umkm_id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT') 
-                            
+                            @method('PUT')
+
                             {{-- Input Nama Usaha --}}
                             <div class="mb-4">
                                 <label for="nama_usaha" class="form-label">Nama Usaha <span class="text-danger">*</span></label>
@@ -120,33 +120,53 @@
                             </div>
 
                             {{-- LIST FILE LAMA (GALERI) --}}
-                            @if($umkm->media->count() > 0)
-                            <div class="mb-4">
-                                <label class="form-label">File Terupload Saat Ini</label>
-                                <div class="row">
-                                   @foreach($umkm->media as $media)
-<div class="col-md-3 mb-3">
-    <div class="card h-100">
-        <img src="{{ asset('storage/media/' . $media->file_name) }}" 
-             class="card-img-top" 
-             style="height: 100px; object-fit: cover;" 
-             alt="File">
-        <div class="card-body p-2 text-center">
-            
-            {{-- HAPUS TAG <FORM> DISINI, GANTI DENGAN TOMBOL BIASA --}}
-            <button type="button" 
-                    class="btn btn-danger btn-sm w-100" 
-                    onclick="confirmDeleteMedia('{{ route('umkm.delete-media', $media->media_id) }}')">
-                <i class="fas fa-trash"></i> Hapus
-            </button>
-
+                           <!-- Di bagian Tampilkan File yang Sudah Diupload (di edit.blade.php) -->
+@if($umkm->media->count() > 0)
+<div class="mb-4">
+    <label class="form-label">File Terupload Saat Ini</label>
+    <div class="row">
+        @foreach($umkm->media as $media)
+        <div class="col-md-3 mb-3">
+            <div class="card file-card h-100">
+                <div class="card-body text-center">
+                    @if(Str::startsWith($media->mime_type, 'image/'))
+                        <img src="{{ asset('storage/media/' . $media->file_name) }}" 
+                             class="img-thumbnail mb-2" 
+                             style="height: 120px; width: 100%; object-fit: cover;" 
+                             alt="{{ $media->caption }}"
+                             onerror="this.onerror=null; this.src='{{ asset('images/placeholder.png') }}'">
+                    @else
+                        <div class="d-flex align-items-center justify-content-center" style="height: 120px;">
+                            <i class="fas fa-file fa-3x text-secondary"></i>
+                        </div>
+                    @endif
+                    <p class="small mb-1 text-truncate" title="{{ $media->caption }}">
+                        {{ $media->caption }}
+                    </p>
+                    <button type="button" 
+                            class="btn btn-danger btn-sm w-100" 
+                            onclick="confirmDeleteMedia('{{ route('umkm.delete-media', $media->media_id) }}')">
+                        <i class="fas fa-trash"></i> Hapus
+                    </button>
+                </div>
+            </div>
         </div>
+        @endforeach
     </div>
 </div>
-@endforeach
-                                </div>
-                            </div>
-                            @endif
+@else
+<!-- Placeholder untuk tidak ada file -->
+<div class="text-center py-4 mb-4 border rounded bg-light">
+    <div class="mb-3">
+        <img src="{{ asset('images/placeholder.png') }}" 
+             class="img-fluid rounded" 
+             style="max-height: 150px; width: auto;"
+             alt="Belum ada file yang diupload">
+    </div>
+    <h5 class="text-muted">Belum ada file yang diupload</h5>
+    <p class="text-muted small">Upload file melalui form di atas</p>
+</div>
+@endif
 
                             <div class="d-flex gap-2">
                                 <button type="submit" class="btn btn-warning flex-grow-1">Update Data</button>

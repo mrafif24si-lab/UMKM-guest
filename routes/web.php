@@ -75,3 +75,71 @@ Route::get('/identitas', function () {
 })->name('identitas');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+// Route untuk placeholder image
+// Route::get('/placeholder/{width}/{height}', function ($width = 300, $height = 300) {
+//     $image = imagecreatetruecolor($width, $height);
+//     $bgColor = imagecolorallocate($image, 240, 240, 240);
+//     $textColor = imagecolorallocate($image, 180, 180, 180);
+    
+//     imagefill($image, 0, 0, $bgColor);
+    
+//     // Tambahkan teks "No Image"
+//     $text = "No Image";
+//     $font = 5; // Font GD internal
+//     $textWidth = imagefontwidth($font) * strlen($text);
+//     $textHeight = imagefontheight($font);
+//     $x = ($width - $textWidth) / 2;
+//     $y = ($height - $textHeight) / 2;
+    
+//     imagestring($image, $font, $x, $y, $text, $textColor);
+    
+//     header('Content-Type: image/png');
+//     imagejpeg($image);
+//     imagedestroy($image);
+// })->name('placeholder.image');
+// Route untuk generate placeholder image
+Route::get('/placeholder/{width}/{height}', function ($width = 400, $height = 300) {
+    // Buat gambar dengan GD
+    $image = imagecreatetruecolor($width, $height);
+    
+    // Warna background
+    $bgColor = imagecolorallocate($image, 240, 240, 240);
+    $textColor = imagecolorallocate($image, 150, 150, 150);
+    $borderColor = imagecolorallocate($image, 200, 200, 200);
+    
+    // Isi background
+    imagefill($image, 0, 0, $bgColor);
+    
+    // Tambahkan border
+    imagerectangle($image, 0, 0, $width-1, $height-1, $borderColor);
+    
+    // Tambahkan ikon kamera
+    $iconSize = min($width, $height) / 4;
+    $cameraX = $width / 2;
+    $cameraY = $height / 2 - 20;
+    
+    // Gambar lingkaran kamera
+    imagefilledellipse($image, $cameraX, $cameraY, $iconSize, $iconSize, $textColor);
+    imagefilledellipse($image, $cameraX, $cameraY, $iconSize/2, $iconSize/2, $bgColor);
+    
+    // Tambahkan teks
+    $text = "Belum ada file";
+    $text2 = "yang diupload";
+    $font = 5; // GD internal font
+    $textWidth = imagefontwidth($font) * strlen($text);
+    $textX = ($width - $textWidth) / 2;
+    $textY = $cameraY + $iconSize/2 + 30;
+    
+    imagestring($image, $font, $textX, $textY, $text, $textColor);
+    
+    $textWidth2 = imagefontwidth($font) * strlen($text2);
+    $textX2 = ($width - $textWidth2) / 2;
+    imagestring($image, $font, $textX2, $textY + 20, $text2, $textColor);
+    
+    // Output sebagai PNG
+    header('Content-Type: image/png');
+    imagepng($image);
+    imagedestroy($image);
+})->name('placeholder.image');

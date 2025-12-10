@@ -8,7 +8,7 @@ use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
-
+use Intervention\Image\Facades\Image;
 class UmkmController extends Controller
 {
     public function index(Request $request)
@@ -34,6 +34,23 @@ class UmkmController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+//         if ($file->isValid()) {
+//     $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+    
+//     // Compress image jika file adalah gambar
+//     if (Str::startsWith($file->getMimeType(), 'image/')) {
+//         $image = Image::make($file);
+//         $image->resize(800, 800, function ($constraint) {
+//             $constraint->aspectRatio();
+//             $constraint->upsize();
+//         });
+//         $image->save(storage_path('app/public/media/' . $fileName), 80); // 80% quality
+//     } else {
+//         $file->storeAs('media', $fileName, 'public');
+//     }
+    
+//     // ... rest of the code
+// }
         $validated = $request->validate([
             'nama_usaha' => 'required|string|max:255',
             'pemilik_warga_id' => 'required|exists:warga,warga_id',
@@ -92,6 +109,23 @@ class UmkmController extends Controller
 
     public function update(Request $request, Umkm $umkm): RedirectResponse
     {
+//         if ($file->isValid()) {
+//     $fileName = time() . '_' . uniqid() . '_' . $file->getClientOriginalName();
+    
+//     // Compress image jika file adalah gambar
+//     if (Str::startsWith($file->getMimeType(), 'image/')) {
+//         $image = Image::make($file);
+//         $image->resize(800, 800, function ($constraint) {
+//             $constraint->aspectRatio();
+//             $constraint->upsize();
+//         });
+//         $image->save(storage_path('app/public/media/' . $fileName), 80); // 80% quality
+//     } else {
+//         $file->storeAs('media', $fileName, 'public');
+//     }
+    
+//     // ... rest of the code
+// }
 
         
         $validated = $request->validate([
