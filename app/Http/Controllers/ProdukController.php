@@ -126,4 +126,21 @@ class ProdukController extends Controller
         $produk->delete();
         return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus.');
     }
+     public function deleteMedia($mediaId): RedirectResponse
+    {
+        try {
+            $media = Media::findOrFail($mediaId);
+            
+            // HAPUS DARI DISK PUBLIC
+            if (Storage::disk('public')->exists('media/' . $media->file_name)) {
+                Storage::disk('public')->delete('media/' . $media->file_name);
+            }
+            
+            $media->delete();
+            return back()->with('success', 'Gambar berhasil dihapus.');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus gambar: ' . $e->getMessage());
+        }
+    }
 }

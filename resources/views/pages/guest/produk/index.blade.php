@@ -75,6 +75,27 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 shadow-sm border-0 card-hover">
                     <div class="card-header text-white py-3 produk-card-header">
+                        
+                      <!-- Tambah thumbnail gambar -->
+    @if($item->media->count() > 0 && $item->media->where('mime_type', 'like', 'image/%')->first())
+        @php
+            $firstImage = $item->media->where('mime_type', 'like', 'image/%')->first();
+        @endphp
+        <div class="text-center mb-2">
+            <img src="{{ asset('storage/media/' . $firstImage->file_name) }}" 
+                 class="rounded-circle border border-3 border-white" 
+                 style="width: 70px; height: 70px; object-fit: cover;" 
+                 alt="{{ $item->nama_produk }}"
+                 onerror="this.src='{{ asset('images/placeholder.jpg') }}'">
+        </div>
+    @else
+        <div class="text-center mb-2">
+            <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-light border border-3 border-white" 
+                 style="width: 70px; height: 70px;">
+                <i class="fas fa-box fa-2x text-secondary"></i>
+            </div>
+        </div>
+    @endif
                         <h5 class="mb-0">{{ $item->nama_produk }}</h5>
                         <small class="opacity-75">{{ $item->umkm->nama_usaha ?? '-' }}</small>
                     </div>
@@ -106,18 +127,37 @@
                             </span>
                         </div>
                     </div>
-                    <div class="card-footer bg-light border-0">
-                        <div class="action-buttons d-flex justify-content-between">
-                            <a href="{{ route('produk.edit', $item->produk_id) }}" class="btn btn-warning btn-sm" title="Edit">
-                                <i class="fas fa-edit me-1"></i> Edit
+                    <div class="card-footer bg-light border-0 pt-3">
+                        <div class="action-buttons d-flex justify-content-between align-items-center">
+                            <!-- Tombol Detail -->
+                            <a href="{{ route('produk.show', $item->produk_id) }}" 
+                               class="btn btn-info btn-sm text-white" 
+                               title="Detail">
+                                <i class="fas fa-eye me-1"></i> Detail
                             </a>
-                            <form action="{{ route('produk.destroy', $item->produk_id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus" onclick="return confirm('Yakin ingin menghapus produk {{ $item->nama_produk }}?')">
-                                    <i class="fas fa-trash me-1"></i> Hapus
-                                </button>
-                            </form>
+                            
+                            <div class="d-flex gap-2">
+                                <!-- Tombol Edit -->
+                                <a href="{{ route('produk.edit', $item->produk_id) }}" 
+                                   class="btn btn-warning btn-sm" 
+                                   title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                
+                                <!-- Tombol Hapus -->
+                                <form action="{{ route('produk.destroy', $item->produk_id) }}" 
+                                      method="POST" 
+                                      class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            class="btn btn-danger btn-sm" 
+                                            title="Hapus" 
+                                            onclick="return confirm('Yakin ingin menghapus produk {{ $item->nama_produk }}?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -309,6 +349,60 @@
 /* Style untuk input group search */
 .input-group .btn {
     border-radius: 0 0.375rem 0.375rem 0;
+}
+
+/* Style untuk tombol action produk - SAMA SEPERTI UMKM */
+.action-buttons .btn {
+    min-width: 80px;
+    transition: all 0.3s ease;
+}
+
+.action-buttons .btn-sm i {
+    font-size: 0.9rem;
+}
+
+.action-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.action-buttons .btn-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    border-color: #117a8b;
+}
+
+.action-buttons .btn-info:hover {
+    background: linear-gradient(135deg, #138496 0%, #117a8b 100%);
+}
+
+.action-buttons .btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    border-color: #d39e00;
+}
+
+.action-buttons .btn-warning:hover {
+    background: linear-gradient(135deg, #e0a800 0%, #d39e00 100%);
+}
+
+.action-buttons .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border-color: #bd2130;
+}
+
+.action-buttons .btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+}
+
+/* Responsive untuk tombol action */
+@media (max-width: 576px) {
+    .action-buttons .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    .action-buttons .btn-info .me-1 {
+        margin-right: 0.25rem !important;
+    }
 }
 </style>
 @endsection

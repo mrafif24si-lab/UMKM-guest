@@ -136,7 +136,63 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- Di dalam form create.blade.php setelah field lainnya -->
 
+{{-- UPLOAD MULTIPLE FILE --}}
+<div class="mb-4">
+    <label for="gambar" class="form-label">Upload Gambar Produk (Multiple)</label>
+    <input type="file" class="form-control @error('gambar.*') is-invalid @enderror" 
+           id="gambar" name="gambar[]" multiple 
+           accept=".jpg,.jpeg,.png,.gif">
+    <div class="form-text">
+        Format yang didukung: JPG, JPEG, PNG, GIF. Maksimal 2MB per file.
+        Anda dapat memilih multiple file sekaligus.
+    </div>
+    @error('gambar.*')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
+{{-- Preview Upload --}}
+<div class="mb-4" id="preview-container" style="display: none;">
+    <label class="form-label">Preview Gambar:</label>
+    <div class="row" id="preview-images"></div>
+</div>
+
+<script>
+// Preview gambar di create form
+document.getElementById('gambar').addEventListener('change', function(event) {
+    const files = event.target.files;
+    const previewContainer = document.getElementById('preview-container');
+    const previewImages = document.getElementById('preview-images');
+    previewImages.innerHTML = '';
+    
+    if (files.length > 0) {
+        previewContainer.style.display = 'block';
+        
+        Array.from(files).forEach(file => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-3 col-lg-2 mb-2';
+                    col.innerHTML = `
+                        <div class="preview-card">
+                            <img src="${e.target.result}" class="img-thumbnail" style="width: 100%; height: 100px; object-fit: cover;">
+                            <small class="d-block mt-1 text-truncate">${file.name}</small>
+                        </div>
+                    `;
+                    previewImages.appendChild(col);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    } else {
+        previewContainer.style.display = 'none';
+    }
+});
+</script>
                             <div class="d-flex gap-3 pt-4 border-top">
                                 <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
                                     <i class="fas fa-save me-2"></i> <span id="submitText">Simpan</span>

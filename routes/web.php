@@ -143,3 +143,6 @@ Route::get('/placeholder/{width}/{height}', function ($width = 400, $height = 30
     imagepng($image);
     imagedestroy($image);
 })->name('placeholder.image');
+
+// Produk Media Routes
+Route::delete('/produk/media/{media}', [ProdukController::class, 'deleteMedia'])->name('produk.delete-media');
