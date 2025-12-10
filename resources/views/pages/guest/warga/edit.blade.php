@@ -3,56 +3,64 @@
 @section('title', 'Edit Data Warga')
 
 @section('content')
-<div class="container-fluid page-header py-5">
-    <div class="container text-center">
-        <h1 class="text-white display-4">Edit Data Warga</h1>
-        <p class="text-white lead">Form edit data warga</p>
-    </div>
-</div>
-
 <div class="container-fluid py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="card shadow-sm border-0 card-hover">
-                    <div class="card-header text-white py-4 custom-card-header">
-                        <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Form Edit Data Warga - {{ $warga->nama }}</h5>
+    <!-- Background Pattern -->
+    <div class="pattern-dots position-absolute top-0 start-0 w-100 h-100" style="z-index: -1; opacity: 0.05;"></div>
+    
+    <div class="container" data-aos="fade-up">
+        <div class="row">
+            <div class="col-lg-10 col-xl-9 mx-auto">
+                <!-- Main Card -->
+                <div class="card border-0 overflow-hidden shadow-lg" style="border-radius: 20px;">
+                    <!-- Header -->
+                    <div class="card-header py-4 px-4 px-lg-5 position-relative" 
+                         style="background: linear-gradient(135deg, #F6B35C 0%, #118AB2 100%);">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <h3 class="text-white mb-0">
+                                    <i class="fas fa-edit me-2"></i>Edit Data Warga - {{ $warga->nama }}
+                                </h3>
+                                <p class="text-white-50 mb-0">Form edit data warga</p>
+                            </div>
+                            <a href="{{ route('warga.index') }}" class="btn btn-light btn-sm rounded-3">
+                                <i class="fas fa-arrow-left me-1"></i> Kembali
+                            </a>
+                        </div>
                     </div>
-                    <div class="card-body p-5">
-                        <form action="{{ route('warga.update', $warga->warga_id) }}" method="POST">
+                    
+                    <div class="card-body p-4 p-lg-5">
+                        <form action="{{ route('warga.update', $warga->warga_id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-4">
+                            
+                            <!-- Informasi Dasar -->
+                            <div class="mb-4">
+                                <h5 class="text-gradient mb-4">
+                                    <i class="fas fa-info-circle me-2"></i>Informasi Dasar
+                                </h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
                                         <label for="no_ktp" class="form-label">No KTP <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('no_ktp') is-invalid @enderror"
-                                               id="no_ktp" name="no_ktp" value="{{ old('no_ktp', $warga->no_ktp) }}"
-                                               placeholder="Masukkan nomor KTP" required>
+                                        <input type="text" class="form-control @error('no_ktp') is-invalid @enderror" 
+                                               id="no_ktp" name="no_ktp" value="{{ old('no_ktp', $warga->no_ktp) }}" required>
                                         @error('no_ktp')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-4">
+                                    <div class="col-md-6 mb-3">
                                         <label for="nama" class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                               id="nama" name="nama" value="{{ old('nama', $warga->nama) }}"
-                                               placeholder="Masukkan nama lengkap" required>
+                                        <input type="text" class="form-control @error('nama') is-invalid @enderror" 
+                                               id="nama" name="nama" value="{{ old('nama', $warga->nama) }}" required>
                                         @error('nama')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-4">
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
                                         <label for="jenis_kelamin" class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
-                                        <select class="form-select @error('jenis_kelamin') is-invalid @enderror"
+                                        <select class="form-select @error('jenis_kelamin') is-invalid @enderror" 
                                                 id="jenis_kelamin" name="jenis_kelamin" required>
                                             <option value="">Pilih Jenis Kelamin</option>
                                             <option value="Laki-laki" {{ old('jenis_kelamin', $warga->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
@@ -62,13 +70,10 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-4">
+                                    <div class="col-md-6 mb-3">
                                         <label for="agama" class="form-label">Agama <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('agama') is-invalid @enderror"
-                                               id="agama" name="agama" value="{{ old('agama', $warga->agama) }}"
-                                               placeholder="Masukkan agama" required>
+                                        <input type="text" class="form-control @error('agama') is-invalid @enderror" 
+                                               id="agama" name="agama" value="{{ old('agama', $warga->agama) }}" required>
                                         @error('agama')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -76,46 +81,119 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-4">
+                            <!-- Informasi Kontak -->
+                            <div class="mb-4">
+                                <h5 class="text-gradient mb-4">
+                                    <i class="fas fa-address-card me-2"></i>Informasi Kontak
+                                </h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
                                         <label for="pekerjaan" class="form-label">Pekerjaan <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('pekerjaan') is-invalid @enderror"
-                                               id="pekerjaan" name="pekerjaan" value="{{ old('pekerjaan', $warga->pekerjaan) }}"
-                                               placeholder="Masukkan pekerjaan" required>
+                                        <input type="text" class="form-control @error('pekerjaan') is-invalid @enderror" 
+                                               id="pekerjaan" name="pekerjaan" value="{{ old('pekerjaan', $warga->pekerjaan) }}" required>
                                         @error('pekerjaan')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-4">
+                                    <div class="col-md-6 mb-3">
                                         <label for="telp" class="form-label">Telepon <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('telp') is-invalid @enderror"
-                                               id="telp" name="telp" value="{{ old('telp', $warga->telp) }}"
-                                               placeholder="Masukkan nomor telepon" required>
+                                        <input type="text" class="form-control @error('telp') is-invalid @enderror" 
+                                               id="telp" name="telp" value="{{ old('telp', $warga->telp) }}" required>
                                         @error('telp')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                                               id="email" name="email" value="{{ old('email', $warga->email) }}">
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <!-- <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
+                                        <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
+                                            <option value="">-- Pilih Role --</option>
+                                            <option value="user" {{ old('role', $warga->role) == 'user' ? 'selected' : '' }}>User</option>
+                                            <option value="warga" {{ old('role', $warga->role) == 'warga' ? 'selected' : '' }}>Warga</option>
+                                            <option value="admin" {{ old('role', $warga->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                                        </select>
+                                        @error('role')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div> -->
+                                </div>
                             </div>
 
+                            <!-- Gallery Existing Files -->
+                            @if($warga->media->count() > 0)
                             <div class="mb-4">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                       id="email" name="email" value="{{ old('email', $warga->email) }}"
-                                       placeholder="Masukkan email (opsional)">
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                <h5 class="text-gradient mb-4">
+                                    <i class="fas fa-images me-2"></i>Dokumen/Foto Saat Ini
+                                </h5>
+                                <div class="row g-3">
+                                    @foreach($warga->media as $media)
+                                    <div class="col-md-4 col-lg-3">
+                                        <div class="card position-relative">
+                                            @if(Str::startsWith($media->mime_type, 'image/'))
+                                                <img src="{{ asset('storage/media/' . $media->file_name) }}" 
+                                                     class="card-img-top" 
+                                                     style="height: 120px; object-fit: cover;"
+                                                     alt="{{ $media->caption }}"
+                                                     onerror="this.onerror=null; this.src='{{ asset('images/placeholder.png') }}'">
+                                            @else
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-file fa-3x text-primary mb-2"></i>
+                                                    <p class="card-text small">{{ $media->caption }}</p>
+                                                </div>
+                                            @endif
+                                            <div class="card-footer p-2">
+                                                <form action="{{ route('warga.deleteMedia', $media->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger w-100" onclick="return confirm('Hapus file ini?')">
+                                                        <i class="fas fa-trash"></i> Hapus
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endif
+
+                            <!-- Upload File Baru -->
+                            <div class="mb-4">
+                                <h5 class="text-gradient mb-4">
+                                    <i class="fas fa-plus-circle me-2"></i>Tambah Dokumen/Foto Baru
+                                </h5>
+                                <div class="card border-dashed">
+                                    <div class="card-body text-center p-5">
+                                        <div class="mb-3">
+                                            <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                                            <h5>Upload File Tambahan</h5>
+                                            <p class="text-muted">Format: JPG, PNG, PDF, DOC, DOCX, XLS, XLSX (Max: 2MB)</p>
+                                        </div>
+                                        <input type="file" class="form-control" id="files" name="files[]" multiple accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx">
+                                        <div class="mt-3" id="file-preview"></div>
+                                    </div>
+                                </div>
                             </div>
 
+                            <!-- Action Buttons -->
                             <div class="d-flex gap-3 pt-4 border-top">
-                                <button type="submit" class="btn btn-custom btn-lg">
+                                <button type="submit" class="btn btn-primary btn-lg px-5 rounded-4">
                                     <i class="fas fa-save me-2"></i> Update Data
                                 </button>
-                                <a href="{{ route('warga.index') }}" class="btn btn-secondary btn-lg">
+                                <a href="{{ route('warga.show', $warga->warga_id) }}" class="btn btn-info btn-lg">
+                                    <i class="fas fa-eye me-2"></i> Lihat Detail
+                                </a>
+                                <a href="{{ route('warga.index') }}" class="btn btn-secondary btn-lg ms-auto">
                                     <i class="fas fa-arrow-left me-2"></i> Kembali
                                 </a>
                             </div>
@@ -128,41 +206,53 @@
 </div>
 
 <style>
-.btn-custom {
-    background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%);
-    border: none;
-    color: white;
-    transition: transform 0.3s ease;
+.text-gradient {
+    background: linear-gradient(135deg, #F6B35C, #118AB2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     font-weight: 600;
 }
 
-.btn-custom:hover {
-    transform: translateY(-2px);
-    color: white;
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+.border-dashed {
+    border: 2px dashed #dee2e6 !important;
+    border-radius: 15px !important;
 }
 
-.custom-card-header {
-    background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%) !important;
-}
-
-.card-hover {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-hover:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-}
-
-.form-control:focus {
-    border-color: #17a2b8;
-    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
-}
-
-.form-select:focus {
-    border-color: #17a2b8;
-    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+.form-control:focus, .form-select:focus {
+    border-color: #118AB2;
+    box-shadow: 0 0 0 0.25rem rgba(17, 138, 178, 0.25);
 }
 </style>
+
+<script>
+// Preview file upload
+document.getElementById('files').addEventListener('change', function(e) {
+    const preview = document.getElementById('file-preview');
+    preview.innerHTML = '';
+    
+    if (this.files.length > 0) {
+        const list = document.createElement('ul');
+        list.className = 'list-group';
+        
+        for (let i = 0; i < this.files.length; i++) {
+            const file = this.files[i];
+            const item = document.createElement('li');
+            item.className = 'list-group-item d-flex justify-content-between align-items-center';
+            
+            item.innerHTML = `
+                <div>
+                    <i class="fas fa-file me-2 text-primary"></i>
+                    ${file.name}
+                </div>
+                <small class="text-muted">${(file.size / 1024).toFixed(2)} KB</small>
+            `;
+            
+            list.appendChild(item);
+        }
+        
+        preview.appendChild(list);
+    }
+});
+</script>
 @endsection

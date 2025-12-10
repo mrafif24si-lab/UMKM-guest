@@ -5,7 +5,8 @@ namespace App\Models;
 use App\Models\Media;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasOne; // <--- PENTING: Ganti MorphOne jadi HasOne
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany; // 1. TAMBAHKAN INI
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -42,21 +43,32 @@ class User extends Authenticatable
         ];
     }
 
-    // --- RELASI AVATAR (PERBAIKAN UTAMA) ---
-    public function avatar(): HasOne
+    // --- RELASI UNTUK SEMUA MEDIA (TAMBAHKAN INI) ---
+    public function media(): HasMany // 2. GANTI DARI avatar() ke media()
     {
         // Hubungkan id user ke ref_id di tabel media
-        // Filter hanya yang ref_table-nya 'users'
+        // Filter hanya yang ref_table-nya 'user' (BUKAN 'users')
+        return $this->hasMany(Media::class, 'ref_id', 'id')
+                    ->where('ref_table', 'user') // 3. GANTI 'users' MENJADI 'user'
+                    ->orderBy('sort_order') // 4. TAMBAHKAN INI
+                    ->orderBy('created_at'); // 5. TAMBAHKAN INI
+    }
+
+    // --- RELASI AVATAR (UNTUK FOTO PROFIL PERTAMA) ---
+    public function avatar(): HasOne
+    {
+        // Ambil media pertama (untuk foto profil di index)
         return $this->hasOne(Media::class, 'ref_id', 'id')
-                    ->where('ref_table', 'users')
-                    ->latest(); // Ambil yang paling baru
+                    ->where('ref_table', 'user') // 6. GANTI 'users' MENJADI 'user'
+                    ->where('mime_type', 'like', 'image/%') // 7. TAMBAHKAN INI: hanya gambar
+                    ->orderBy('sort_order')
+                    ->orderBy('created_at');
     }
 
     public function getAvatarUrlAttribute()
     {
         // Cek apakah relasi avatar ada dan filenya ada
         if ($this->avatar && $this->avatar->file_name) {
-            // PERBAIKAN DISINI: Arahkan ke folder 'media'
             return asset('storage/media/' . $this->avatar->file_name);
         }
         
@@ -65,12 +77,21 @@ class User extends Authenticatable
     }
     // ----------------------------------------
 
+    // 8. PERBAIKI SCOPE FILTER UNTUK MENANGANI 'role'
     public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
     {
         foreach ($filterableColumns as $column) {
             if ($request->filled($column)) {
                 if ($column === 'huruf_awal') {
-                    $query->where('name', 'LIKE', $request->input($column) . '%');
+                    if ($request->huruf_awal == 'other') {
+                        // Untuk huruf selain A-Z (angka/simbol)
+                        $query->whereRaw('LEFT(name, 1) NOT BETWEEN ? AND ?', ['A', 'Z']);
+                    } else {
+                        $query->where('name', 'LIKE', $request->input($column) . '%');
+                    }
+                } else if ($column === 'role') {
+                    // Filter berdasarkan role
+                    $query->where('role', $request->input($column));
                 }
             }
         }

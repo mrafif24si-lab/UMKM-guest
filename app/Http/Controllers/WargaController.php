@@ -1,43 +1,34 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Warga;
+use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class WargaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-     public function index(Request $request) // Tambahkan parameter Request
+    public function index(Request $request)
     {
-        // Daftar kolom yang bisa difilter sesuai name pada form
-        $filterableColumns = ['jenis_kelamin'];
+        $filterableColumns = ['jenis_kelamin', 'role']; // TAMBAHKAN 'role'
+        $searchableColumns = ['nama', 'agama', 'pekerjaan', 'email', 'no_ktp'];
         
-           // Daftar kolom yang bisa dicari saat searching
-        $searchableColumns = ['nama', 'agama', 'pekerjaan', 'email']; // Tambahkan ini
-
-        // Gunakan scope filter untuk memproses query
         $dataWarga = Warga::filter($request, $filterableColumns)
-         ->search($request, $searchableColumns) // Tambahkan ini
-                        ->paginate(10)
-                        ->withQueryString(); // Tambahkan ini untuk mempertahankan parameter filter
+            ->search($request, $searchableColumns)
+            ->withCount('media') // TAMBAHKAN INI untuk menghitung jumlah file
+            ->orderBy('nama')
+            ->paginate(10)
+            ->withQueryString();
 
         return view('pages.guest.warga.index', compact('dataWarga'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('pages.guest.warga.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -48,59 +39,165 @@ class WargaController extends Controller
             'pekerjaan' => 'required',
             'telp' => 'required',
             'email' => 'nullable|email',
+            'role' => 'required|in:admin,warga,user', // TAMBAHKAN INI
+            'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048' // TAMBAHKAN INI
         ]);
 
-        Warga::create($request->all());
+        try {
+            $warga = Warga::create([
+                'no_ktp' => $request->no_ktp,
+                'nama' => $request->nama,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'agama' => $request->agama,
+                'pekerjaan' => $request->pekerjaan,
+                'telp' => $request->telp,
+                'email' => $request->email,
+                'role' => $request->role,
+            ]);
 
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil ditambahkan!');
+            // UPLOAD MULTIPLE FILE
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $index => $file) {
+                    if ($file->isValid()) {
+                        $fileName = time() . '_' . uniqid() . '_' . Str::slug($file->getClientOriginalName());
+                        
+                        $file->storeAs('media', $fileName, 'public');
+                        
+                        Media::create([
+                            'ref_table' => 'warga',
+                            'ref_id' => $warga->warga_id,
+                            'file_name' => $fileName,
+                            'mime_type' => $file->getMimeType(),
+                            'caption' => $file->getClientOriginalName(),
+                            'sort_order' => $index
+                        ]);
+                    }
+                }
+            }
+
+            return redirect()->route('warga.index')
+                ->with('success', 'Data warga berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                ->withInput();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Warga $warga)
     {
-        //
+        $warga->load('media');
+        return view('pages.guest.warga.show', compact('warga'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Warga $warga)
     {
-        $warga = Warga::findOrFail($id);
+        $warga->load('media');
         return view('pages.guest.warga.edit', compact('warga'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Warga $warga)
     {
         $request->validate([
-            'no_ktp' => 'required|max:20|unique:warga,no_ktp,' . $id . ',warga_id',
+            'no_ktp' => 'required|max:20|unique:warga,no_ktp,' . $warga->warga_id . ',warga_id',
             'nama' => 'required|max:100',
             'jenis_kelamin' => 'required',
             'agama' => 'required',
             'pekerjaan' => 'required',
             'telp' => 'required',
             'email' => 'nullable|email',
+            'role' => 'required|in:admin,warga,user', // TAMBAHKAN INI
+            'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048' // TAMBAHKAN INI
         ]);
 
-        $warga = Warga::findOrFail($id);
-        $warga->update($request->all());
+        try {
+            $warga->update([
+                'no_ktp' => $request->no_ktp,
+                'nama' => $request->nama,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'agama' => $request->agama,
+                'pekerjaan' => $request->pekerjaan,
+                'telp' => $request->telp,
+                'email' => $request->email,
+                'role' => $request->role,
+            ]);
 
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil diupdate!');
+            // UPLOAD FILE BARU
+            if ($request->hasFile('files')) {
+                $existingFilesCount = Media::where('ref_table', 'warga')
+                    ->where('ref_id', $warga->warga_id)
+                    ->count();
+                
+                foreach ($request->file('files') as $index => $file) {
+                    if ($file->isValid()) {
+                        $fileName = time() . '_' . uniqid() . '_' . Str::slug($file->getClientOriginalName());
+                        
+                        $file->storeAs('media', $fileName, 'public');
+                        
+                        Media::create([
+                            'ref_table' => 'warga',
+                            'ref_id' => $warga->warga_id,
+                            'file_name' => $fileName,
+                            'mime_type' => $file->getMimeType(),
+                            'caption' => $file->getClientOriginalName(),
+                            'sort_order' => $existingFilesCount + $index
+                        ]);
+                    }
+                }
+            }
+
+            return redirect()->route('warga.index')
+                ->with('success', 'Data warga berhasil diupdate!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                ->withInput();
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Warga $warga)
     {
-        $warga = Warga::findOrFail($id);
-        $warga->delete();
+        try {
+            // HAPUS FILE MEDIA TERLEBIH DAHULU
+            $mediaFiles = Media::where('ref_table', 'warga')
+                ->where('ref_id', $warga->warga_id)
+                ->get();
 
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil dihapus!');
+            foreach ($mediaFiles as $media) {
+                if (Storage::disk('public')->exists('media/' . $media->file_name)) {
+                    Storage::disk('public')->delete('media/' . $media->file_name);
+                }
+                $media->delete();
+            }
+            
+            $warga->delete();
+
+            return redirect()->route('warga.index')
+                ->with('success', 'Data warga berhasil dihapus!');
+
+        } catch (\Exception $e) {
+            return redirect()->route('warga.index')
+                ->with('error', 'Gagal menghapus data warga: ' . $e->getMessage());
+        }
+    }
+
+    // METHOD UNTUK HAPUS FILE SATU PER SATU
+    public function deleteMedia($mediaId)
+    {
+        try {
+            $media = Media::findOrFail($mediaId);
+            
+            if (Storage::disk('public')->exists('media/' . $media->file_name)) {
+                Storage::disk('public')->delete('media/' . $media->file_name);
+            }
+            
+            $media->delete();
+            return back()->with('success', 'File berhasil dihapus.');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus file: ' . $e->getMessage());
+        }
     }
 }

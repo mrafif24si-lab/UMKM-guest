@@ -146,3 +146,7 @@ Route::get('/placeholder/{width}/{height}', function ($width = 400, $height = 30
 
 // Produk Media Routes
 Route::delete('/produk/media/{media}', [ProdukController::class, 'deleteMedia'])->name('produk.delete-media');
+
+// User Routes
+Route::resource('user', UserController::class);
+Route::delete('/user/delete-media/{mediaId}', [UserController::class, 'deleteMedia'])->name('user.delete-media');

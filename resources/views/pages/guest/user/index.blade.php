@@ -43,19 +43,14 @@
                             </div>
                         </div>
 
-                        <!-- Filter Abjad -->
+                        <!-- Filter Role -->
                         <div class="col-md-4">
-                            <label for="huruf_awal" class="form-label fw-bold">Filter Huruf Awal Nama:</label>
-                            <select name="huruf_awal" id="huruf_awal" class="form-select" onchange="document.getElementById('searchForm').submit()">
-                                <option value="">Semua Huruf</option>
-                                @foreach(range('A', 'Z') as $huruf)
-                                    <option value="{{ $huruf }}" {{ request('huruf_awal') == $huruf ? 'selected' : '' }}>
-                                        Huruf {{ $huruf }}
-                                    </option>
-                                @endforeach
-                                <option value="other" {{ request('huruf_awal') == 'other' ? 'selected' : '' }}>
-                                    Lainnya (Angka/Simbol)
-                                </option>
+                            <label for="role" class="form-label fw-bold">Filter Role:</label>
+                            <select name="role" id="role" class="form-select" onchange="document.getElementById('searchForm').submit()">
+                                <option value="">Semua Role</option>
+                                <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>
+                                <option value="warga" {{ request('role') == 'warga' ? 'selected' : '' }}>Warga</option>
                             </select>
                         </div>
                         
@@ -73,27 +68,35 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 shadow-sm border-0 card-hover">
                     <div class="card-header text-white py-3 user-card-header">
-                                   <!-- Tambahkan logo jika ada -->
-            @if($item->logo)
-            <div class="text-center mb-2">
-                <img src="{{ Storage::url('public/uploads/' . $item->logo->file_name) }}" 
-                     class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;" 
-                     alt="Logo {{ $item->nama_usaha }}"
-                     onerror="this.style.display='none'">
-            </div>
-            @else
-            <div class="text-center mb-2">
-                <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-light" 
-                     style="width: 60px; height: 60px;">
-                    <i class="fas fa-store text-secondary"></i>
-                </div>
-            </div>
-            @endif
-            <h5 class="mb-0">{{ $item->nama_usaha }}</h5>
-            <small class="opacity-75">Pemilik: {{ $item->pemilik->nama ?? '-' }}</small>
-        </div>
-
-                       
+                        <!-- Foto Profil atau Placeholder -->
+                        <div class="text-center mb-2">
+                            @if($item->media->count() > 0)
+                                @php
+                                    $firstImage = $item->media->first();
+                                @endphp
+                                @if(Str::startsWith($firstImage->mime_type, 'image/'))
+                                    <img src="{{ asset('storage/media/' . $firstImage->file_name) }}" 
+                                         class="rounded-circle border border-3 border-white" 
+                                         style="width: 80px; height: 80px; object-fit: cover;" 
+                                         alt="{{ $item->name }}"
+                                         onerror="this.src='{{ asset('images/placeholder.jpg') }}'">
+                                @else
+                                    <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-light border border-3 border-white" 
+                                         style="width: 80px; height: 80px;">
+                                        <i class="fas fa-user fa-2x text-secondary"></i>
+                                    </div>
+                                @endif
+                            @else
+                                <!-- Placeholder Gambar -->
+                                <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-light border border-3 border-white" 
+                                     style="width: 80px; height: 80px;">
+                                    <i class="fas fa-user fa-2x text-secondary"></i>
+                                </div>
+                            @endif
+                        </div>
+                        <h5 class="mb-0">{{ $item->name }}</h5>
+                        <small class="opacity-75">Role: {{ ucfirst($item->role) }}</small>
+                    </div>
                     <div class="card-body">
                         <div class="mb-3">
                             <strong>Email:</strong><br>
@@ -103,22 +106,37 @@
                             <strong>ID User:</strong> {{ $item->id }}
                         </div>
                         <div class="mb-2">
+                            <strong>Jumlah File:</strong> {{ $item->media->count() }}
+                        </div>
+                        <div class="mb-2">
                             <strong>Terakhir Update:</strong><br>
                             {{ $item->updated_at->format('d/m/Y H:i') }}
                         </div>
                     </div>
-                    <div class="card-footer bg-light border-0">
-                        <div class="action-buttons d-flex justify-content-between">
-                            <a href="{{ route('user.edit', $item->id) }}" class="btn btn-warning btn-sm" title="Edit">
-                                <i class="fas fa-edit me-1"></i> Edit
+                    <div class="card-footer bg-light border-0 pt-3">
+                        <div class="action-buttons d-flex justify-content-between align-items-center">
+                            <!-- Tombol Detail -->
+                            <a href="{{ route('user.show', $item->id) }}" class="btn btn-info btn-sm" title="Detail">
+                                <i class="fas fa-eye me-1"></i> Detail
                             </a>
-                            <form action="{{ route('user.destroy', $item->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus" onclick="return confirm('Yakin ingin menghapus user {{ $item->name }}?')">
-                                    <i class="fas fa-trash me-1"></i> Hapus
-                                </button>
-                            </form>
+                            
+                            <div class="d-flex gap-2">
+                                <!-- Tombol Edit -->
+                                <a href="{{ route('user.edit', $item->id) }}" class="btn btn-warning btn-sm" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                
+                                <!-- Tombol Hapus -->
+                                <form action="{{ route('user.destroy', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" 
+                                            title="Hapus" 
+                                            onclick="return confirm('Yakin ingin menghapus User {{ $item->name }}?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -138,19 +156,12 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <p class="mb-0">
-                            Total: <strong>{{ $users->total() }}</strong> user
+                            Total: <strong>{{ $users->total() }}</strong> User
                             @if(request('search'))
                                 | Pencarian: <strong>"{{ request('search') }}"</strong>
                             @endif
-                            @if(request('huruf_awal'))
-                                | Filter: 
-                                <strong>
-                                    @if(request('huruf_awal') == 'other')
-                                        Nama dengan Angka/Simbol
-                                    @else
-                                        Huruf {{ request('huruf_awal') }}
-                                    @endif
-                                </strong>
+                            @if(request('role'))
+                                | Filter Role: <strong>{{ ucfirst(request('role')) }}</strong>
                             @endif
                         </p>
                     </div>
@@ -165,34 +176,32 @@
 
         @else
         <div class="text-center py-5">
-            <i class="fas fa-users fa-4x text-muted mb-3"></i>
+            <!-- Placeholder untuk tidak ada data -->
+            <div class="mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle" 
+                     style="width: 120px; height: 120px;">
+                    <i class="fas fa-users fa-4x text-muted"></i>
+                </div>
+            </div>
             <h4 class="text-muted">
-                @if(request('search') && request('huruf_awal'))
-                    @if(request('huruf_awal') == 'other')
-                        Tidak ada user dengan pencarian "{{ request('search') }}" dan nama yang dimulai angka/simbol
-                    @else
-                        Tidak ada user dengan pencarian "{{ request('search') }}" dan nama yang dimulai huruf "{{ request('huruf_awal') }}"
-                    @endif
+                @if(request('search') && request('role'))
+                    Tidak ada User dengan role "{{ request('role') }}" dan pencarian "{{ request('search') }}"
                 @elseif(request('search'))
-                    Tidak ada user dengan pencarian "{{ request('search') }}"
-                @elseif(request('huruf_awal'))
-                    @if(request('huruf_awal') == 'other')
-                        Tidak ada user dengan nama yang dimulai angka/simbol
-                    @else
-                        Tidak ada user dengan nama yang dimulai huruf "{{ request('huruf_awal') }}"
-                    @endif
+                    Tidak ada User dengan pencarian "{{ request('search') }}"
+                @elseif(request('role'))
+                    Tidak ada User dengan role "{{ request('role') }}"
                 @else
-                    Belum ada data user
+                    Belum ada data User
                 @endif
             </h4>
             <p class="text-muted mb-4">
-                @if(request('search') || request('huruf_awal'))
+                @if(request('search') || request('role'))
                     Silakan coba pencarian/filter lain atau reset filter
                 @else
-                    Silakan tambah data user terlebih dahulu
+                    Silakan tambah data User terlebih dahulu
                 @endif
             </p>
-            @if(request('search') || request('huruf_awal'))
+            @if(request('search') || request('role'))
                 <a href="{{ route('user.index') }}" class="btn btn-secondary btn-lg me-2">
                     <i class="fas fa-times me-1"></i> Reset Semua
                 </a>
@@ -221,6 +230,7 @@
 
 .user-card-header {
     background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%) !important;
+    text-align: center;
 }
 
 .card-hover {
@@ -232,7 +242,7 @@
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
-/* Warna untuk card yang berbeda */
+/* Variasi warna untuk card yang berbeda */
 .user-card-header:nth-child(3n+1) {
     background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%) !important;
 }
@@ -246,12 +256,6 @@
 }
 
 /* Custom Pagination Styles */
-.pagination {
-    margin-bottom: 0;
-    flex-wrap: nowrap;
-    justify-content: center;
-}
-
 .page-link {
     border: 1px solid #dee2e6;
     color: #28a745;
@@ -277,48 +281,13 @@
     transform: translateY(-1px);
 }
 
-.page-item.disabled .page-link {
-    color: #6c757d;
-    background-color: #f8f9fa;
-    border-color: #dee2e6;
+/* Style untuk action buttons */
+.action-buttons .btn {
+    min-width: 80px;
 }
 
-/* Responsive pagination */
-@media (max-width: 768px) {
-    .page-link {
-        padding: 6px 12px;
-        font-size: 0.9rem;
-        margin: 0 2px;
-    }
-    
-    .pagination {
-        flex-wrap: wrap;
-    }
-}
-
-@media (max-width: 576px) {
-    .page-link {
-        padding: 5px 10px;
-        margin: 2px;
-        font-size: 0.85rem;
-    }
-}
-
-/* Memastikan pagination horizontal */
-.pagination {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-}
-
-.page-item {
-    display: inline-block !important;
-    float: none !important;
-}
-
-/* Style untuk input group search */
-.input-group .btn {
-    border-radius: 0 0.375rem 0.375rem 0;
+.action-buttons .btn-sm i {
+    font-size: 0.9rem;
 }
 </style>
 @endsection

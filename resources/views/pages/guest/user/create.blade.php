@@ -11,17 +11,42 @@
 </div>
 
 <div class="container-fluid py-5">
-    <!-- <div class="container"> -->
-        {{-- Tambahkan style inline atau class baru --}}
-<div class="form-container" style="position: relative; z-index: 10; background: white; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1);">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="form-container">
+                <div class="card shadow">
                     <div class="card-header bg-primary text-white py-4">
                         <h5 class="mb-0"><i class="fas fa-user-plus me-2"></i>Form Tambah User Baru</h5>
                     </div>
                     <div class="card-body p-5">
-                        <form action="{{ route('user.store') }}" method="POST" id="userForm">
+                        <!-- Alert Messages -->
+                        @if(session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
+
+                        @if(session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
+
+                        @if($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <h5><i class="fas fa-exclamation-triangle me-2"></i>Terjadi Kesalahan!</h5>
+                                <ul class="mb-0">
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data" id="userForm">
                             @csrf
                             
                             <div class="row">
@@ -77,18 +102,39 @@
                             </div>
 
                             <div class="mb-4">
-    <label for="role" class="form-label">Role  <span class="text-danger">*</span></label>
-    <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
-        <option value="">-- Pilih Role --</option>
-        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User </option>
-        <option value="warga" {{ old('role') == 'warga' ? 'selected' : '' }}>Warga</option>
-        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-    </select>
-    @error('role')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-</div>
-                            
+                                <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
+                                <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
+                                    <option value="">-- Pilih Role --</option>
+                                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
+                                    <option value="warga" {{ old('role') == 'warga' ? 'selected' : '' }}>Warga</option>
+                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                </select>
+                                @error('role')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Multiple File Upload Section -->
+                            <div class="mb-4">
+                                <label for="files" class="form-label">Upload Foto/Dokumen User</label>
+                                <input type="file" class="form-control @error('files.*') is-invalid @enderror" 
+                                       id="files" name="files[]" multiple 
+                                       accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.xls,.xlsx">
+                                <div class="form-text">
+                                    Format yang didukung: JPG, JPEG, PNG, PDF, DOC, DOCX, XLS, XLSX. Maksimal 2MB per file.
+                                    Anda dapat memilih multiple file sekaligus. Foto pertama akan menjadi foto profil.
+                                </div>
+                                @error('files.*')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Preview Upload -->
+                            <div class="mb-4" id="preview-container" style="display: none;">
+                                <label class="form-label">Preview Gambar:</label>
+                                <div class="row" id="preview-images"></div>
+                            </div>
+
                             <div class="d-flex gap-3 pt-4 border-top">
                                 <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
                                     <i class="fas fa-save me-2"></i> <span id="submitText">Simpan User</span>
@@ -118,6 +164,35 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitText = document.getElementById('submitText');
     const submitSpinner = document.getElementById('submitSpinner');
 
+    // Preview gambar
+    document.getElementById('files').addEventListener('change', function(event) {
+        const files = event.target.files;
+        const previewContainer = document.getElementById('preview-container');
+        const previewImages = document.getElementById('preview-images');
+        previewImages.innerHTML = '';
+        
+        if (files.length > 0) {
+            previewContainer.style.display = 'block';
+        } else {
+            previewContainer.style.display = 'none';
+        }
+
+        Array.from(files).forEach(file => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-3 mb-2';
+                    col.innerHTML = `
+                        <img src="${e.target.result}" class="img-thumbnail" style="width: 100%; height: 120px; object-fit: cover;">
+                    `;
+                    previewImages.appendChild(col);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+
     form.addEventListener('submit', function(e) {
         // Validasi password
         const password = document.getElementById('password').value;
@@ -146,6 +221,8 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.disabled = false;
         submitText.textContent = 'Simpan User';
         submitSpinner.classList.add('d-none');
+        document.getElementById('preview-container').style.display = 'none';
+        document.getElementById('preview-images').innerHTML = '';
     });
 });
 </script>

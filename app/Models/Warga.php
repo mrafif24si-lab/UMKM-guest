@@ -4,9 +4,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Warga extends Model // Diubah menjadi Capital case
+class Warga extends Model
 {
     use HasFactory;
 
@@ -22,14 +23,22 @@ class Warga extends Model // Diubah menjadi Capital case
         'pekerjaan',
         'telp',
         'email',
+        'role', // TAMBAHKAN INI
     ];
 
-    // Relasi ke UMKM (satu warga bisa memiliki banyak UMKM)
+    // Relasi ke UMKM
     public function umkm(): HasMany
     {
         return $this->hasMany(Umkm::class, 'pemilik_warga_id', 'warga_id');
     }
-     public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
+
+    // Relasi ke Media (Upload File)
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'ref', 'ref_table', 'ref_id');
+    }
+
+    public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
     {
         foreach ($filterableColumns as $column) {
             if ($request->filled($column)) {
@@ -37,8 +46,8 @@ class Warga extends Model // Diubah menjadi Capital case
             }
         }
         return $query;
-}
-  // Tambahkan scopeSearch untuk fitur pencarian
+    }
+
     public function scopeSearch(Builder $query, $request, array $columns): Builder
     {
         if ($request->filled('search')) {
