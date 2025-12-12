@@ -26,7 +26,7 @@
                             <div class="text-center text-md-start">
                                 <div class="d-flex align-items-center gap-3 mb-3">
                                     <!-- Foto Profil -->
-                                    <div class="profile-picture">
+                                    <!-- <div class="profile-picture">
                                         @if($warga->media->count() > 0 && $warga->media->where('mime_type', 'like', 'image/%')->first())
                                             @php
                                                 $firstImage = $warga->media->where('mime_type', 'like', 'image/%')->first();
@@ -42,22 +42,29 @@
                                                 <i class="fas fa-user fa-3x text-primary"></i>
                                             </div>
                                         @endif
-                                    </div>
+                                    </div> -->
+                                    <div class="profile-picture">
+    <img src="{{ $warga->avatar_url }}" 
+         class="rounded-circle border border-4 border-white shadow-lg" 
+         style="width: 100px; height: 100px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;" 
+         alt="{{ $warga->nama }}"
+         onerror="this.onerror=null; this.src='{{ asset('assets-guest/img/avatar.jpg') }}'">
+</div>
                                     <div>
                                         <h1 class="text-white mb-2" style="font-weight: 900; font-size: 2.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">
                                             {{ $warga->nama }}
                                         </h1>
                                         <div class="d-flex align-items-center gap-2 flex-wrap">
-                                            <span class="badge shadow-lg bg-white text-primary px-3 py-2 fs-6" 
-                                                  style="font-weight: 600; border-radius: 10px; box-shadow: 0 8px 20px rgba(246, 179, 92, 0.4) !important;">
-                                                <i class="fas fa-user-tag me-2"></i>{{ ucfirst($warga->role) }}
-                                            </span>
-                                            <span class="badge shadow-lg bg-light text-dark px-3 py-2 fs-6" 
-                                                  style="font-weight: 600; border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.2) !important;">
-                                                <i class="fas fa-id-card me-2"></i>
-                                                KTP: {{ $warga->no_ktp }}
-                                            </span>
-                                        </div>
+    <span class="badge shadow-lg bg-primary text-white px-3 py-2 fs-6" 
+          style="font-weight: 600; border-radius: 10px; box-shadow: 0 8px 20px rgba(246, 179, 92, 0.4) !important;">
+        <i class="fas fa-user me-2"></i>Warga
+    </span>
+    <span class="badge shadow-lg bg-light text-dark px-3 py-2 fs-6" 
+          style="font-weight: 600; border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.2) !important;">
+        <i class="fas fa-id-card me-2"></i>
+        KTP: {{ $warga->no_ktp }}
+    </span>
+</div>
                                     </div>
                                 </div>
                             </div>

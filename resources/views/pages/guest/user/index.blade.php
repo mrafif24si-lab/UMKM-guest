@@ -145,35 +145,35 @@
         </div>
 
         <!-- Pagination Horizontal -->
-        <div class="d-flex justify-content-center mt-4">
-            <nav aria-label="Page navigation">
-                {{ $users->links('pagination::bootstrap-5') }}
-            </nav>
-        </div>
+    <!-- Pagination Horizontal -->
+<div class="d-flex justify-content-center mt-4">
+    <nav aria-label="Page navigation">
+        {{ $users->links('pagination::bootstrap-5') }}
+    </nav>
+</div>
 
-        <div class="card bg-light mt-4">
-            <div class="card-body">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <p class="mb-0">
-                            Total: <strong>{{ $users->total() }}</strong> User
-                            @if(request('search'))
-                                | Pencarian: <strong>"{{ request('search') }}"</strong>
-                            @endif
-                            @if(request('role'))
-                                | Filter Role: <strong>{{ ucfirst(request('role')) }}</strong>
-                            @endif
-                        </p>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <a href="{{ route('user.create') }}" class="btn btn-custom">
-                            <i class="fas fa-plus me-1"></i> Tambah User Baru
-                        </a>
-                    </div>
-                </div>
+<div class="card bg-light mt-4">
+    <div class="card-body">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0">
+                    Total: <strong>{{ $users->total() }}</strong> User
+                    @if(request('search'))
+                        | Pencarian: <strong>"{{ request('search') }}"</strong>
+                    @endif
+                    @if(request('role'))
+                        | Filter: <strong>{{ ucfirst(request('role')) }}</strong>
+                    @endif
+                </p>
+            </div>
+            <div class="col-md-6 text-end">
+                <a href="{{ route('user.create') }}" class="btn btn-custom">
+                    <i class="fas fa-plus me-1"></i> Tambah User Baru
+                </a>
             </div>
         </div>
-
+    </div>
+</div>
         @else
         <div class="text-center py-5">
             <!-- Placeholder untuk tidak ada data -->
@@ -256,6 +256,12 @@
 }
 
 /* Custom Pagination Styles */
+.pagination {
+    margin-bottom: 0;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
 .page-link {
     border: 1px solid #dee2e6;
     color: #28a745;
@@ -281,7 +287,56 @@
     transform: translateY(-1px);
 }
 
-/* Style untuk action buttons */
+.page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+/* Responsive pagination */
+@media (max-width: 768px) {
+    .page-link {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        margin: 0 2px;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-link {
+        padding: 5px 10px;
+        margin: 2px;
+        font-size: 0.85rem;
+    }
+    
+    .action-buttons .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Memastikan pagination horizontal */
+.pagination {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+}
+
+.page-item {
+    display: inline-block !important;
+    float: none !important;
+}
+
+/* Style untuk input group search */
+.input-group .btn {
+    border-radius: 0 0.375rem 0.375rem 0;
+}
+
+/* Style untuk tombol action */
 .action-buttons .btn {
     min-width: 80px;
 }

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->decimal('harga', 10, 2);
             $table->integer('stok');
-            $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
+            // $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
+            $table->enum('status', ['Aktif', 'Nonaktif', 'Pre-Order'])->default('Aktif');
             $table->timestamps();
 
             $table->foreign('umkm_id')

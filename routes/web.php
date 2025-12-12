@@ -6,6 +6,7 @@ use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\PesananController;
 use App\Http\Controllers\DashboardController;
 
 
@@ -150,3 +151,20 @@ Route::delete('/produk/media/{media}', [ProdukController::class, 'deleteMedia'])
 // User Routes
 Route::resource('user', UserController::class);
 Route::delete('/user/delete-media/{mediaId}', [UserController::class, 'deleteMedia'])->name('user.delete-media');
+
+
+
+
+// ... route resource warga yang sudah ada ...
+Route::resource('warga', WargaController::class);
+
+// TAMBAHKAN INI: Route khusus untuk hapus media warga
+// Kami menggunakan nama 'warga.deleteMedia' agar COCOK dengan edit.blade.php Anda
+Route::delete('/warga/delete-media/{mediaId}', [WargaController::class, 'deleteMedia'])->name('warga.delete-media');
+
+// Tambahkan dalam middleware checkrole:admin,warga
+Route::resource('pesanan', PesananController::class);
+Route::delete('/pesanan/media/{media}', [PesananController::class, 'deleteMedia'])->name('pesanan.delete-media');
+
+// Tambahkan juga di navbar untuk menu pesanan:
+// <a href="{{ route('pesanan.index') }}" class="nav-item nav-link {{ request()->is('pesanan*') ? 'active' : '' }}">Pesanan</a>

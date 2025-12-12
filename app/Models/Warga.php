@@ -4,7 +4,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Warga extends Model
@@ -23,7 +22,6 @@ class Warga extends Model
         'pekerjaan',
         'telp',
         'email',
-        'role', // TAMBAHKAN INI
     ];
 
     // Relasi ke UMKM
@@ -32,11 +30,38 @@ class Warga extends Model
         return $this->hasMany(Umkm::class, 'pemilik_warga_id', 'warga_id');
     }
 
-    // Relasi ke Media (Upload File)
-    public function media(): MorphMany
+    // --- RELASI UNTUK SEMUA MEDIA ---
+    public function media(): HasMany
     {
-        return $this->morphMany(Media::class, 'ref', 'ref_table', 'ref_id');
+        // Hubungkan warga_id ke ref_id di tabel media
+        return $this->hasMany(Media::class, 'ref_id', 'warga_id')
+                    ->where('ref_table', 'warga')
+                    ->orderBy('sort_order')
+                    ->orderBy('created_at');
     }
+
+    // --- RELASI AVATAR (UNTUK FOTO PROFIL PERTAMA) ---
+    public function avatar()
+    {
+        // Ambil media pertama (untuk foto profil di index)
+        return $this->hasOne(Media::class, 'ref_id', 'warga_id')
+                    ->where('ref_table', 'warga')
+                    ->where('mime_type', 'like', 'image/%')
+                    ->orderBy('sort_order')
+                    ->orderBy('created_at');
+    }
+
+    public function getAvatarUrlAttribute()
+    {
+        // Cek apakah relasi avatar ada dan filenya ada
+        if ($this->avatar && $this->avatar->file_name) {
+            return asset('storage/media/' . $this->avatar->file_name);
+        }
+        
+        // Gambar default
+        return asset('assets-guest/img/avatar.jpg'); 
+    }
+    // ----------------------------------------
 
     public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
     {

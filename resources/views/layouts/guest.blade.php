@@ -1567,6 +1567,7 @@
                         <a href="{{ route('warga.index') }}" class="nav-item nav-link {{ request()->is('warga*') ? 'active' : '' }}">Warga</a>
                         <a href="{{ route('user.index') }}" class="nav-item nav-link {{ request()->is('user*') ? 'active' : '' }}">User</a>
                         <a href="{{ route('identitas') }}" class="nav-item nav-link {{ request()->is('identitas') ? 'active' : '' }}">Identitas</a>
+                        <a href="{{ route('pesanan.index') }}" class="nav-item nav-link {{ request()->is('pesanan*') ? 'active' : '' }}">Pesanan</a>
 
                          {{-- <a href="{{ route('identitas.index') }}" class="nav-item nav-link {{ request()->is('identitas*') ? 'active' : '' }}">Identitas</a> --}}
 
@@ -1704,58 +1705,66 @@
     </main>
     <!-- end Content -->
 
-
-    <!-- Footer Start -->
-    <div class="container-fluid footer mt-5">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">UMKM </h4>
-                    <p class="mb-4">
-Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan pengerjaan yang sangat baik.</p>
-                    <div class="d-flex pt-2">
-                        <a class="btn btn-square btn-footer me-2" href=""><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square btn-footer me-2" href=""><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-footer me-2" href=""><i class="fab fa-youtube"></i></a>
-                        <a class="btn btn-square btn-footer me-2" href=""><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Akses Cepat</h4>
-                    <a class="btn btn-link btn-footer" href="">Tentang Kami</a>
-                    <a class="btn btn-link btn-footer" href="">Kontak Kami</a>
-                    <a class="btn btn-link btn-footer" href="">Servis Kami</a>
-                    <a class="btn btn-link btn-footer" href="">Pivasi & Kebijakan</a>
-                    <a class="btn btn-link btn-footer" href="">Syarat & Ketentuan</a>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Kontak</h4>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Jalan Paus, Pekanbaru, Indonesia</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+62 826 5345 7890</p>
-                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@umkm.com</p>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <h4 class="text-white mb-4">Email</h4>
-                    <div class="position-relative mx-auto" style="max-width: 400px;">
-                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text"
-                            placeholder="Masukan Email">
-                        <button type="button"
-                            class="btn btn-primary border-0 py-3 position-absolute top-0 end-0 mt-0 me-0">SignUp</button>
-                    </div>
+<!-- Footer Start -->
+<div class="container-fluid footer">
+    <div class="container py-4"> <!-- Diubah dari py-5 ke py-4 -->
+        <div class="row g-4"> <!-- Diubah dari g-5 ke g-4 -->
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">UMKM</h4> <!-- Diubah dari mb-4 ke mb-3 -->
+                <p class="mb-3 small"> <!-- Diubah dari mb-4 ke mb-3, tambahkan small -->
+                    Kami menyediakan Produk-Produk berkualitas tinggi dengan desain unik dengan pengerjaan yang sangat baik.
+                </p>
+                <div class="d-flex pt-1"> <!-- Diubah dari pt-2 ke pt-1 -->
+                    <a class="btn btn-square btn-footer me-1 d-flex align-items-center justify-content-center" href="" style="width: 40px; height: 40px;"> <!-- Tambahkan style untuk ukuran tetap -->
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a class="btn btn-square btn-footer me-1 d-flex align-items-center justify-content-center" href="" style="width: 40px; height: 40px;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a class="btn btn-square btn-footer me-1 d-flex align-items-center justify-content-center" href="" style="width: 40px; height: 40px;">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a class="btn btn-square btn-footer me-1 d-flex align-items-center justify-content-center" href="" style="width: 40px; height: 40px;">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
                 </div>
             </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Akses Cepat</h4>
+                <a class="btn btn-link btn-footer d-block mb-2" href="">Tentang Kami</a>
+                <a class="btn btn-link btn-footer d-block mb-2" href="">Kontak Kami</a>
+                <a class="btn btn-link btn-footer d-block mb-2" href="">Servis Kami</a>
+                <a class="btn btn-link btn-footer d-block mb-2" href="">Privasi & Kebijakan</a>
+                <a class="btn btn-link btn-footer d-block mb-2" href="">Syarat & Ketentuan</a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Kontak</h4>
+                <p class="mb-2 small"><i class="fa fa-map-marker-alt me-2"></i>Jalan Paus, Pekanbaru, Indonesia</p>
+                <p class="mb-2 small"><i class="fa fa-phone-alt me-2"></i>+62 826 5345 7890</p>
+                <p class="mb-2 small"><i class="fa fa-envelope me-2"></i>info@umkm.com</p>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="text-white mb-3">Email</h4>
+                <div class="position-relative" style="max-width: 100%;">
+                    <input class="form-control border-0 w-100 py-2 ps-3 pe-4" type="text"   placeholder="Masukan Email">
+                    <button type="button"
+                            class="btn btn-primary border-0 py-2 position-absolute top-0 end-0 mt-0 me-0">SignUp</button>
+                </div>
+                <small class="text-muted mt-2 d-block">Dapatkan info terbaru dari kami</small>
+            </div>
         </div>
-        <div class="container-fluid copyright">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a class="text-white" href="#">UMKM</a>, Hak Cipta Dilindungi Undang-Undang.
-                    </div>
+    </div>
+    <div class="container-fluid copyright py-3"> <!-- Diubah dari py-0, tambahkan py-3 -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    &copy; <a class="text-white" href="#">UMKM</a>, Hak Cipta Dilindungi Undang-Undang.
                 </div>
             </div>
         </div>
     </div>
-    <!-- Footer End -->
+</div>
+<!-- Footer End -->
 
 
 

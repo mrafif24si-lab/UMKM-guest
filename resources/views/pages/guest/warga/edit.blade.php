@@ -3,6 +3,12 @@
 @section('title', 'Edit Data Warga')
 
 @section('content')
+<div class="container-fluid page-header py-5">
+    <div class="container text-center">
+        <h1 class="text-white display-4">Tambah Produk</h1>
+        <p class="text-white lead">Form tambah produk UMKM</p>
+    </div>
+</div>
 <div class="container-fluid py-5">
     <!-- Background Pattern -->
     <div class="pattern-dots position-absolute top-0 start-0 w-100 h-100" style="z-index: -1; opacity: 0.05;"></div>
@@ -114,18 +120,6 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <!-- <label for="role" class="form-label">Role <span class="text-danger">*</span></label>
-                                        <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
-                                            <option value="">-- Pilih Role --</option>
-                                            <option value="user" {{ old('role', $warga->role) == 'user' ? 'selected' : '' }}>User</option>
-                                            <option value="warga" {{ old('role', $warga->role) == 'warga' ? 'selected' : '' }}>Warga</option>
-                                            <option value="admin" {{ old('role', $warga->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                                        </select>
-                                        @error('role')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div> -->
                                 </div>
                             </div>
 
@@ -152,7 +146,7 @@
                                                 </div>
                                             @endif
                                             <div class="card-footer p-2">
-                                                <form action="{{ route('warga.deleteMedia', $media->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('warga.deletemedia', $media->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger w-100" onclick="return confirm('Hapus file ini?')">
@@ -226,33 +220,52 @@
 </style>
 
 <script>
-// Preview file upload
+// Preview file upload dengan gambar
 document.getElementById('files').addEventListener('change', function(e) {
     const preview = document.getElementById('file-preview');
     preview.innerHTML = '';
     
     if (this.files.length > 0) {
-        const list = document.createElement('ul');
-        list.className = 'list-group';
+        const row = document.createElement('div');
+        row.className = 'row g-2';
         
         for (let i = 0; i < this.files.length; i++) {
             const file = this.files[i];
-            const item = document.createElement('li');
-            item.className = 'list-group-item d-flex justify-content-between align-items-center';
+            const col = document.createElement('div');
+            col.className = 'col-md-4 mb-3';
             
-            item.innerHTML = `
-                <div>
-                    <i class="fas fa-file me-2 text-primary"></i>
-                    ${file.name}
-                </div>
-                <small class="text-muted">${(file.size / 1024).toFixed(2)} KB</small>
-            `;
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const card = document.createElement('div');
+                    card.className = 'card h-100';
+                    card.innerHTML = `
+                        <img src="${e.target.result}" class="card-img-top" style="height: 120px; object-fit: cover; border-radius: 10px 10px 0 0;">
+                        <div class="card-body p-2">
+                            <small class="card-text d-block text-truncate" title="${file.name}">${file.name}</small>
+                            <small class="text-muted">${(file.size / 1024).toFixed(2)} KB</small>
+                        </div>
+                    `;
+                    col.appendChild(card);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                col.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body text-center d-flex flex-column justify-content-center" style="min-height: 150px;">
+                            <i class="fas fa-file fa-3x text-primary mb-2"></i>
+                            <p class="card-text small text-truncate" title="${file.name}">${file.name}</p>
+                            <small class="text-muted">${(file.size / 1024).toFixed(2)} KB</small>
+                        </div>
+                    </div>
+                `;
+            }
             
-            list.appendChild(item);
+            row.appendChild(col);
         }
         
-        preview.appendChild(list);
+        preview.appendChild(row);
     }
 });
-</script>
+</script>   
 @endsection

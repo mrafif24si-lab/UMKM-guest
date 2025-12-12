@@ -127,38 +127,21 @@
                     <p class="lead">Orang-orang di balik kesuksesan UMKM Store</p>
                 </div>
                 <div class="row justify-content-center">
+                    
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card border-0 shadow-sm h-100 text-center">
                             <div class="card-body p-4">
                                 <div class="mb-3">
-                                    <img src="{{ asset('assets-guest/img/team-1.jpg') }}"
-                                         class="rounded-circle img-fluid"
-                                         alt="Founder"
-                                         style="width: 120px; height: 120px; object-fit: cover;">
-                                </div>
-                                <h5 class="card-title">Ahmad Wijaya</h5>
-                                <p class="text-primary mb-2">Founder & CEO</p>
-                                <p class="card-text small">
-                                    Pengusaha dengan passion di bidang pemberdayaan masyarakat
-                                    dan teknologi digital.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="card border-0 shadow-sm h-100 text-center">
-                            <div class="card-body p-4">
-                                <div class="mb-3">
-                                    <img src="{{ asset('assets-guest/img/team-2.jpg') }}"
+                                    <img src="{{ asset('assets-guest/img/potoprofil.jpg') }}"
                                          class="rounded-circle img-fluid"
                                          alt="COO"
                                          style="width: 120px; height: 120px; object-fit: cover;">
                                 </div>
-                                <h5 class="card-title">Siti Rahma</h5>
-                                <p class="text-primary mb-2">Chief Operations Officer</p>
+                                <h5 class="card-title">M.Rafif Zidane</h5>
+                                <p class="text-primary mb-2">Founder & CEO</p>
                                 <p class="card-text small">
                                     Ahli dalam operasional bisnis dan manajemen rantai pasok
-                                    dengan pengalaman 10 tahun.
+                                    dengan pengalaman 10 tahun
                                 </p>
                             </div>
                         </div>
@@ -172,7 +155,7 @@
                                          alt="CTO"
                                          style="width: 120px; height: 120px; object-fit: cover;">
                                 </div>
-                                <h5 class="card-title">Budi Santoso</h5>
+                                <h5 class="card-title">Oza Okta Gistrada</h5>
                                 <p class="text-primary mb-2">Chief Technology Officer</p>
                                 <p class="card-text small">
                                     Developer handal dengan spesialisasi dalam pengembangan
@@ -181,24 +164,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="card border-0 shadow-sm h-100 text-center">
-                            <div class="card-body p-4">
-                                <div class="mb-3">
-                                    <img src="{{ asset('assets-guest/img/team-4.jpg') }}"
-                                         class="rounded-circle img-fluid"
-                                         alt="CMO"
-                                         style="width: 120px; height: 120px; object-fit: cover;">
-                                </div>
-                                <h5 class="card-title">Maya Sari</h5>
-                                <p class="text-primary mb-2">Chief Marketing Officer</p>
-                                <p class="card-text small">
-                                    Expert dalam digital marketing dan branding dengan
-                                    track record yang impressive.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
         </div>

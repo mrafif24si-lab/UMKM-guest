@@ -9,14 +9,19 @@ use Illuminate\Support\Str;
 
 class WargaController extends Controller
 {
+    
     public function index(Request $request)
+
+    
     {
-        $filterableColumns = ['jenis_kelamin', 'role']; // TAMBAHKAN 'role'
+        $filterableColumns = ['jenis_kelamin'];
         $searchableColumns = ['nama', 'agama', 'pekerjaan', 'email', 'no_ktp'];
         
+        // TAMBAHKAN ->with('media') dan avatar
         $dataWarga = Warga::filter($request, $filterableColumns)
             ->search($request, $searchableColumns)
-            ->withCount('media') // TAMBAHKAN INI untuk menghitung jumlah file
+            ->with(['media', 'avatar'])
+            ->withCount('media')
             ->orderBy('nama')
             ->paginate(10)
             ->withQueryString();
@@ -39,8 +44,7 @@ class WargaController extends Controller
             'pekerjaan' => 'required',
             'telp' => 'required',
             'email' => 'nullable|email',
-            'role' => 'required|in:admin,warga,user', // TAMBAHKAN INI
-            'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048' // TAMBAHKAN INI
+            'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048'
         ]);
 
         try {
@@ -52,14 +56,16 @@ class WargaController extends Controller
                 'pekerjaan' => $request->pekerjaan,
                 'telp' => $request->telp,
                 'email' => $request->email,
-                'role' => $request->role,
             ]);
 
-            // UPLOAD MULTIPLE FILE
+            // UPLOAD MULTIPLE FILE - TAMBAHKAN LOGIC SAMA DENGAN USER
             if ($request->hasFile('files')) {
                 foreach ($request->file('files') as $index => $file) {
                     if ($file->isValid()) {
-                        $fileName = time() . '_' . uniqid() . '_' . Str::slug($file->getClientOriginalName());
+                        // PERBAIKI NAMA FILE DENGAN EXTENSION YANG BENAR
+                        $originalName = $file->getClientOriginalName();
+                        $extension = $file->getClientOriginalExtension();
+                        $fileName = time() . '_' . uniqid() . '_' . Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) . '.' . $extension;
                         
                         $file->storeAs('media', $fileName, 'public');
                         
@@ -68,7 +74,7 @@ class WargaController extends Controller
                             'ref_id' => $warga->warga_id,
                             'file_name' => $fileName,
                             'mime_type' => $file->getMimeType(),
-                            'caption' => $file->getClientOriginalName(),
+                            'caption' => $originalName,
                             'sort_order' => $index
                         ]);
                     }
@@ -85,20 +91,24 @@ class WargaController extends Controller
         }
     }
 
-    public function show(Warga $warga)
+    public function show($id)
     {
-        $warga->load('media');
+        // TAMBAHKAN load media
+        $warga = Warga::with('media')->findOrFail($id);
         return view('pages.guest.warga.show', compact('warga'));
     }
 
-    public function edit(Warga $warga)
+    public function edit($id)
     {
-        $warga->load('media');
+        // TAMBAHKAN load media
+        $warga = Warga::with('media')->findOrFail($id);
         return view('pages.guest.warga.edit', compact('warga'));
     }
 
-    public function update(Request $request, Warga $warga)
+    public function update(Request $request, $id)
     {
+        $warga = Warga::findOrFail($id);
+        
         $request->validate([
             'no_ktp' => 'required|max:20|unique:warga,no_ktp,' . $warga->warga_id . ',warga_id',
             'nama' => 'required|max:100',
@@ -107,8 +117,7 @@ class WargaController extends Controller
             'pekerjaan' => 'required',
             'telp' => 'required',
             'email' => 'nullable|email',
-            'role' => 'required|in:admin,warga,user', // TAMBAHKAN INI
-            'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048' // TAMBAHKAN INI
+            'files.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,xls,xlsx|max:2048'
         ]);
 
         try {
@@ -120,10 +129,9 @@ class WargaController extends Controller
                 'pekerjaan' => $request->pekerjaan,
                 'telp' => $request->telp,
                 'email' => $request->email,
-                'role' => $request->role,
             ]);
 
-            // UPLOAD FILE BARU
+            // UPLOAD FILE BARU - TAMBAHKAN LOGIC SAMA DENGAN USER
             if ($request->hasFile('files')) {
                 $existingFilesCount = Media::where('ref_table', 'warga')
                     ->where('ref_id', $warga->warga_id)
@@ -131,7 +139,10 @@ class WargaController extends Controller
                 
                 foreach ($request->file('files') as $index => $file) {
                     if ($file->isValid()) {
-                        $fileName = time() . '_' . uniqid() . '_' . Str::slug($file->getClientOriginalName());
+                        // PERBAIKI NAMA FILE DENGAN EXTENSION YANG BENAR
+                        $originalName = $file->getClientOriginalName();
+                        $extension = $file->getClientOriginalExtension();
+                        $fileName = time() . '_' . uniqid() . '_' . Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) . '.' . $extension;
                         
                         $file->storeAs('media', $fileName, 'public');
                         
@@ -140,7 +151,7 @@ class WargaController extends Controller
                             'ref_id' => $warga->warga_id,
                             'file_name' => $fileName,
                             'mime_type' => $file->getMimeType(),
-                            'caption' => $file->getClientOriginalName(),
+                            'caption' => $originalName,
                             'sort_order' => $existingFilesCount + $index
                         ]);
                     }
@@ -157,10 +168,12 @@ class WargaController extends Controller
         }
     }
 
-    public function destroy(Warga $warga)
+    public function destroy($id)
     {
         try {
-            // HAPUS FILE MEDIA TERLEBIH DAHULU
+            $warga = Warga::findOrFail($id);
+            
+            // HAPUS FILE MEDIA TERLEBIH DAHULU - SAMA DENGAN USER
             $mediaFiles = Media::where('ref_table', 'warga')
                 ->where('ref_id', $warga->warga_id)
                 ->get();
@@ -183,19 +196,47 @@ class WargaController extends Controller
         }
     }
 
-    // METHOD UNTUK HAPUS FILE SATU PER SATU
-    public function deleteMedia($mediaId)
+    // METHOD UNTUK HAPUS FILE SATU PER SATU - SAMA DENGAN USER
+    // public function deleteMedia($mediaId)
+    // {
+    //     try {
+    //         $media = Media::findOrFail($mediaId);
+            
+    //         if (Storage::disk('public')->exists('media/' . $media->file_name)) {
+    //             Storage::disk('public')->delete('media/' . $media->file_name);
+    //         }
+            
+    //         $media->delete();
+    //         return back()->with('success', 'File berhasil dihapus.');
+
+    //     } catch (\Exception $e) {
+    //         return back()->with('error', 'Gagal menghapus file: ' . $e->getMessage());
+    //     }
+    // }
+        public function deleteMedia($mediaId)
     {
         try {
+            // Cari media berdasarkan ID
             $media = Media::findOrFail($mediaId);
             
-            if (Storage::disk('public')->exists('media/' . $media->file_name)) {
-                Storage::disk('public')->delete('media/' . $media->file_name);
+            // Verifikasi bahwa media ini milik warga
+            if (!$media->warga_id) {
+                return back()->with('error', 'File tidak ditemukan atau tidak memiliki akses.');
             }
             
+            // Hapus file dari storage
+            if (Storage::exists('media/' . $media->file_name)) {
+                Storage::delete('media/' . $media->file_name);
+            }
+            
+            // Hapus record dari database
             $media->delete();
+            
             return back()->with('success', 'File berhasil dihapus.');
-
+            
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return back()->with('error', 'File tidak ditemukan.');
+            
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal menghapus file: ' . $e->getMessage());
         }
