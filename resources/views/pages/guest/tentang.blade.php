@@ -124,7 +124,7 @@
             <div class="col-12">
                 <div class="text-center mb-5">
                     <h2>Tim Kami</h2>
-                    <p class="lead">Orang-orang di balik kesuksesan UMKM Store</p>
+                    <p class="lead">Orang-orang di balik kesuksesan Platform UMKM ini</p>
                 </div>
                 <div class="row justify-content-center">
                     
@@ -150,7 +150,7 @@
                         <div class="card border-0 shadow-sm h-100 text-center">
                             <div class="card-body p-4">
                                 <div class="mb-3">
-                                    <img src="{{ asset('assets-guest/img/team-3.jpg') }}"
+                                    <img src="{{ asset('assets-guest/img/pp2.jpg') }}"
                                          class="rounded-circle img-fluid"
                                          alt="CTO"
                                          style="width: 120px; height: 120px; object-fit: cover;">

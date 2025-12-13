@@ -45,6 +45,44 @@
 
     <!-- Advanced UMKM Animations & Effects -->
     <style>
+        /* PERBAIKAN: Compact Navigation Items */
+.nav-item.nav-link {
+    position: relative;
+    padding: 10px 15px !important; /* Dikurangi dari 15px 25px */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: var(--dark) !important;
+    font-weight: 600;
+    font-size: 1rem; /* Dikurangi dari 1.1rem */
+    letter-spacing: 0.5px; /* Dikurangi dari 0.8px */
+    margin: 0 5px; /* Dikurangi dari 0 8px */
+    border-radius: 8px; /* Dikurangi dari 12px */
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Untuk mobile, buat lebih kecil */
+@media (max-width: 768px) {
+    .nav-item.nav-link {
+        padding: 8px 12px !important;
+        font-size: 0.9rem;
+        margin: 0 3px;
+    }
+}
+
+/* PERBAIKAN: Navbar yang lebih compact */
+.navbar {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    padding: 0.5rem 0 !important; /* Dikurangi dari 1rem 0 */
+}
+
+.navbar.scrolled {
+    padding: 0.4rem 0 !important; /* Dikurangi dari 0.8rem 0 */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.98) 100%) !important;
+    transform: translateY(-2px);
+}
         :root {
             --primary: #F6B35C;
             --secondary: #118AB2;
@@ -182,7 +220,7 @@
         }
 
 
-        /* FIXED: Navbar dengan design yang konsisten */
+        FIXED: Navbar dengan design yang konsisten
         .navbar {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.95) 100%) !important;
             backdrop-filter: blur(20px);
@@ -335,7 +373,7 @@
 
 
         /* FIXED: Navigation Items dengan efek yang konsisten */
-        .nav-item.nav-link {
+        /* .nav-item.nav-link {
             position: relative;
             padding: 15px 25px !important;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -347,7 +385,7 @@
             border-radius: 12px;
             overflow: hidden;
             z-index: 1;
-        }
+        } */
 
 
         .nav-item.nav-link::before {
@@ -1536,9 +1574,9 @@
                             class="text-white">hello@umkm.com</a></small>
                 </div>
                 <div class="top-link pe-2">
-                    <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
-                    <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
-                    <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                    <a href="#" class="text-white"><small class="text-white mx-2">Kebijakan Privasi</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white mx-2">Ketentuan Penggunaan</small>/</a>
+                    <a href="#" class="text-white"><small class="text-white ms-2">Penjualan dan Pengembalian Dana</small></a>
                 </div>
             </div>
         </div>
@@ -1566,8 +1604,10 @@
                         <a href="{{ route('umkm.index') }}" class="nav-item nav-link {{ request()->is('umkm*') ? 'active' : '' }}">UMKM</a>
                         <a href="{{ route('warga.index') }}" class="nav-item nav-link {{ request()->is('warga*') ? 'active' : '' }}">Warga</a>
                         <a href="{{ route('user.index') }}" class="nav-item nav-link {{ request()->is('user*') ? 'active' : '' }}">User</a>
+                         <a href="{{ route('pesanan.index') }}" class="nav-item nav-link {{ request()->is('pesanan*') ? 'active' : '' }}">Pesanan</a>
                         <a href="{{ route('identitas') }}" class="nav-item nav-link {{ request()->is('identitas') ? 'active' : '' }}">Identitas</a>
-                        <a href="{{ route('pesanan.index') }}" class="nav-item nav-link {{ request()->is('pesanan*') ? 'active' : '' }}">Pesanan</a>
+                        
+                       
 
                          {{-- <a href="{{ route('identitas.index') }}" class="nav-item nav-link {{ request()->is('identitas*') ? 'active' : '' }}">Identitas</a> --}}
 
