@@ -7,21 +7,21 @@
 <div class="container-fluid py-5">
     <!-- Background Pattern -->
     <div class="pattern-dots position-absolute top-0 start-0 w-100 h-100" style="z-index: -1; opacity: 0.05;"></div>
-    
+
     <div class="container" data-aos="fade-up">
         <div class="row">
             <div class="col-lg-11 col-xl-10 mx-auto">
                 <!-- Main Card with Enhanced Shadow -->
-                <div class="card border-0 overflow-hidden" 
+                <div class="card border-0 overflow-hidden"
                      style="border-radius: 30px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15), 0 15px 30px rgba(0, 0, 0, 0.1);">
-                    
+
                     <!-- Enhanced Gradient Header -->
-                    <div class="card-header py-5 px-4 px-lg-5 position-relative" 
+                    <div class="card-header py-5 px-4 px-lg-5 position-relative"
                          style="background: linear-gradient(135deg, #F6B35C 0%, #118AB2 100%);">
                          <!-- Header Shadow -->
-                         <div class="position-absolute top-0 start-0 w-100 h-100" 
+                         <div class="position-absolute top-0 start-0 w-100 h-100"
                               style="background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 100%); pointer-events: none;"></div>
-                         
+
                         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-4 position-relative">
                             <div class="text-center text-md-start">
                                 <div class="d-flex align-items-center gap-3 mb-3">
@@ -31,22 +31,22 @@
                                             @php
                                                 $firstImage = $warga->media->where('mime_type', 'like', 'image/%')->first();
                                             @endphp
-                                            <img src="{{ asset('storage/media/' . $firstImage->file_name) }}" 
-                                                 class="rounded-circle border border-4 border-white shadow-lg" 
-                                                 style="width: 100px; height: 100px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;" 
+                                            <img src="{{ asset('storage/media/' . $firstImage->file_name) }}"
+                                                 class="rounded-circle border border-4 border-white shadow-lg"
+                                                 style="width: 100px; height: 100px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;"
                                                  alt="{{ $warga->nama }}"
                                                  onerror="this.onerror=null; this.src='{{ asset('images/placeholder.png') }}'">
                                         @else
-                                            <div class="rounded-circle border border-4 border-white d-inline-flex align-items-center justify-content-center bg-white shadow-lg" 
+                                            <div class="rounded-circle border border-4 border-white d-inline-flex align-items-center justify-content-center bg-white shadow-lg"
                                                  style="width: 100px; height: 100px; box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;">
                                                 <i class="fas fa-user fa-3x text-primary"></i>
                                             </div>
                                         @endif
                                     </div> -->
                                     <div class="profile-picture">
-    <img src="{{ $warga->avatar_url }}" 
-         class="rounded-circle border border-4 border-white shadow-lg" 
-         style="width: 100px; height: 100px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;" 
+    <img src="{{ $warga->avatar_url }}"
+         class="rounded-circle border border-4 border-white shadow-lg"
+         style="width: 100px; height: 100px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.25) !important;"
          alt="{{ $warga->nama }}"
          onerror="this.onerror=null; this.src='{{ asset('assets-guest/img/avatar.jpg') }}'">
 </div>
@@ -55,11 +55,11 @@
                                             {{ $warga->nama }}
                                         </h1>
                                         <div class="d-flex align-items-center gap-2 flex-wrap">
-    <span class="badge shadow-lg bg-primary text-white px-3 py-2 fs-6" 
+    <span class="badge shadow-lg bg-primary text-white px-3 py-2 fs-6"
           style="font-weight: 600; border-radius: 10px; box-shadow: 0 8px 20px rgba(246, 179, 92, 0.4) !important;">
         <i class="fas fa-user me-2"></i>Warga
     </span>
-    <span class="badge shadow-lg bg-light text-dark px-3 py-2 fs-6" 
+    <span class="badge shadow-lg bg-light text-dark px-3 py-2 fs-6"
           style="font-weight: 600; border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.2) !important;">
         <i class="fas fa-id-card me-2"></i>
         KTP: {{ $warga->no_ktp }}
@@ -69,18 +69,18 @@
                                 </div>
                             </div>
                             <div class="d-flex gap-3">
-                                <a href="{{ route('warga.index') }}" class="btn btn-light btn-lg px-4 py-3 rounded-4 shadow-lg" 
+                                <a href="{{ route('warga.index') }}" class="btn btn-light btn-lg px-4 py-3 rounded-4 shadow-lg"
                                    style="box-shadow: 0 8px 20px rgba(0,0,0,0.2) !important;">
                                     <i class="fas fa-arrow-left me-2"></i> Kembali
                                 </a>
-                                <a href="{{ route('warga.edit', $warga->warga_id) }}" class="btn btn-warning btn-lg px-4 py-3 rounded-4 shadow-lg"
+                                <!-- <a href="{{ route('warga.edit', $warga->warga_id) }}" class="btn btn-warning btn-lg px-4 py-3 rounded-4 shadow-lg"
                                    style="background: linear-gradient(135deg, #F6B35C, #F8C471); border: none; box-shadow: 0 8px 20px rgba(246, 179, 92, 0.4) !important;">
                                     <i class="fas fa-edit me-2"></i> Edit
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Card Body with Enhanced Shadows -->
                     <div class="card-body p-4 p-lg-5 position-relative" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
                         <!-- Informasi Warga -->
@@ -177,11 +177,11 @@
                                 </h2>
                                 <p class="text-muted">Daftar usaha yang dimiliki oleh {{ $warga->nama }}</p>
                             </div>
-                            
+
                             <div class="row g-4">
                                 @foreach($warga->umkm as $umkm)
                                 <div class="col-md-6 col-lg-4">
-                                    <div class="umkm-card glass-card shadow-lg" 
+                                    <div class="umkm-card glass-card shadow-lg"
                                          style="box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important; border-radius: 15px;">
                                         <div class="card-body">
                                             <h5 class="card-title text-primary mb-3">
@@ -214,16 +214,16 @@
                                 </h2>
                                 <p class="text-muted">Koleksi dokumen dan foto dari {{ $warga->nama }}</p>
                             </div>
-                            
+
                             @if($warga->media->count() > 0)
                                 <div class="row g-4">
                                     @foreach($warga->media as $media)
                                     <div class="col-md-4 col-lg-3">
-                                        <div class="gallery-item position-relative shadow-lg" 
+                                        <div class="gallery-item position-relative shadow-lg"
                                              style="border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;">
                                             @if(Str::startsWith($media->mime_type, 'image/'))
-                                                <img src="{{ asset('storage/media/' . $media->file_name) }}" 
-                                                     class="img-fluid w-100" 
+                                                <img src="{{ asset('storage/media/' . $media->file_name) }}"
+                                                     class="img-fluid w-100"
                                                      style="height: 200px; object-fit: cover;"
                                                      alt="{{ $media->caption }}"
                                                      onerror="this.onerror=null; this.src='{{ asset('images/placeholder.png') }}'">
@@ -248,7 +248,7 @@
                                     @endforeach
                                 </div>
                             @else
-                                <div class="empty-state text-center py-5 shadow-lg" 
+                                <div class="empty-state text-center py-5 shadow-lg"
                                      style="background: white; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;">
                                     <div class="empty-icon mb-4">
                                         <i class="fas fa-image fa-4x text-muted"></i>
@@ -267,24 +267,24 @@
                         <div class="action-section mt-5 pt-5 border-top" data-aos="fade-up">
                             <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-4">
                                 <div class="btn-group-vertical btn-group-lg gap-3">
-                                    <a href="{{ route('warga.edit', $warga->warga_id) }}" 
+                                    <!-- <a href="{{ route('warga.edit', $warga->warga_id) }}"
                                        class="btn btn-warning px-5 py-3 rounded-4 shadow-lg"
                                        style="background: linear-gradient(135deg, #F6B35C, #F8C471); border: none; box-shadow: 0 12px 25px rgba(246, 179, 92, 0.4) !important;">
                                         <i class="fas fa-edit me-2"></i> Edit Data Warga
-                                    </a>
-                                    <a href="{{ route('warga.index') }}" 
+                                    </a> -->
+                                    <a href="{{ route('warga.index') }}"
                                        class="btn btn-secondary px-5 py-3 rounded-4 shadow-lg"
                                        style="box-shadow: 0 12px 25px rgba(108, 117, 125, 0.4) !important;">
                                         <i class="fas fa-list me-2"></i> Lihat Semua Warga
                                     </a>
                                 </div>
-                                
-                                <form action="{{ route('warga.destroy', $warga->warga_id) }}" method="POST" 
+
+                                <form action="{{ route('warga.destroy', $warga->warga_id) }}" method="POST"
                                       class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger px-5 py-3 rounded-4 shadow-lg"
-                                            style="background: linear-gradient(135deg, #dc3545, #c82333); border: none; box-shadow: 0 12px 25px rgba(220, 53, 69, 0.4) !important;" 
+                                            style="background: linear-gradient(135deg, #dc3545, #c82333); border: none; box-shadow: 0 12px 25px rgba(220, 53, 69, 0.4) !important;"
                                             onclick="return confirmDelete()">
                                         <i class="fas fa-trash-alt me-2"></i> Hapus Warga
                                     </button>
@@ -292,7 +292,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Card Footer -->
                     <div class="card-footer bg-white py-4 text-center shadow-lg"
                          style="box-shadow: 0 -5px 20px rgba(0,0,0,0.05) !important;">
@@ -441,20 +441,20 @@
     .card-header h1 {
         font-size: 2rem !important;
     }
-    
+
     .glass-card {
         padding: 20px;
     }
-    
+
     .btn-group-vertical {
         width: 100%;
     }
-    
+
     .btn {
         width: 100%;
         margin-bottom: 10px;
     }
-    
+
     .action-section .d-flex {
         flex-direction: column !important;
     }
@@ -464,13 +464,13 @@
     .card-body {
         padding: 1.5rem !important;
     }
-    
+
     .icon-circle {
         width: 50px;
         height: 50px;
         font-size: 1.2rem;
     }
-    
+
     .profile-picture img,
     .profile-picture div {
         width: 80px !important;

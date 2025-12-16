@@ -15,7 +15,7 @@ class PesananController extends Controller
     
 {
     $filterableColumns = ['status', 'metode_bayar'];
-    $searchableColumns = ['pesanan_id', 'alamat_kirim']; // Ubah dari 'nomor_pesanan' ke 'pesanan_id'
+   $searchableColumns = ['pesanan_id', 'nomor_pesanan', 'alamat_kirim'];// Ubah dari 'nomor_pesanan' ke 'pesanan_id'
     
     $dataPesanan = Pesanan::filter($request, $filterableColumns)
          ->search($request, $searchableColumns)

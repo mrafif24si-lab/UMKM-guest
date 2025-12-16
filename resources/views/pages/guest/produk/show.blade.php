@@ -55,10 +55,10 @@
                                    style="box-shadow: 0 8px 20px rgba(0,0,0,0.2) !important;">
                                     <i class="fas fa-arrow-left me-2"></i> Kembali
                                 </a>
-                                <a href="{{ route('produk.edit', $produk->produk_id) }}" class="btn btn-warning btn-lg px-4 py-3 rounded-4 shadow-lg"
+                                <!-- <a href="{{ route('produk.edit', $produk->produk_id) }}" class="btn btn-warning btn-lg px-4 py-3 rounded-4 shadow-lg"
                                    style="background: linear-gradient(135deg, var(--primary), #F8C471); border: none; box-shadow: 0 8px 20px rgba(246, 179, 92, 0.4) !important;">
                                     <i class="fas fa-edit me-2"></i> Edit
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                     </div>
@@ -241,11 +241,11 @@
                         <div class="action-section mt-5 pt-5 border-top" data-aos="fade-up">
                             <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-4">
                                 <div class="btn-group-vertical btn-group-lg gap-3">
-                                    <a href="{{ route('produk.edit', $produk->produk_id) }}" 
+                                    <!-- <a href="{{ route('produk.edit', $produk->produk_id) }}" 
                                        class="btn btn-warning px-5 py-3 rounded-4 shadow-lg"
                                        style="background: linear-gradient(135deg, var(--primary), #F8C471); border: none; box-shadow: 0 12px 25px rgba(246, 179, 92, 0.4) !important;">
                                         <i class="fas fa-edit me-2"></i> Edit Produk
-                                    </a>
+                                    </a> -->
                                     <a href="{{ route('produk.index') }}" 
                                        class="btn btn-secondary px-5 py-3 rounded-4 shadow-lg"
                                        style="box-shadow: 0 12px 25px rgba(108, 117, 125, 0.4) !important;">

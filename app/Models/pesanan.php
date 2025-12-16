@@ -22,14 +22,17 @@ class Pesanan extends Model
     }
 
     protected $fillable = [
-        'pesanan_id',
-        'warga_id',
+       'warga_id',
+        'nomor_pesanan',   // <--- WAJIB DITAMBAHKAN (Agar error hilang)
         'total',
         'status',
         'alamat_kirim',
         'rt',
         'rw',
-        'metode_bayar'
+        'metode_bayar',
+        'bukti_bayar',     // <--- Disarankan tambah ini (karena ada kolomnya di DB)
+        'catatan',         // <--- Disarankan tambah ini (sesuai DB)
+        'no_resi'
     ];
 
     protected $casts = [
