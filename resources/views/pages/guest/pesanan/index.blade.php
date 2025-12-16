@@ -216,6 +216,95 @@
 </div>
 
 <style>
+    /* Custom Pagination Styles */
+.pagination {
+    margin-bottom: 0;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.page-link {
+    border: 1px solid #dee2e6;
+    color: #28a745;
+    font-weight: 600;
+    padding: 8px 16px;
+    margin: 0 3px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.page-item.active .page-link {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
+    border-color: #28a745;
+    color: white;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+.page-link:hover {
+    background-color: rgba(40, 167, 69, 0.1);
+    border-color: #28a745;
+    color: #28a745;
+    transform: translateY(-1px);
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+/* Responsive pagination */
+@media (max-width: 768px) {
+    .page-link {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        margin: 0 2px;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-link {
+        padding: 5px 10px;
+        margin: 2px;
+        font-size: 0.85rem;
+    }
+    
+    .action-buttons .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Memastikan pagination horizontal */
+.pagination {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+}
+
+.page-item {
+    display: inline-block !important;
+    float: none !important;
+}
+
+/* Style untuk input group search */
+.input-group .btn {
+    border-radius: 0 0.375rem 0.375rem 0;
+}
+
+/* Style untuk tombol action */
+.action-buttons .btn {
+    min-width: 80px;
+}
+
+.action-buttons .btn-sm i {
+    font-size: 0.9rem;
+}
 .btn-custom {
     background: linear-gradient(135deg, #6f42c1 0%, #17a2b8 50%, #fd7e14 100%);
     border: none;

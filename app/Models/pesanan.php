@@ -5,51 +5,70 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pesanan extends Model
 {
     use HasFactory;
 
+    // 1. Konfigurasi Tabel
     protected $table = 'pesanan';
-    protected $primaryKey = 'pesanan_id';
+    protected $primaryKey = 'pesanan_id'; // Sesuai database Anda
     public $timestamps = true;
 
+    // Agar Route Model Binding (di edit/update) membaca pesanan_id, bukan id biasa
     public function getRouteKeyName()
     {
         return 'pesanan_id';
     }
 
+    // 2. Fillable (HARUS SESUAI KOLOM DATABASE ANDA)
+    // Lihat gambar image_589e8f.png Anda
     protected $fillable = [
-       'warga_id',
-        'nomor_pesanan',   // <--- WAJIB DITAMBAHKAN (Agar error hilang)
-        'total',
+        'produk_id',
+        'warga_id',      // Database Anda pakai pelanggan_id, BUKAN warga_id
+        'umkm_id',
+        'jumlah',
+        'total_harga',       // Database Anda pakai total_harga, BUKAN total
         'status',
-        'alamat_kirim',
-        'rt',
-        'rw',
-        'metode_bayar',
-        'bukti_bayar',     // <--- Disarankan tambah ini (karena ada kolomnya di DB)
-        'catatan',         // <--- Disarankan tambah ini (sesuai DB)
+        'metode_pembayaran', // Database Anda pakai ini, BUKAN metode_bayar
+        'bukti_pembayaran',  // Database Anda pakai ini, BUKAN bukti_bayar
+        'catatan',
         'no_resi'
     ];
 
+    // Casting data agar formatnya benar saat diambil
     protected $casts = [
-        'total' => 'decimal:2',
+        'total_harga' => 'decimal:2',
+        'jumlah' => 'integer',
     ];
 
-    public function warga(): BelongsTo
+    // 3. Relasi (PENTING AGAR TIDAK ERROR "Relation Not Found")
+
+    // Relasi ke User (Pelanggan)
+    // Controller memanggil: ->with('pelanggan')
+    public function pelanggan(): BelongsTo
     {
-        return $this->belongsTo(Warga::class, 'warga_id', 'warga_id');
+        // belongsTo(ModelTujuan, 'foreign_key_di_pesanan', 'primary_key_di_user')
+        return $this->belongsTo(User::class, 'pelanggan_id', 'id');
     }
 
-    public function media(): HasMany
+    // Relasi ke Produk
+    // Controller memanggil: ->with('produk')
+    public function produk(): BelongsTo
     {
-        return $this->hasMany(Media::class, 'ref_id', 'pesanan_id')
-                    ->where('ref_table', 'pesanan');
+        return $this->belongsTo(Produk::class, 'produk_id', 'produk_id');
     }
 
+    // Relasi ke UMKM
+    // Controller memanggil: ->with('umkm')
+    public function umkm(): BelongsTo
+    {
+        return $this->belongsTo(Umkm::class, 'umkm_id', 'umkm_id');
+    }
+
+    // 4. Scope Search & Filter (Untuk Fitur Pencarian di Controller)
+    
     public function scopeFilter(Builder $query, $request, array $filterableColumns): Builder
     {
         foreach ($filterableColumns as $column) {
@@ -64,9 +83,15 @@ class Pesanan extends Model
     {
         if ($request->filled('search')) {
             $query->where(function($q) use ($request, $columns) {
+                $searchTerm = '%' . $request->search . '%';
                 foreach ($columns as $column) {
-                    $q->orWhere($column, 'LIKE', '%'. $request->search . '%');
+                    $q->orWhere($column, 'LIKE', $searchTerm);
                 }
+                
+                // Opsional: Jika ingin search berdasarkan nama pelanggan juga
+                $q->orWhereHas('pelanggan', function($qRel) use ($searchTerm) {
+                    $qRel->where('name', 'LIKE', $searchTerm);
+                });
             });
         }
         return $query;

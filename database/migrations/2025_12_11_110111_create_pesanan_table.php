@@ -30,7 +30,7 @@ return new class extends Migration
             
             // 1. Untuk produk, refer ke product_id (bukan id)
             $table->foreign('produk_id')
-                ->references('product_id') // INI YANG DIPERBAIKI!
+                ->references('produk_id') // INI YANG DIPERBAIKI!
                 ->on('produk')
                 ->onDelete('cascade');
 

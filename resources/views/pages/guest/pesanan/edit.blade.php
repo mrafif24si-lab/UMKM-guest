@@ -19,6 +19,8 @@
                         <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Form Edit Pesanan - {{ $pesanan->nomor_pesanan }}</h5>
                     </div>
                     <div class="card-body p-5">
+                        
+                        {{-- Tampilkan Error Validasi --}}
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <strong>Gagal Update!</strong> Periksa inputan berikut:
@@ -31,6 +33,7 @@
                             </div>
                         @endif
 
+                        {{-- Tampilkan Pesan Sukses/Gagal Session --}}
                         @if(session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
@@ -45,6 +48,8 @@
                             </div>
                         @endif
 
+                        {{-- Form Update --}}
+                        {{-- Pastikan Primary Key model Pesanan Anda adalah 'pesanan_id'. Jika default 'id', ganti $pesanan->pesanan_id menjadi $pesanan->id --}}
                         <form action="{{ route('pesanan.update', $pesanan->pesanan_id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -62,8 +67,10 @@
                                 <div class="col-md-6">
                                     <div class="mb-4">
                                         <label for="warga_id" class="form-label">Pilih Warga <span class="text-danger">*</span></label>
+                                        {{-- Pastikan variable $warga dikirim dari Controller --}}
                                         <select class="form-select @error('warga_id') is-invalid @enderror" 
                                                 id="warga_id" name="warga_id" required>
+                                            <option value="">-- Pilih Warga --</option>
                                             @foreach($warga as $w)
                                                 <option value="{{ $w->warga_id }}" {{ old('warga_id', $pesanan->warga_id) == $w->warga_id ? 'selected' : '' }}>
                                                     {{ $w->nama }} - {{ $w->no_ktp }}
@@ -165,7 +172,7 @@
                             </div>
 
                             {{-- LIST BUKTI BAYAR LAMA --}}
-                            @if($pesanan->media->count() > 0)
+                            @if($pesanan->media && $pesanan->media->count() > 0)
                             <div class="mb-4">
                                 <label class="form-label">Bukti Bayar Saat Ini</label>
                                 <div class="row">
@@ -173,19 +180,20 @@
                                     <div class="col-md-4 mb-3">
                                         <div class="card file-card h-100">
                                             <div class="card-body text-center p-2">
-                                                @if(Str::startsWith($media->mime_type, 'image/'))
+                                                {{-- PERBAIKAN: Menggunakan \Illuminate\Support\Str agar tidak error --}}
+                                                @if(\Illuminate\Support\Str::startsWith($media->mime_type, 'image/'))
                                                     <img src="{{ asset('storage/media/' . $media->file_name) }}" 
                                                          class="img-thumbnail mb-2" 
                                                          style="height: 150px; width: 100%; object-fit: cover;" 
                                                          alt="{{ $media->caption }}"
-                                                         onerror="this.onerror=null; this.src='{{ asset('images/placeholder.png') }}'">
+                                                         onerror="this.onerror=null; this.src='{{ route('placeholder.image', ['width'=>300, 'height'=>300]) }}'">
                                                 @else
                                                     <div class="d-flex align-items-center justify-content-center" style="height: 150px;">
                                                         <i class="fas fa-file fa-2x text-secondary"></i>
                                                     </div>
                                                 @endif
                                                 <p class="small mb-1 text-truncate" title="{{ $media->caption }}">
-                                                    {{ Str::limit($media->caption, 20) }}
+                                                    {{ \Illuminate\Support\Str::limit($media->caption, 20) }}
                                                 </p>
                                                 <button type="button" 
                                                         class="btn btn-danger btn-sm w-100" 
