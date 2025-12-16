@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public function index()
     {
 
-    return view('guest.dashboard');
+    return view('pages.guest.dashboard');
 
     }
 
