@@ -1605,7 +1605,10 @@
                         <a href="{{ route('warga.index') }}" class="nav-item nav-link {{ request()->is('warga*') ? 'active' : '' }}">Warga</a>
                         <a href="{{ route('user.index') }}" class="nav-item nav-link {{ request()->is('user*') ? 'active' : '' }}">User</a>
                          <a href="{{ route('pesanan.index') }}" class="nav-item nav-link {{ request()->is('pesanan*') ? 'active' : '' }}">Pesanan</a>
-                                                  <a href="{{ route('detail-pesanan.index') }}"class="nav-item nav-link {{ request()->is('detail-pesanan*') ? 'active' : '' }}"> <i class="fas fa-receipt me-1"></i> Detail Pesanan </a>
+                        <!-- <a href="{{ route('detail-pesanan.index') }}"class="nav-item nav-link {{ request()->is('detail-pesanan*') ? 'active' : '' }}"> <i class="fas fa-receipt me-1"></i> Detail Pesanan </a>
+                        <a href="{{ route('ulasan-produk.index') }}"class="nav-item nav-link {{ request()->is('ulasan-produk*') ? 'active' : '' }}"> <i class="fas fa-receipt me-1"></i> Ulasan Produk </a> -->
+                         <a href="{{ route('detail-pesanan.index') }}" class="nav-item nav-link {{ request()->is('detail-pesanan') ? 'active' : '' }}">Detail </a>
+                         <a href="{{ route('ulasan-produk.index') }}" class="nav-item nav-link {{ request()->is('ulasan-produk') ? 'active' : '' }}">Ulasan </a>
                         <a href="{{ route('identitas') }}" class="nav-item nav-link {{ request()->is('identitas') ? 'active' : '' }}">Identitas</a>
 
                         

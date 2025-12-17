@@ -8,6 +8,7 @@ use App\Http\Controllers\WargaController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UlasanProdukController;
 use App\Http\Controllers\DetailPesananController;
 
 
@@ -307,3 +308,9 @@ Route::prefix('detail-pesanan')->name('detail-pesanan.')->group(function () {
     Route::delete('/{detailPesanan}', [DetailPesananController::class, 'destroy'])->name('destroy');
     Route::get('/product/{id}/price', [DetailPesananController::class, 'getProductPrice'])->name('product.price');
 });
+
+
+// Ulasan Produk Routes
+Route::resource('ulasan-produk', UlasanProdukController::class);
+Route::get('/ulasan-produk/get-summary', [UlasanProdukController::class, 'getSummary'])->name('ulasan-produk.summary');
+Route::get('/ulasan-produk/get-product-details/{id}', [UlasanProdukController::class, 'getProductDetails'])->name('ulasan-produk.product-details');
