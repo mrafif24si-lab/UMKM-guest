@@ -34,7 +34,7 @@
                                             <span class="badge shadow-lg bg-white text-primary px-3 py-2 fs-6" 
                                                   style="font-weight: 600; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;">
                                                 {{-- PERBAIKAN: Gunakan relasi pelanggan --}}
-                                                <i class="fas fa-user me-2"></i>{{ $pesanan->pelanggan->name ?? 'User Terhapus' }}
+                                                <i class="fas fa-user me-2"></i>{{ $pesanan->warga->name ?? 'User Terhapus' }}
                                             </span>
                                             <span class="badge shadow-lg bg-light text-dark px-3 py-2 fs-6" 
                                                   style="font-weight: 600; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;">
@@ -124,7 +124,7 @@
                                                 <i class="fas fa-user fa-2x text-white"></i>
                                             </div>
                                             <div>
-                                                <h4 class="mb-1">{{ $pesanan->pelanggan->name ?? 'User tidak ditemukan' }}</h4>
+                                               <h4 class="mb-1">{{ $pesanan->warga->name ?? 'User tidak ditemukan' }}</h4>
                                                 <small class="text-muted">Pelanggan</small>
                                             </div>
                                         </div>
@@ -132,7 +132,7 @@
                                         <div class="detail-item mt-3 p-3 shadow-sm">
                                             <i class="fas fa-envelope text-primary me-2"></i>
                                             <span class="fw-bold">Email: </span>
-                                            <span>{{ $pesanan->pelanggan->email ?? '-' }}</span>
+                                            <span>{{ $pesanan->warga->email ?? '-' }}</span>
                                         </div>
 
                                         <hr class="my-4">

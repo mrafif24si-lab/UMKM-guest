@@ -4,139 +4,97 @@ namespace App\Http\Controllers;
 
 use App\Models\Umkm;
 use App\Models\Warga;
-use App\Models\Produk;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
-use App\Models\User;   // Model untuk Pelanggan (User)
 
 class PesananController extends Controller
 {
- 
-       public function index(Request $request) 
+    public function index(Request $request) 
     {
         $dataPesanan = Pesanan::query()
-             ->when($request->status, function($q) use ($request) {
-                 return $q->where('status', $request->status);
-             })
-             // Relasi disesuaikan dengan nama method di Model (warga, produk, umkm)
-             ->with(['warga', 'produk', 'umkm']) 
-             ->orderBy('created_at', 'desc')
-             ->paginate(10)
-             ->withQueryString();
+            ->when($request->status, function($q) use ($request) {
+                return $q->where('status', $request->status);
+            })
+            // ✅ PERBAIKAN: Hapus 'produk' dari sini karena relasinya sudah dihapus
+            ->with(['warga', 'umkm']) 
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
         return view('pages.guest.pesanan.index', compact('dataPesanan'));
     }
 
     public function create()
     {
-        // PERBAIKAN: Ambil semua data DULU, baru return view
-        $warga  = Warga::all(); 
-        $produk = Produk::all();
-        $umkm   = Umkm::all(); // Tambahkan ini agar bisa pilih UMKM
+        $warga = Warga::all(); 
+        $umkm  = Umkm::all(); 
         
-        // Kirim semua variabel ke view
-        return view('pages.guest.pesanan.create', compact('warga', 'produk', 'umkm'));
+        // Hapus $produk karena input pesanan sekarang manual total harganya (berdasarkan struktur DB baru)
+        return view('pages.guest.pesanan.create', compact('warga', 'umkm'));
     }
 
     public function store(Request $request): RedirectResponse
     {
-        // 1. Validasi Input dari Form HTML
-        $request->validate([
-            'warga_id'          => 'required|exists:warga,warga_id',
-            'produk_id'         => 'required|exists:produk,produk_id',
-            'umkm_id'           => 'required|exists:umkm,umkm_id',
-            'jumlah'            => 'required|integer|min:1',
-            'total_harga'       => 'required|numeric|min:0', // Pastikan name di form="total_harga"
-            'status'            => 'required|in:pending,proses,dikirim,selesai,dibatalkan',
-            'metode_pembayaran' => 'required|string',
-            'bukti_pembayaran'  => 'nullable|image|max:2048',
-            // Field tambahan (alamat) kita gabung ke catatan karena tidak ada kolom alamat di tabel pesanan
-            'alamat_kirim'      => 'required|string',
-            'rt'                => 'required|string',
-            'rw'                => 'required|string',
+        // ✅ Validasi Sesuai Kolom Baru
+        $validatedData = $request->validate([
+            'nomor_pesanan' => 'required|string|unique:pesanan,nomor_pesanan',
+            'warga_id'      => 'required|exists:warga,warga_id',
+            'umkm_id'       => 'nullable|exists:umkm,umkm_id',
+            'total'         => 'required|numeric|min:0', // Kolom 'total', bukan 'total_harga'
+            'status'        => 'required|in:pending,processing,completed,cancelled', // Sesuaikan opsi enum/select
+            'alamat_kirim'  => 'required|string',
+            'rt'            => 'required|string|max:5',
+            'rw'            => 'required|string|max:5',
+            'metode_bayar'  => 'required|string', // Kolom 'metode_bayar'
+            'bukti_bayar'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // Kolom 'bukti_bayar'
         ]);
 
-        // 2. Siapkan data untuk disimpan (Mapping)
-        $data = [
-            'warga_id'          => $request->warga_id,
-            'produk_id'         => $request->produk_id,
-            'umkm_id'           => $request->umkm_id,
-            'jumlah'            => $request->jumlah,
-            'total_harga'       => $request->total_harga,
-            'status'            => $request->status,
-            'metode_pembayaran' => $request->metode_pembayaran,
-            // Menggabungkan alamat ke kolom catatan agar tersimpan
-            'catatan'           => "Alamat: {$request->alamat_kirim} (RT {$request->rt}/RW {$request->rw}). " . $request->catatan,
-            'no_resi'           => null, // Default kosong
-        ];
-
-        // 3. Upload File
-        if ($request->hasFile('bukti_pembayaran')) {
-            $file = $request->file('bukti_pembayaran');
-            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('bukti_bayar', $fileName, 'public');
-            $data['bukti_pembayaran'] = $fileName; 
+        // Handle Upload
+        if ($request->hasFile('bukti_bayar')) {
+            $path = $request->file('bukti_bayar')->store('bukti_bayar', 'public');
+            $validatedData['bukti_bayar'] = $path;
         }
 
-        Pesanan::create($data);
+        Pesanan::create($validatedData);
 
-        return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil ditambahkan.');
+        return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil ditambahkan!');
     }
 
-    public function show(Pesanan $pesanan)
-    {
-        $pesanan->load(['pelanggan', 'produk', 'umkm']);
-        return view('pages.guest.pesanan.show', compact('pesanan'));
-    }
-
-    // --- BAGIAN EDIT YANG DIPERBAIKI ---
     public function edit(Pesanan $pesanan)
     {
-        $warga = Warga::all(); // Ambil data warga
-    return view('pages.guest.pesanan.edit', compact('pesanan', 'warga'));
-        $produk = Produk::all();
-        
-        // PENTING: Mendefinisikan variabel $warga agar tidak error di view 'edit.blade.php'
-        // Kita ambil dari model User karena di database relasinya ke users (pelanggan_id)
-    
+        // ✅ Perbaiki logika Edit
+        $warga = Warga::all();
+        $umkm  = Umkm::all();
 
-        // Kirim $pesanan, $produk, DAN $warga ke view
-        return view('pages.guest.pesanan.edit', compact('pesanan', 'produk', 'warga'));
+        return view('pages.guest.pesanan.edit', compact('pesanan', 'warga', 'umkm'));
     }
 
-    // --- BAGIAN UPDATE YANG DIPERBAIKI ---
     public function update(Request $request, Pesanan $pesanan): RedirectResponse
     {
-        
-        // VALIDASI UPDATE YANG BENAR
-        // Kita gunakan 'pelanggan_id', BUKAN 'warga_id'
-        // Kita HAPUS validasi 'rt', 'rw', 'nomor_pesanan' karena kolom itu TIDAK ADA di tabel pesanan Anda.
-        
+        // ✅ Perbaiki Validasi Update (Sesuaikan nama kolom baru)
         $validated = $request->validate([
-            'pelanggan_id'      => 'required|exists:users,id', 
-            'jumlah'            => 'required|integer|min:1',
-            'total_harga'       => 'required|numeric|min:0',
-            'status'            => 'required|in:pending,proses,dikirim,selesai,dibatalkan',
-            'metode_pembayaran' => 'required|string|max:50',
-            'bukti_pembayaran'  => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'catatan'           => 'nullable|string',
-            'no_resi'           => 'nullable|string|max:255'
+            'warga_id'      => 'required|exists:warga,warga_id',
+            'umkm_id'       => 'nullable|exists:umkm,umkm_id',
+            'total'         => 'required|numeric|min:0', // Ganti total_harga jadi total
+            'status'        => 'required',
+            'alamat_kirim'  => 'required|string',
+            'rt'            => 'required|string',
+            'rw'            => 'required|string',
+            'metode_bayar'  => 'required|string', // Ganti metode_pembayaran jadi metode_bayar
+            'bukti_bayar'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Logic Ganti File Bukti Bayar
-        if ($request->hasFile('bukti_pembayaran')) {
-            // Hapus file lama
-            if ($pesanan->bukti_pembayaran && Storage::disk('public')->exists('bukti_bayar/' . $pesanan->bukti_pembayaran)) {
-                Storage::disk('public')->delete('bukti_bayar/' . $pesanan->bukti_pembayaran);
+        // Logic Ganti File
+        if ($request->hasFile('bukti_bayar')) {
+            // Hapus file lama (Gunakan nama kolom baru)
+            if ($pesanan->bukti_bayar && Storage::disk('public')->exists($pesanan->bukti_bayar)) {
+                Storage::disk('public')->delete($pesanan->bukti_bayar);
             }
 
-            // Upload file baru
-            $file = $request->file('bukti_pembayaran');
-            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('bukti_bayar', $fileName, 'public');
-            $validated['bukti_pembayaran'] = $fileName;
+            $path = $request->file('bukti_bayar')->store('bukti_bayar', 'public');
+            $validated['bukti_bayar'] = $path;
         }
 
         $pesanan->update($validated);
@@ -146,11 +104,23 @@ class PesananController extends Controller
 
     public function destroy(Pesanan $pesanan): RedirectResponse
     {
-        if ($pesanan->bukti_pembayaran && Storage::disk('public')->exists('bukti_bayar/' . $pesanan->bukti_pembayaran)) {
-            Storage::disk('public')->delete('bukti_bayar/' . $pesanan->bukti_pembayaran);
+        if ($pesanan->bukti_bayar && Storage::disk('public')->exists($pesanan->bukti_bayar)) {
+            Storage::disk('public')->delete($pesanan->bukti_bayar);
         }
         
         $pesanan->delete();
         return redirect()->route('pesanan.index')->with('success', 'Pesanan berhasil dihapus.');
     }
+    public function show($id)
+{
+    // 1. Cari pesanan berdasarkan pesanan_id
+    // Kita load relasi 'warga', 'produk', dan 'umkm' agar data tersedia di view
+    $pesanan = \App\Models\Pesanan::with(['warga', 'umkm'])
+        ->where('pesanan_id', $id)
+        ->firstOrFail();
+
+    // 2. Tampilkan view detail
+    // Sesuaikan path view dengan struktur folder Anda
+    return view('pages.guest.pesanan.show', compact('pesanan'));
+}
 }
