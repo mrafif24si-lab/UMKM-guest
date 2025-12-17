@@ -231,9 +231,9 @@ Route::middleware(['checkislogin'])->group(function () {
         Route::resource('pesanan', PesananController::class);
         Route::delete('/pesanan/media/{media}', [PesananController::class, 'deleteMedia'])->name('pesanan.delete-media');
         
-        // DETAIL PESANAN
-        Route::resource('detail-pesanan', DetailPesananController::class);
-        Route::get('/get-harga-produk/{produk}', [DetailPesananController::class, 'getHargaProduk'])->name('get.harga-produk');
+        // // DETAIL PESANAN
+        // Route::resource('detail-pesanan', DetailPesananController::class);
+        // Route::get('/get-harga-produk/{produk}', [DetailPesananController::class, 'getHargaProduk'])->name('get.harga-produk');
     });
 
 
@@ -295,3 +295,15 @@ Route::get('/placeholder/{width}/{height}', function ($width = 400, $height = 30
 Route::fallback(function () {
     return redirect()->route('home');
     });
+
+    // routes/web.php
+Route::prefix('detail-pesanan')->name('detail-pesanan.')->group(function () {
+    Route::get('/', [DetailPesananController::class, 'index'])->name('index');
+    Route::get('/create', [DetailPesananController::class, 'create'])->name('create');
+    Route::post('/', [DetailPesananController::class, 'store'])->name('store');
+    Route::get('/{detailPesanan}', [DetailPesananController::class, 'show'])->name('show');
+    Route::get('/{detailPesanan}/edit', [DetailPesananController::class, 'edit'])->name('edit');
+    Route::put('/{detailPesanan}', [DetailPesananController::class, 'update'])->name('update');
+    Route::delete('/{detailPesanan}', [DetailPesananController::class, 'destroy'])->name('destroy');
+    Route::get('/product/{id}/price', [DetailPesananController::class, 'getProductPrice'])->name('product.price');
+});
