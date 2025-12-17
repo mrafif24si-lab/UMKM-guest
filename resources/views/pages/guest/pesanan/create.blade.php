@@ -41,6 +41,7 @@
                         <form action="{{ route('pesanan.store') }}" method="POST" id="pesananForm" enctype="multipart/form-data">
                             @csrf
                             
+                            <!-- ROW 1: Nomor Pesanan & Warga -->
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-4">
@@ -62,7 +63,7 @@
                                             <option value="">Pilih Warga</option>
                                             @foreach($warga as $w)
                                                 <option value="{{ $w->warga_id }}" {{ old('warga_id') == $w->warga_id ? 'selected' : '' }}>
-                                                    {{ $w->nama }} - {{ $w->no_ktp }}
+                                                    {{ $w->nama }} ({{ $w->no_ktp }})
                                                 </option>
                                             @endforeach
                                         </select>
@@ -73,16 +74,21 @@
                                 </div>
                             </div>
 
+                            <!-- ROW 2: Total & Status -->
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-4">
                                         <label for="total" class="form-label">Total Harga (Rp) <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control @error('total') is-invalid @enderror" 
-                                               id="total" name="total" value="{{ old('total') }}" 
-                                               min="0" step="100" placeholder="0" required>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Rp</span>
+                                            <input type="number" class="form-control @error('total') is-invalid @enderror" 
+                                                   id="total" name="total" value="{{ old('total') }}" 
+                                                   min="1000" step="100" placeholder="1000" required>
+                                        </div>
                                         @error('total')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
+                                        <div class="form-text">Minimal Rp 1.000</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -104,16 +110,56 @@
                                 </div>
                             </div>
 
+                            <!-- ROW 3: UMKM & Metode Bayar -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label for="umkm_id" class="form-label">Pilih UMKM (Opsional)</label>
+                                        <select class="form-select @error('umkm_id') is-invalid @enderror" 
+                                                id="umkm_id" name="umkm_id">
+                                            <option value="">-- Pilih UMKM --</option>
+                                            @foreach($umkm as $u)
+                                                <option value="{{ $u->umkm_id }}" {{ old('umkm_id') == $u->umkm_id ? 'selected' : '' }}>
+                                                    {{ $u->nama_usaha }} ({{ $u->pemilik->nama ?? '-' }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('umkm_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        <div class="form-text">Kosongkan jika pesanan tidak untuk UMKM tertentu</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-4">
+                                        <label for="metode_bayar" class="form-label">Metode Pembayaran <span class="text-danger">*</span></label>
+                                        <select class="form-select @error('metode_bayar') is-invalid @enderror" 
+                                                id="metode_bayar" name="metode_bayar" required>
+                                            <option value="">Pilih Metode</option>
+                                            <option value="Transfer Bank" {{ old('metode_bayar') == 'Transfer Bank' ? 'selected' : '' }}>Transfer Bank</option>
+                                            <option value="Tunai" {{ old('metode_bayar') == 'Tunai' ? 'selected' : '' }}>Tunai</option>
+                                            <option value="E-Wallet" {{ old('metode_bayar') == 'E-Wallet' ? 'selected' : '' }}>E-Wallet</option>
+                                            <option value="QRIS" {{ old('metode_bayar') == 'QRIS' ? 'selected' : '' }}>QRIS</option>
+                                        </select>
+                                        @error('metode_bayar')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Alamat Kirim -->
                             <div class="mb-4">
                                 <label for="alamat_kirim" class="form-label">Alamat Kirim <span class="text-danger">*</span></label>
                                 <textarea class="form-control @error('alamat_kirim') is-invalid @enderror" 
                                           id="alamat_kirim" name="alamat_kirim" rows="3" 
-                                          placeholder="Masukkan alamat lengkap pengiriman..." required>{{ old('alamat_kirim') }}</textarea>
+                                          placeholder="Masukkan alamat lengkap pengiriman (jalan, nomor, kecamatan, kota)..." required>{{ old('alamat_kirim') }}</textarea>
                                 @error('alamat_kirim')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
+                            <!-- RT & RW -->
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="mb-4">
@@ -139,44 +185,41 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-4">
-                                        <label for="metode_bayar" class="form-label">Metode Pembayaran <span class="text-danger">*</span></label>
-                                        <select class="form-select @error('metode_bayar') is-invalid @enderror" 
-                                                id="metode_bayar" name="metode_bayar" required>
-                                            <option value="">Pilih Metode</option>
-                                            <option value="Transfer Bank" {{ old('metode_bayar') == 'Transfer Bank' ? 'selected' : '' }}>Transfer Bank</option>
-                                            <option value="Tunai" {{ old('metode_bayar') == 'Tunai' ? 'selected' : '' }}>Tunai</option>
-                                            <option value="E-Wallet" {{ old('metode_bayar') == 'E-Wallet' ? 'selected' : '' }}>E-Wallet</option>
-                                            <option value="QRIS" {{ old('metode_bayar') == 'QRIS' ? 'selected' : '' }}>QRIS</option>
-                                        </select>
-                                        @error('metode_bayar')
+                                        <label for="catatan" class="form-label">Catatan Tambahan (Opsional)</label>
+                                        <textarea class="form-control @error('catatan') is-invalid @enderror" 
+                                                  id="catatan" name="catatan" rows="1" 
+                                                  placeholder="Tambahkan catatan jika diperlukan...">{{ old('catatan') }}</textarea>
+                                        @error('catatan')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
                             </div>
 
+                            <!-- Upload Bukti Bayar -->
                             <div class="mb-4">
                                 <label for="bukti_bayar" class="form-label">Upload Bukti Pembayaran (Opsional)</label>
                                 <input type="file" class="form-control @error('bukti_bayar') is-invalid @enderror" 
                                        id="bukti_bayar" name="bukti_bayar" 
-                                       accept=".jpg,.jpeg,.png,.gif">
+                                       accept=".jpg,.jpeg,.png,.gif,.pdf">
                                 <div class="form-text">
-                                    Format yang didukung: JPG, JPEG, PNG, GIF. Maksimal 2MB.
+                                    Format yang didukung: JPG, JPEG, PNG, GIF, PDF. Maksimal 2MB.
                                 </div>
                                 @error('bukti_bayar')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            {{-- Preview Upload --}}
+                            <!-- Preview Upload -->
                             <div class="mb-4" id="preview-container" style="display: none;">
-                                <label class="form-label">Preview Bukti Bayar:</label>
+                                <label class="form-label">Preview File:</label>
                                 <div class="row" id="preview-images"></div>
                             </div>
 
+                            <!-- Action Buttons -->
                             <div class="d-flex gap-3 pt-4 border-top">
                                 <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
-                                    <i class="fas fa-save me-2"></i> <span id="submitText">Simpan</span>
+                                    <i class="fas fa-save me-2"></i> <span id="submitText">Simpan Pesanan</span>
                                     <div id="submitSpinner" class="spinner-border spinner-border-sm d-none" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
@@ -185,7 +228,7 @@
                                     <i class="fas fa-arrow-left me-2"></i> Kembali
                                 </a>
                                 <button type="reset" class="btn btn-outline-secondary btn-lg ms-auto">
-                                    <i class="fas fa-redo me-2"></i> Reset
+                                    <i class="fas fa-redo me-2"></i> Reset Form
                                 </button>
                             </div>
                         </form>
@@ -217,25 +260,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const col = document.createElement('div');
-                    col.className = 'col-md-4';
+                    col.className = 'col-md-6';
                     col.innerHTML = `
-                        <div class="preview-card">
-                            <img src="${e.target.result}" class="img-thumbnail" style="width: 100%; height: 200px; object-fit: cover;">
-                            <small class="d-block mt-1 text-truncate">${file.name}</small>
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <img src="${e.target.result}" class="img-thumbnail" 
+                                     style="width: 100%; height: 200px; object-fit: contain;">
+                                <small class="d-block mt-2 text-truncate">${file.name}</small>
+                                <small class="text-muted">${(file.size / 1024).toFixed(2)} KB</small>
+                            </div>
                         </div>
                     `;
                     previewImages.appendChild(col);
                 };
                 reader.readAsDataURL(file);
+            } else {
+                const col = document.createElement('div');
+                col.className = 'col-md-6';
+                col.innerHTML = `
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-file fa-3x text-secondary mb-2"></i>
+                            <p class="mb-1">${file.name}</p>
+                            <small class="text-muted">${(file.size / 1024).toFixed(2)} KB</small>
+                        </div>
+                    </div>
+                `;
+                previewImages.appendChild(col);
             }
         } else {
             previewContainer.style.display = 'none';
         }
     });
 
+    // Validasi form sebelum submit
     form.addEventListener('submit', function(e) {
         const total = document.getElementById('total').value;
         const wargaId = document.getElementById('warga_id').value;
+        const metodeBayar = document.getElementById('metode_bayar').value;
         
         if (!wargaId) {
             alert('Pilih Warga terlebih dahulu');
@@ -243,21 +305,35 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        if (total <= 0) {
-            alert('Total harus lebih dari 0');
+        if (total < 1000) {
+            alert('Total harus minimal Rp 1.000');
+            e.preventDefault();
+            return;
+        }
+        
+        if (!metodeBayar) {
+            alert('Pilih Metode Pembayaran');
             e.preventDefault();
             return;
         }
 
+        // Disable button dan tampilkan loading
         submitBtn.disabled = true;
         submitText.textContent = 'Menyimpan...';
         submitSpinner.classList.remove('d-none');
     });
 
+    // Reset form
     form.addEventListener('reset', function() {
         submitBtn.disabled = false;
-        submitText.textContent = 'Simpan';
+        submitText.textContent = 'Simpan Pesanan';
         submitSpinner.classList.add('d-none');
+        
+        // Clear preview
+        const previewContainer = document.getElementById('preview-container');
+        const previewImages = document.getElementById('preview-images');
+        previewImages.innerHTML = '';
+        previewContainer.style.display = 'none';
     });
 });
 </script>
@@ -274,15 +350,70 @@ document.addEventListener('DOMContentLoaded', function() {
     z-index: 10;
 }
 
-.preview-card {
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    padding: 10px;
-    background: white;
+.card-header {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%) !important;
 }
 
-.preview-card img {
-    border-radius: 3px;
+.btn-primary {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    border: none;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-container {
+        border-radius: 15px;
+    }
+    
+    .card-body {
+        padding: 2rem !important;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-body {
+        padding: 1.5rem !important;
+    }
+    
+    .d-flex {
+        flex-direction: column;
+        gap: 10px !important;
+    }
+    
+    .btn-lg {
+        width: 100%;
+    }
 }
 </style>
 @endsection

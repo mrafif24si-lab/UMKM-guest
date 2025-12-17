@@ -19,7 +19,7 @@
                         <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Form Edit Pesanan - {{ $pesanan->nomor_pesanan }}</h5>
                     </div>
                     <div class="card-body p-5">
-                        
+
                         {{-- Tampilkan Error Validasi --}}
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -49,7 +49,6 @@
                         @endif
 
                         {{-- Form Update --}}
-                        {{-- Pastikan Primary Key model Pesanan Anda adalah 'pesanan_id'. Jika default 'id', ganti $pesanan->pesanan_id menjadi $pesanan->id --}}
                         <form action="{{ route('pesanan.update', $pesanan->pesanan_id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
@@ -58,8 +57,8 @@
                                 <div class="col-md-6">
                                     <div class="mb-4">
                                         <label for="nomor_pesanan" class="form-label">Nomor Pesanan <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('nomor_pesanan') is-invalid @enderror" 
-                                               id="nomor_pesanan" name="nomor_pesanan" 
+                                        <input type="text" class="form-control @error('nomor_pesanan') is-invalid @enderror"
+                                               id="nomor_pesanan" name="nomor_pesanan"
                                                value="{{ old('nomor_pesanan', $pesanan->nomor_pesanan) }}" required>
                                         @error('nomor_pesanan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
@@ -67,8 +66,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-4">
                                         <label for="warga_id" class="form-label">Pilih Warga <span class="text-danger">*</span></label>
-                                        {{-- Pastikan variable $warga dikirim dari Controller --}}
-                                        <select class="form-select @error('warga_id') is-invalid @enderror" 
+                                        <select class="form-select @error('warga_id') is-invalid @enderror"
                                                 id="warga_id" name="warga_id" required>
                                             <option value="">-- Pilih Warga --</option>
                                             @foreach($warga as $w)
@@ -86,17 +84,17 @@
                                 <div class="col-md-6">
                                     <div class="mb-4">
                                         <label for="total" class="form-label">Total Harga (Rp) <span class="text-danger">*</span></label>
-                                        <input type="number" class="form-control @error('total') is-invalid @enderror" 
-                                               id="total" name="total" 
-                                               value="{{ old('total', $pesanan->total) }}" 
-                                               min="0" step="100" required>
+                                        <input type="number" class="form-control @error('total') is-invalid @enderror"
+                                               id="total" name="total"
+                                               value="{{ old('total', $pesanan->total) }}"
+                                               min="1000" step="100" required>
                                         @error('total') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-4">
                                         <label for="status" class="form-label">Status Pesanan <span class="text-danger">*</span></label>
-                                        <select class="form-select @error('status') is-invalid @enderror" 
+                                        <select class="form-select @error('status') is-invalid @enderror"
                                                 id="status" name="status" required>
                                             <option value="pending" {{ old('status', $pesanan->status) == 'pending' ? 'selected' : '' }}>Pending</option>
                                             <option value="proses" {{ old('status', $pesanan->status) == 'proses' ? 'selected' : '' }}>Proses</option>
@@ -111,7 +109,7 @@
 
                             <div class="mb-4">
                                 <label for="alamat_kirim" class="form-label">Alamat Kirim <span class="text-danger">*</span></label>
-                                <textarea class="form-control @error('alamat_kirim') is-invalid @enderror" 
+                                <textarea class="form-control @error('alamat_kirim') is-invalid @enderror"
                                           id="alamat_kirim" name="alamat_kirim" rows="3" required>{{ old('alamat_kirim', $pesanan->alamat_kirim) }}</textarea>
                                 @error('alamat_kirim') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
@@ -120,9 +118,9 @@
                                 <div class="col-md-3">
                                     <div class="mb-4">
                                         <label for="rt" class="form-label">RT <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('rt') is-invalid @enderror" 
-                                               id="rt" name="rt" 
-                                               value="{{ old('rt', $pesanan->rt) }}" 
+                                        <input type="text" class="form-control @error('rt') is-invalid @enderror"
+                                               id="rt" name="rt"
+                                               value="{{ old('rt', $pesanan->rt) }}"
                                                maxlength="3" required>
                                         @error('rt') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
@@ -130,9 +128,9 @@
                                 <div class="col-md-3">
                                     <div class="mb-4">
                                         <label for="rw" class="form-label">RW <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control @error('rw') is-invalid @enderror" 
-                                               id="rw" name="rw" 
-                                               value="{{ old('rw', $pesanan->rw) }}" 
+                                        <input type="text" class="form-control @error('rw') is-invalid @enderror"
+                                               id="rw" name="rw"
+                                               value="{{ old('rw', $pesanan->rw) }}"
                                                maxlength="3" required>
                                         @error('rw') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                     </div>
@@ -140,7 +138,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-4">
                                         <label for="metode_bayar" class="form-label">Metode Pembayaran <span class="text-danger">*</span></label>
-                                        <select class="form-select @error('metode_bayar') is-invalid @enderror" 
+                                        <select class="form-select @error('metode_bayar') is-invalid @enderror"
                                                 id="metode_bayar" name="metode_bayar" required>
                                             <option value="Transfer Bank" {{ old('metode_bayar', $pesanan->metode_bayar) == 'Transfer Bank' ? 'selected' : '' }}>Transfer Bank</option>
                                             <option value="Tunai" {{ old('metode_bayar', $pesanan->metode_bayar) == 'Tunai' ? 'selected' : '' }}>Tunai</option>
@@ -152,59 +150,61 @@
                                 </div>
                             </div>
 
+                            {{-- SECTION UPLOAD FILE --}}
                             <div class="mb-4">
                                 <label for="bukti_bayar" class="form-label">Upload Bukti Bayar Baru (Opsional)</label>
-                                <input type="file" class="form-control @error('bukti_bayar') is-invalid @enderror" 
-                                       id="bukti_bayar" name="bukti_bayar" 
-                                       accept=".jpg,.jpeg,.png,.gif">
+                                <input type="file" class="form-control @error('bukti_bayar') is-invalid @enderror"
+                                       id="bukti_bayar" name="bukti_bayar"
+                                       accept=".jpg,.jpeg,.png,.gif,.pdf">
                                 <div class="form-text">
-                                    Kosongkan jika tidak ingin mengubah bukti bayar.
+                                    Format: JPG, JPEG, PNG, GIF, PDF. Maksimal 2MB.
                                 </div>
                                 @error('bukti_bayar')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            {{-- Preview Upload Baru --}}
+                            {{-- PREVIEW UPLOAD BARU --}}
                             <div class="mb-4" id="preview-container" style="display: none;">
-                                <label class="form-label">Preview Bukti Bayar Baru:</label>
+                                <label class="form-label">Preview File Baru:</label>
                                 <div class="row" id="preview-images"></div>
                             </div>
 
-                            {{-- LIST BUKTI BAYAR LAMA --}}
-                            @if($pesanan->media && $pesanan->media->count() > 0)
+                            {{-- TAMPILKAN FILE LAMA --}}
+                            @if($pesanan->bukti_bayar)
                             <div class="mb-4">
                                 <label class="form-label">Bukti Bayar Saat Ini</label>
                                 <div class="row">
-                                    @foreach($pesanan->media as $media)
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6">
                                         <div class="card file-card h-100">
                                             <div class="card-body text-center p-2">
-                                                {{-- PERBAIKAN: Menggunakan \Illuminate\Support\Str agar tidak error --}}
-                                                @if(\Illuminate\Support\Str::startsWith($media->mime_type, 'image/'))
-                                                    <img src="{{ asset('storage/media/' . $media->file_name) }}" 
-                                                         class="img-thumbnail mb-2" 
-                                                         style="height: 150px; width: 100%; object-fit: cover;" 
-                                                         alt="{{ $media->caption }}"
-                                                         onerror="this.onerror=null; this.src='{{ route('placeholder.image', ['width'=>300, 'height'=>300]) }}'">
+                                                @if(in_array(pathinfo($pesanan->bukti_bayar, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
+                                                    <img src="{{ asset('storage/' . $pesanan->bukti_bayar) }}"
+                                                         class="img-thumbnail mb-2"
+                                                         style="height: 200px; width: 100%; object-fit: contain;"
+                                                         alt="Bukti Bayar {{ $pesanan->nomor_pesanan }}"
+                                                         onerror="this.onerror=null; this.src='{{ asset('images/placeholder.png') }}'">
                                                 @else
-                                                    <div class="d-flex align-items-center justify-content-center" style="height: 150px;">
-                                                        <i class="fas fa-file fa-2x text-secondary"></i>
+                                                    <div class="d-flex align-items-center justify-content-center" style="height: 200px;">
+                                                        <i class="fas fa-file-pdf fa-3x text-danger"></i>
                                                     </div>
                                                 @endif
-                                                <p class="small mb-1 text-truncate" title="{{ $media->caption }}">
-                                                    {{ \Illuminate\Support\Str::limit($media->caption, 20) }}
-                                                </p>
-                                                <button type="button" 
-                                                        class="btn btn-danger btn-sm w-100" 
-                                                        onclick="confirmDeleteMedia('{{ route('pesanan.delete-media', $media->media_id) }}')">
-                                                    <i class="fas fa-trash"></i> Hapus
-                                                </button>
+                                                <p class="small mb-1 text-truncate">{{ $pesanan->nomor_pesanan }}</p>
+                                                <div class="mt-2">
+                                                    <a href="{{ asset('storage/' . $pesanan->bukti_bayar) }}"
+                                                       target="_blank"
+                                                       class="btn btn-info btn-sm">
+                                                        <i class="fas fa-eye me-1"></i> Lihat File
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
                                 </div>
+                            </div>
+                            @else
+                            <div class="alert alert-secondary text-center mb-4">
+                                <i class="fas fa-exclamation-circle me-2"></i> Belum ada bukti bayar yang diupload.
                             </div>
                             @endif
 
@@ -227,51 +227,52 @@
     </div>
 </div>
 
-{{-- Hidden form untuk delete media --}}
-<form id="deleteMediaForm" method="POST" style="display: none;">
-    @csrf
-    @method('DELETE')
-</form>
-
 <script>
-// Preview gambar baru sebelum upload
+// Preview file baru
 document.getElementById('bukti_bayar').addEventListener('change', function(event) {
     const file = event.target.files[0];
     const previewContainer = document.getElementById('preview-container');
     const previewImages = document.getElementById('preview-images');
     previewImages.innerHTML = '';
-    
+
     if (file) {
         previewContainer.style.display = 'block';
-        
+
         if (file.type.startsWith('image/')) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const col = document.createElement('div');
-                col.className = 'col-md-4';
+                col.className = 'col-md-6';
                 col.innerHTML = `
-                    <div class="preview-card">
-                        <img src="${e.target.result}" class="img-thumbnail" style="width: 100%; height: 150px; object-fit: cover;">
-                        <small class="d-block mt-1 text-truncate">${file.name}</small>
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <img src="${e.target.result}" class="img-thumbnail" 
+                                 style="width: 100%; height: 200px; object-fit: contain;">
+                            <small class="d-block mt-2">${file.name}</small>
+                        </div>
                     </div>
                 `;
                 previewImages.appendChild(col);
             };
             reader.readAsDataURL(file);
+        } else {
+            const col = document.createElement('div');
+            col.className = 'col-md-6';
+            col.innerHTML = `
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-file fa-3x text-secondary mb-2"></i>
+                        <p class="mb-1">${file.name}</p>
+                        <small class="text-muted">${(file.size / 1024).toFixed(2)} KB</small>
+                    </div>
+                </div>
+            `;
+            previewImages.appendChild(col);
         }
     } else {
         previewContainer.style.display = 'none';
     }
 });
-
-// Delete media confirmation
-function confirmDeleteMedia(url) {
-    if (confirm('Apakah Anda yakin ingin menghapus bukti bayar ini?')) {
-        var form = document.getElementById('deleteMediaForm');
-        form.action = url;
-        form.submit();
-    }
-}
 </script>
 
 <style>
@@ -283,18 +284,14 @@ function confirmDeleteMedia(url) {
 .file-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-color: #007bff;
 }
 
-.preview-card {
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    padding: 10px;
-    background: white;
+.btn {
+    transition: all 0.3s ease !important;
 }
 
-.preview-card img {
-    border-radius: 3px;
+.btn:hover {
+    transform: translateY(-2px) !important;
 }
 </style>
 @endsection
