@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     public function up(): void
-    {
+    { 
+        if(!Schema::hastable('pesanan')){
         Schema::table('pesanan', function (Blueprint $table) {
            // 1. Rename kolom yang namanya beda agar sesuai Controller
         // Pastikan package doctrine/dbal terinstall jika error (composer require doctrine/dbal)
@@ -29,7 +30,7 @@ return new class extends Migration
 
         });
     }
-
+    }
     public function down(): void
     {
         Schema::table('pesanan', function (Blueprint $table) {

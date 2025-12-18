@@ -9,6 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+   if(!Schema::hastable('pesanan')){
     Schema::create('pesanan', function (Blueprint $table) {
             // Primary Key
             $table->id('pesanan_id');
@@ -56,9 +57,11 @@ return new class extends Migration
                 ->onDelete('cascade');
         });
     }
+}
 
     public function down(): void
     {
         Schema::dropIfExists('pesanan');
     }
+    
 };

@@ -314,3 +314,4 @@ Route::prefix('detail-pesanan')->name('detail-pesanan.')->group(function () {
 Route::resource('ulasan-produk', UlasanProdukController::class);
 Route::get('/ulasan-produk/get-summary', [UlasanProdukController::class, 'getSummary'])->name('ulasan-produk.summary');
 Route::get('/ulasan-produk/get-product-details/{id}', [UlasanProdukController::class, 'getProductDetails'])->name('ulasan-produk.product-details');
+

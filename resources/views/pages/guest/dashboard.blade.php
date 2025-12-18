@@ -126,7 +126,7 @@
     </div>
     <!-- Banners Section End -->
 
-    {{-- <!-- Fresh Vegetables Section Start -->
+    <!-- Fresh Vegetables Section Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="row g-4">
@@ -169,189 +169,169 @@
             </div>
         </div>
     </div>
-    <!-- Fresh Vegetables Section End --> --}}
-
-    <!-- Products Shop Start-->
-    <div class="container-fluid fruite py-5">
-        <div class="container py-5">
-            <div class="tab-class text-center">
-                <div class="row g-4">
-                    <div class="col-lg-4 text-start">
-                        <h1>Produk Terbaik Kami</h1>
-                    </div>
-                    <div class="col-lg-8 text-end">
-                        <ul class="nav nav-pills d-inline-flex text-center mb-5">
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
-                                    <span class="text-dark" style="width: 130px;">Semua Produk</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                                    <span class="text-dark" style="width: 130px;">Kerajinan</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
-                                    <span class="text-dark" style="width: 130px;">Jasa</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
-                                    <span class="text-dark" style="width: 130px;">Elektronik</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
-                                    <span class="text-dark" style="width: 130px;">Kuliner</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+    <!-- Fresh Vegetables Section End --> 
+<!-- 
+ Products Shop Start-->
+<div class="container-fluid fruite py-5">
+    <div class="container py-5">
+        <div class="tab-class text-center">
+            <div class="row g-4">
+                <div class="col-lg-4 text-start">
+                    <h1>Produk Terbaik Kami</h1>
                 </div>
-                <div class="tab-content">
-                    <div id="tab-1" class="tab-pane fade show p-0 active">
-                        <div class="row g-4">
-                            <div class="col-lg-12">
-                                <div class="row g-4">
-                                    <!-- Product items here (sama seperti yang asli) -->
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{ asset('assets-guest/img/g1.jpg') }}" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Makanan</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Nasi Telur</h4>
-                                                <p>Nasi dan Telur dengan sambal terasi yang memiliki Citarasa yang Menarik dan Enak,Serta harganya terjangkau</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">Rp.15 k</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i>Tambah</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{ asset('assets-guest/img/g2.jpg') }}" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Ikan</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Ikan Nila</h4>
-                                                <p>Ikan Nila segar yang sudah di potong-potong dan Dicuci Bersih Agar Lebih enak saat diolah nantinya</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">Rp.45 K </p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Tambah</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{ asset('assets-guest/img/g13.jpg') }}" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Buah</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Jagung Madu</h4>
-                                                <p>Jagung yang memiliki Rasa yang Cenderung lebih Manis dan Bercitarasa Gurih dari padaJagung Biasanya</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">Rp.10 K</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Tambah</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{ asset('assets-guest/img/g4.jpg') }}" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Ikan</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Nila Marinasi</h4>
-                                                <p>Ikan Nila yang sudah di cuci bersih lal Diberi dengan racikan Bumbu khas Nusantara, Sehingga Memiliki Citarasa yang Enak</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">Rp.55 k</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Tambah</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{ asset('assets-guest/img/g5.jpg') }}" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Makanan</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Ayam Telur Asin</h4>
-                                                <p>Ayam yanf dibalut dengan tepung,Lalu di SIram dengan Saos Telur Asin dan Diberikan Telur Ceplok</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">Rp.20 K</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i>Tambah</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{ asset('assets-guest/img/g6.jpg') }}" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Buah</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Kurma Muda</h4>
-                                                <p>Kurma yang Berasal dari Saudi Arabia yang Memiliki Citarasa yang Manis dan Lebih Cruncy dari pada kurma biasanya</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">Rp.90 K</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Tambah</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{ asset('assets-guest/img/g9.jpg') }}" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Makanan</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Ikan Lele Marinasi</h4>
-                                                <p>Lele Yang sudah di Cuci Bersih dan Diberikan Bumbu-Bumbu khas Musantara yang Bercitarasa sangat Enak</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">Rp.40 K</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Tambah</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="{{ asset('assets-guest/img/g8.jpg') }}" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Hewan</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Ayam Kate</h4>
-                                                <p>Ayam yang Memiliki ciri Khas Tersendiri yaitu Postur Badan yang lebih Pendek dan Dadanya lebih Membusung </p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">Rp.400 K</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Tambah</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Tambahkan product items lainnya sesuai kebutuhan -->
-                                </div>
+                <div class="col-lg-8 text-end">
+                    <ul class="nav nav-pills d-inline-flex text-center mb-5">
+                        <li class="nav-item">
+                            <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
+                                <span class="text-dark" style="width: 130px;">Semua Produk</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
+                                <span class="text-dark" style="width: 130px;">Kerajinan</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
+                                <span class="text-dark" style="width: 130px;">Jasa</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
+                                <span class="text-dark" style="width: 130px;">Elektronik</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
+                                <span class="text-dark" style="width: 130px;">Kuliner</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane fade show p-0 active">
+                    <div class="row g-4">
+                        <div class="col-lg-12">
+                            <div class="row g-4">
+                                <!-- Loop produk dari database -->
+                               @forelse($produkTerbaik as $produk)
+<div class="col-md-6 col-lg-4 col-xl-3">
+    <div class="rounded position-relative fruite-item">
+        <div class="fruite-img">
+            {{-- LOGIKA PENAMPILAN GAMBAR --}}
+           @if($produk->media->count() > 0)
+        @php
+            $gambarPertama = $produk->media->first();
+        @endphp
+        
+        {{-- PERBAIKAN UTAMA DISINI --}}
+        {{-- Gunakan 'storage/media/' agar sesuai dengan Controller storeAs('media') --}}
+        <img src="{{ asset('storage/media/' . $gambarPertama->file_name) }}" 
+             class="img-fluid w-100 rounded-top" 
+             style="height: 200px; object-fit: cover;"
+             alt="{{ $produk->nama_produk }}"
+             onerror="this.onerror=null; this.src='{{ asset('assets-guest/img/placeholder.jpg') }}'">
+    @else
+        {{-- Tampilkan Placeholder jika memang tidak ada gambar di database --}}
+        <img src="{{ asset('assets-guest/img/placeholder.jpg') }}" 
+             class="img-fluid w-100 rounded-top" 
+             style="height: 200px; object-fit: cover;"
+             alt="No Image">
+    @endifalt="Placeholder">
+            @endif
+        </div>
+        
+        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+            {{ $produk->jenis_produk }}
+        </div>
+        
+        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+            <h4>{{ $produk->nama_produk }}</h4>
+            <p>{{ Str::limit($produk->deskripsi, 80) }}</p>
+            <div class="d-flex justify-content-between flex-lg-wrap">
+                <p class="text-dark fs-5 fw-bold mb-0">Rp. {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                <a href="{{ route('produk.show', $produk->produk_id) }}" 
+                   class="btn border border-secondary rounded-pill px-3 text-primary">
+                    <i class="fa fa-eye me-2 text-primary"></i>Lihat
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+@empty
+    <div class="col-12 text-center">
+        <p>Belum ada produk yang tersedia.</p>
+    </div>
+@endforelse
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Tombol lihat semua produk -->
+                    @if($produkTerbaik->count() > 0)
+                    <div class="text-center mt-5">
+                        <a href="{{ route('produk.index') }}" class="btn btn-primary btn-lg px-5">
+                            <i class="fas fa-boxes me-2"></i>Lihat Semua Produk
+                        </a>
+                    </div>
+                    @endif
+                </div>
+                
+                <!-- Tab lainnya bisa diisi dengan produk berdasarkan kategori -->
+                <div id="tab-2" class="tab-pane fade show p-0">
+                    <!-- Produk Kerajinan akan muncul di sini -->
+                </div>
+                <div id="tab-3" class="tab-pane fade show p-0">
+                    <!-- Produk Jasa akan muncul di sini -->
+                </div>
+                <div id="tab-4" class="tab-pane fade show p-0">
+                    <!-- Produk Elektronik akan muncul di sini -->
+                </div>
+                <div id="tab-5" class="tab-pane fade show p-0">
+                    <!-- Produk Kuliner akan muncul di sini -->
                 </div>
             </div>
         </div>
     </div>
+</div>
+<script>
+// Fungsi untuk memuat produk berdasarkan kategori
+function loadProdukByKategori(kategori) {
+    $.ajax({
+        url: '{{ route("home") }}',
+        type: 'GET',
+        data: { kategori: kategori },
+        beforeSend: function() {
+            $('#tab-1 .row.g-4').html('<div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+        },
+        success: function(response) {
+            // Update konten produk
+            // Catatan: Ini perlu penyesuaian jika Anda menggunakan AJAX
+        },
+        error: function() {
+            alert('Terjadi kesalahan saat memuat produk');
+        }
+    });
+}
+
+// Event listener untuk tab
+$('.nav-pills a').on('shown.bs.tab', function(e) {
+    var target = $(e.target).attr("href");
+    
+    // Reset semua tab
+    $('.nav-pills a').removeClass('active');
+    $(e.target).addClass('active');
+    
+    // Reset semua tab content
+    $('.tab-pane').removeClass('show active');
+    $(target).addClass('show active');
+    
+    // Anda bisa tambahkan AJAX di sini untuk memuat produk per kategori
+    // var kategori = $(e.target).text().trim();
+    // loadProdukByKategori(kategori);
+});
+</script>
+<!-- Products Shop End-->
     <!-- Products Shop End-->
 @endsection

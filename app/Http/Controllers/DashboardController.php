@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,8 +12,15 @@ class DashboardController extends Controller
      */
     public function index()
     {
-
-    return view('pages.guest.dashboard');
+ // Ambil data produk dari database
+        $produkTerbaik = Produk::with(['umkm', 'media'])
+            ->where('status', 'Aktif') // Hanya tampilkan produk aktif
+            ->orderBy('created_at', 'desc') // Urutkan berdasarkan yang terbaru
+            ->take(20) // Batasi jumlah yang ditampilkan
+            ->get();
+         
+            
+        return view('pages.guest.dashboard', compact('produkTerbaik'));
 
     }
 

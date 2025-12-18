@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if(!Schema::hastable('ulasan_produk')){
         Schema::create('ulasan_produk', function (Blueprint $table) {
             $table->id('ulasan_id'); // Primary key
             
@@ -51,6 +52,7 @@ return new class extends Migration
             });
         }
     }
+}
 
     /**
      * Reverse the migrations.
