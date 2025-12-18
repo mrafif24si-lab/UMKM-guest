@@ -144,18 +144,16 @@
                         <div class="social-links mb-4">
                             <h5 class="mb-3">Hubungi Saya</h5>
                             <div class="d-flex justify-content-center">
-                                <a href="#" class="btn btn-primary btn-square me-2 shadow" title="LinkedIn">
+                                <a href="https://linkedin.com/in/rafifzidane" class="btn btn-primary btn-square me-2 shadow" title="LinkedIn">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="#" class="btn btn-secondary btn-square me-2 shadow" title="GitHub">
+                                <a href="https://github.com/mrafif24si-lab/UMKM-guest.git" class="btn btn-secondary btn-square me-2 shadow" title="GitHub">
                                     <i class="fab fa-github"></i>
                                 </a>
-                                <a href="#" class="btn btn-primary btn-square me-2 shadow" title="Instagram">
+                                <a href="https://instagram.com/raffzdne" class="btn btn-primary btn-square me-2 shadow" title="Instagram">
                                     <i class="fab fa-instagram"></i>
                                 </a>
-                                <a href="#" class="btn btn-secondary btn-square me-2 shadow" title="Twitter">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
+                          
                                 <a href="#" class="btn btn-primary btn-square shadow" title="Facebook">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
