@@ -81,6 +81,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 shadow-sm border-0 card-hover">
                     <div class="card-header text-white py-3 pesanan-card-header">
+                        <!-- Icon atau Logo -->
                         <div class="text-center mb-2">
                             <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-light border border-3 border-white" 
                                  style="width: 70px; height: 70px;">
@@ -98,22 +99,31 @@
                             </p>
                         </div>
 
-                        <div class="mb-2">
+                        <div class="mb-3">
                             <strong>Total:</strong>
                             <span class="fw-bold" style="color: #28a745;">Rp {{ number_format($item->total, 0, ',', '.') }}</span>
                         </div>
-                        <div class="mb-2">
-                            <strong>Status:</strong>
-                            <span class="badge bg-{{ $item->status == 'selesai' ? 'success' : ($item->status == 'dibatalkan' ? 'danger' : 'warning') }}">
-                                {{ $item->status }}
+                        <div class="mb-3">
+                            <strong>Status:</strong><br>
+                            @php
+                                $statusColor = [
+                                    'pending' => 'warning',
+                                    'proses' => 'info',
+                                    'dikirim' => 'primary',
+                                    'selesai' => 'success',
+                                    'dibatalkan' => 'danger'
+                                ][$item->status] ?? 'secondary';
+                            @endphp
+                            <span class="badge bg-{{ $statusColor }}">
+                                {{ ucfirst($item->status) }}
                             </span>
                         </div>
-                        <div class="mb-2">
-                            <strong>Alamat:</strong>
+                        <div class="mb-3">
+                            <strong>Alamat:</strong><br>
                             <span class="badge custom-badge">{{ $item->rt }}/{{ $item->rw }}</span>
                         </div>
-                        <div class="mb-2">
-                            <strong>Metode Bayar:</strong>
+                        <div class="mb-3">
+                            <strong>Metode Bayar:</strong><br>
                             <span class="badge bg-secondary">{{ $item->metode_bayar }}</span>
                         </div>
                     </div>
@@ -121,7 +131,7 @@
                         <div class="action-buttons d-flex justify-content-between align-items-center">
                             <!-- Tombol Detail -->
                             <a href="{{ route('pesanan.show', $item->pesanan_id) }}" 
-                               class="btn btn-info btn-sm text-white" 
+                               class="btn btn-info btn-sm" 
                                title="Detail">
                                 <i class="fas fa-eye me-1"></i> Detail
                             </a>
@@ -172,7 +182,10 @@
                                 | Pencarian: <strong>"{{ request('search') }}"</strong>
                             @endif
                             @if(request('status'))
-                                | Filter: <strong>{{ request('status') }}</strong>
+                                | Filter: <strong>{{ ucfirst(request('status')) }}</strong>
+                            @endif
+                            @if(request('metode_bayar'))
+                                | Pembayaran: <strong>{{ request('metode_bayar') }}</strong>
                             @endif
                         </p>
                     </div>
@@ -187,7 +200,13 @@
 
         @else
         <div class="text-center py-5">
-            <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+            <!-- Placeholder untuk tidak ada data -->
+            <div class="mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle" 
+                     style="width: 120px; height: 120px;">
+                    <i class="fas fa-shopping-cart fa-4x text-muted"></i>
+                </div>
+            </div>
             <h4 class="text-muted">
                 @if(request('search') || request('status') || request('metode_bayar'))
                     Tidak ada pesanan ditemukan
@@ -216,7 +235,103 @@
 </div>
 
 <style>
-    /* Custom Pagination Styles */
+.btn-custom {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%);
+    border: none;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    color: white;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+.pesanan-card-header {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%) !important;
+    text-align: center;
+}
+
+.custom-badge {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
+    color: white;
+    border: none;
+    font-size: 0.85em;
+    padding: 5px 10px;
+}
+
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Variasi warna untuk card yang berbeda (sama seperti UMKM) */
+.pesanan-card-header:nth-child(3n+1) {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%) !important;
+}
+
+.pesanan-card-header:nth-child(3n+2) {
+    background: linear-gradient(135deg, #17a2b8 0%, #fd7e14 100%) !important;
+}
+
+.pesanan-card-header:nth-child(3n+3) {
+    background: linear-gradient(135deg, #fd7e14 0%, #28a745 100%) !important;
+}
+
+/* Action Buttons */
+.action-buttons .btn {
+    min-width: 80px;
+    transition: all 0.3s ease;
+}
+
+.action-buttons .btn-sm i {
+    font-size: 0.9rem;
+}
+
+.action-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.action-buttons .btn-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    border-color: #117a8b;
+    color: white;
+}
+
+.action-buttons .btn-info:hover {
+    background: linear-gradient(135deg, #138496 0%, #117a8b 100%);
+    color: white;
+}
+
+.action-buttons .btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    border-color: #d39e00;
+    color: white;
+}
+
+.action-buttons .btn-warning:hover {
+    background: linear-gradient(135deg, #e0a800 0%, #d39e00 100%);
+    color: white;
+}
+
+.action-buttons .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border-color: #bd2130;
+    color: white;
+}
+
+.action-buttons .btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+    color: white;
+}
+
+/* Custom Pagination Styles */
 .pagination {
     margin-bottom: 0;
     flex-wrap: nowrap;
@@ -254,7 +369,7 @@
     border-color: #dee2e6;
 }
 
-/* Responsive pagination */
+/* Responsive Design */
 @media (max-width: 768px) {
     .page-link {
         padding: 6px 12px;
@@ -264,6 +379,20 @@
     
     .pagination {
         flex-wrap: wrap;
+    }
+    
+    .pesanan-card-header {
+        text-align: center;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+        justify-content: center;
     }
 }
 
@@ -277,6 +406,16 @@
     .action-buttons .btn-sm {
         padding: 0.25rem 0.5rem;
         font-size: 0.75rem;
+    }
+    
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .btn-custom {
+        width: 100%;
     }
 }
 
@@ -295,118 +434,6 @@
 /* Style untuk input group search */
 .input-group .btn {
     border-radius: 0 0.375rem 0.375rem 0;
-}
-
-/* Style untuk tombol action */
-.action-buttons .btn {
-    min-width: 80px;
-}
-
-.action-buttons .btn-sm i {
-    font-size: 0.9rem;
-}
-.btn-custom {
-    background: linear-gradient(135deg, #6f42c1 0%, #17a2b8 50%, #fd7e14 100%);
-    border: none;
-    color: white;
-    transition: transform 0.3s ease;
-}
-
-.btn-custom:hover {
-    transform: translateY(-2px);
-    color: white;
-    box-shadow: 0 4px 15px rgba(111, 66, 193, 0.4);
-}
-
-.pesanan-card-header {
-    background: linear-gradient(135deg, #6f42c1 0%, #17a2b8 50%, #fd7e14 100%) !important;
-}
-
-.custom-badge {
-    background: linear-gradient(135deg, #17a2b8 0%, #fd7e14 100%);
-    color: white;
-    border: none;
-    font-size: 0.8rem;
-}
-
-.card-hover {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-/* Variasi warna untuk card yang berbeda */
-.pesanan-card-header:nth-child(3n+1) {
-    background: linear-gradient(135deg, #6f42c1 0%, #17a2b8 100%) !important;
-}
-
-.pesanan-card-header:nth-child(3n+2) {
-    background: linear-gradient(135deg, #17a2b8 0%, #fd7e14 100%) !important;
-}
-
-.pesanan-card-header:nth-child(3n+3) {
-    background: linear-gradient(135deg, #fd7e14 0%, #6f42c1 100%) !important;
-}
-
-/* Action Buttons */
-.action-buttons .btn {
-    min-width: 80px;
-    transition: all 0.3s ease;
-}
-
-.action-buttons .btn-sm i {
-    font-size: 0.9rem;
-}
-
-.action-buttons .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.action-buttons .btn-info {
-    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
-    border-color: #117a8b;
-}
-
-.action-buttons .btn-info:hover {
-    background: linear-gradient(135deg, #138496 0%, #117a8b 100%);
-}
-
-.action-buttons .btn-warning {
-    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
-    border-color: #d39e00;
-}
-
-.action-buttons .btn-warning:hover {
-    background: linear-gradient(135deg, #e0a800 0%, #d39e00 100%);
-}
-
-.action-buttons .btn-danger {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    border-color: #bd2130;
-}
-
-.action-buttons .btn-danger:hover {
-    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
-}
-
-@media (max-width: 768px) {
-    .pesanan-card-header {
-        text-align: center;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .action-buttons .btn {
-        width: 100%;
-        justify-content: center;
-    }
 }
 </style>
 @endsection

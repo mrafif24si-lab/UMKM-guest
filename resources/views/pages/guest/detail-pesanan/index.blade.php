@@ -446,6 +446,78 @@
 .input-group .btn {
     border-radius: 0 0.375rem 0.375rem 0;
 }
+.btn-custom {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%);
+    border: none;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    color: white;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+.detail-card-header {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%) !important;
+}
+
+/* Variasi warna untuk card yang berbeda */
+.detail-card-header:nth-child(3n+1) {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%) !important;
+}
+
+.detail-card-header:nth-child(3n+2) {
+    background: linear-gradient(135deg, #17a2b8 0%, #fd7e14 100%) !important;
+}
+
+.detail-card-header:nth-child(3n+3) {
+    background: linear-gradient(135deg, #fd7e14 0%, #28a745 100%) !important;
+}
+
+/* Action Buttons */
+.action-buttons .btn-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    border-color: #117a8b;
+    color: white;
+}
+
+.action-buttons .btn-info:hover {
+    background: linear-gradient(135deg, #138496 0%, #117a8b 100%);
+    color: white;
+}
+
+.action-buttons .btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    border-color: #d39e00;
+    color: white;
+}
+
+.action-buttons .btn-warning:hover {
+    background: linear-gradient(135deg, #e0a800 0%, #d39e00 100%);
+    color: white;
+}
+
+/* Pagination Styles */
+.page-link {
+    border: 1px solid #dee2e6;
+    color: #28a745;
+    font-weight: 600;
+}
+
+.page-item.active .page-link {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
+    border-color: #28a745;
+    color: white;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+.page-link:hover {
+    background-color: rgba(40, 167, 69, 0.1);
+    border-color: #28a745;
+    color: #28a745;
+}
 </style>
 
 <script>

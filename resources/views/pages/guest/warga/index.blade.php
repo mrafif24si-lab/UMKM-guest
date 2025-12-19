@@ -231,9 +231,8 @@
 
 
 <style>
-    
 .btn-custom {
-    background: linear-gradient(135deg, #F6B35C 0%, #118AB2 100%);
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%);
     border: none;
     color: white;
     transition: transform 0.3s ease;
@@ -243,11 +242,11 @@
 .btn-custom:hover {
     transform: translateY(-2px);
     color: white;
-    box-shadow: 0 4px 15px rgba(246, 179, 92, 0.4);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
 }
 
 .warga-card-header {
-    background: linear-gradient(135deg, #F6B35C 0%, #118AB2 100%) !important;
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 50%, #fd7e14 100%) !important;
     text-align: center;
 }
 
@@ -264,15 +263,15 @@
 
 /* Variasi warna untuk card yang berbeda dengan skema UMKM */
 .warga-card-header:nth-child(3n+1) {
-    background: linear-gradient(135deg, #F6B35C 0%, #118AB2 100%) !important;
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%) !important;
 }
 
 .warga-card-header:nth-child(3n+2) {
-    background: linear-gradient(135deg, #118AB2 0%, #C2185B 100%) !important;
+    background: linear-gradient(135deg, #17a2b8 0%, #fd7e14 100%) !important;
 }
 
 .warga-card-header:nth-child(3n+3) {
-    background: linear-gradient(135deg, #C2185B 0%, #F6B35C 100%) !important;
+    background: linear-gradient(135deg, #fd7e14 0%, #28a745 100%) !important;
 }
 
 /* Custom Pagination Styles */
@@ -363,6 +362,13 @@
 
 .action-buttons .btn-sm i {
     font-size: 0.9rem;
+}
+
+/* Tambahan untuk warna badge */
+.badge.custom-badge {
+    background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%);
+    color: white;
+    border: none;
 }
 </style>
 
