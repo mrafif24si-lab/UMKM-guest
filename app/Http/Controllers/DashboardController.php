@@ -12,16 +12,25 @@ class DashboardController extends Controller
      */
     public function index()
     {
- // Ambil data produk dari database
+        // Ambil data produk dari database
         $produkTerbaik = Produk::with(['umkm', 'media'])
             ->where('status', 'Aktif') // Hanya tampilkan produk aktif
             ->orderBy('created_at', 'desc') // Urutkan berdasarkan yang terbaru
             ->take(20) // Batasi jumlah yang ditampilkan
             ->get();
          
-            
         return view('pages.guest.dashboard', compact('produkTerbaik'));
+    }
 
+    /**
+     * Menampilkan halaman Tentang Kami
+     * Method ini ditambahkan untuk mengatasi error "Call to undefined method"
+     */
+    public function tentang()
+    {
+        // Pastikan Anda sudah membuat file view di: resources/views/pages/guest/tentang.blade.php
+        // Jika nama file atau foldernya berbeda, sesuaikan bagian di dalam kurung view('...')
+        return view('pages.guest.tentang');
     }
 
     /**
