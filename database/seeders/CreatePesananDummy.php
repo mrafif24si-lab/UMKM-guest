@@ -15,31 +15,25 @@ class CreatePesananDummy extends Seeder
 
         echo "Memulai seeder pesanan...\n";
 
-        // ✅ PERBAIKAN 1: Konsisten menggunakan nama variabel $produkData
-        // ✅ PERBAIKAN 2: Select kolom yang benar ('produk_id')
-       // Ubah 'product_id' menjadi 'produk_id'
-$produk = DB::table('produk')->select('produk_id', 'umkm_id', 'harga')->get();
+        // ✅ PERBAIKAN 1: Nama variabel disamakan menjadi $produkData
+        $produkData = DB::table('produk')->select('produk_id', 'umkm_id', 'harga')->get();
             
-       if ($produkData->isEmpty()) { 
-        echo "ERROR: Data produk tidak ditemukan! Jalankan seeder produk terlebih dahulu.\n";
-        return;
-    }
-
-        // 2. AMBIL/BUAT DATA PELANGGAN
-        if (!Schema::hasTable('pelanggan')) {
-            // ... (Kode bagian pelanggan ini sudah aman, biarkan saja jika menggunakan tabel users/pelanggan)
-             $pelangganIds = DB::table('users')->pluck('id')->toArray(); // Asumsi tabel pelanggan adalah 'users'
-             if(empty($pelangganIds)) {
-                 echo "Warning: Menggunakan data dummy pelanggan manual karena tabel users kosong.\n";
-                 $pelangganIds = range(1, 10); // Dummy ID
-             }
-        } else {
-             // Jika tabel pelanggan bernama 'pelanggan'
-             $pelangganIds = DB::table('pelanggan')->pluck('id')->toArray();
+        // Cek apakah data kosong
+        if ($produkData->isEmpty()) { 
+            echo "ERROR: Data produk tidak ditemukan! Jalankan seeder produk terlebih dahulu.\n";
+            return;
         }
 
-        // Fallback jika tidak ada pelanggan
+        // 2. AMBIL/BUAT DATA PELANGGAN (WARGA)
+        // Cek tabel mana yang ada: 'warga' atau 'users'
+        $tabelWarga = Schema::hasTable('warga') ? 'warga' : 'users';
+        $kolomIdWarga = Schema::hasColumn($tabelWarga, 'warga_id') ? 'warga_id' : 'id';
+
+        $pelangganIds = DB::table($tabelWarga)->pluck($kolomIdWarga)->toArray();
+
+        // Fallback jika tidak ada data warga
         if (empty($pelangganIds)) {
+             echo "Warning: Tabel warga kosong. Menggunakan ID dummy [1].\n";
              $pelangganIds = [1]; 
         }
 
@@ -51,12 +45,13 @@ $produk = DB::table('produk')->select('produk_id', 'umkm_id', 'harga')->get();
         $pesananIds = [];
 
         foreach (range(1, 50) as $index) {
-            // Pilih produk acak dari $produkData (Variabel sudah benar sekarang)
+            // Pilih produk acak untuk mendapatkan ID UMKM & referensi harga
             $produk = $faker->randomElement($produkData);
             $pelangganId = $faker->randomElement($pelangganIds);
             
+            // Hitung dummy total (total asli nanti dihitung ulang oleh seeder detail_pesanan)
             $hargaProduk = $produk->harga;
-            $jumlah = $faker->numberBetween(1, 10);
+            $jumlah = $faker->numberBetween(1, 5);
             $totalHarga = $hargaProduk * $jumlah;
             
             $status = $faker->randomElement($statusPesanan);
@@ -65,35 +60,27 @@ $produk = DB::table('produk')->select('produk_id', 'umkm_id', 'harga')->get();
                 ? $faker->dateTimeBetween('-3 months', 'now')
                 : now();
 
+            // ✅ PERBAIKAN 2: Sesuaikan nama kolom dengan tabel 'pesanan'
+            // Tabel pesanan (Header) tidak butuh 'produk_id' atau 'jumlah', itu masuk di detail_pesanan.
+            
             $pesananId = DB::table('pesanan')->insertGetId([
-                // ✅ PERBAIKAN 3: Gunakan 'produk_id' (sesuai database), bukan 'product_id'
-                'produk_id' => $produk->produk_id, 
-                
-                'pelanggan_id' => $pelangganId,
-                'umkm_id' => $produk->umkm_id,
-                'jumlah' => $jumlah,
-                'total_harga' => $totalHarga,
-                'status' => $status,
-                'metode_pembayaran' => $faker->randomElement($metodePembayaran),
-                'bukti_pembayaran' => $status === 'completed' ? 'bukti_' . $faker->uuid() . '.jpg' : null,
-                'catatan' => $faker->optional(0.3)->sentence(),
-                'no_resi' => $status === 'completed' ? $faker->numerify('RESI##########') : null,
-                'created_at' => $createdAt,
-                'updated_at' => $createdAt,
+                'nomor_pesanan' => 'ORD-' . strtoupper($faker->bothify('??####')),
+                'warga_id'      => $pelangganId,      // Sesuai tabel (bukan pelanggan_id)
+                'umkm_id'       => $produk->umkm_id,
+                'total'         => $totalHarga,       // Sesuai tabel (bukan total_harga)
+                'status'        => $status,
+                'alamat_kirim'  => $faker->address(), // Tabel mewajibkan kolom ini jika tidak null
+                'rt'            => $faker->numberBetween(1, 10),
+                'rw'            => $faker->numberBetween(1, 10),
+                'metode_bayar'  => $faker->randomElement($metodePembayaran), // Sesuai tabel (bukan metode_pembayaran)
+                'bukti_bayar'   => $status === 'completed' ? 'bukti_' . $faker->uuid() . '.jpg' : null,
+                'created_at'    => $createdAt,
+                'updated_at'    => $createdAt,
             ]);
             
             $pesananIds[] = $pesananId;
-            
-            // Update stok jika pesanan completed
-            if ($status === 'completed') {
-                DB::table('produk')
-                    // ✅ PERBAIKAN 4: Pastikan where menggunakan 'produk_id'
-                    ->where('produk_id', $produk->produk_id) 
-                    // Pastikan nama kolom stok di tabel produk benar (biasanya 'stok' atau 'stock')
-                    ->decrement('stok', $jumlah); 
-            }
         }
 
-        echo "Seeder pesanan berhasil dijalankan!\n";
+        echo "✅ Seeder pesanan berhasil dijalankan! (ID Pesanan dibuat: " . count($pesananIds) . ")\n";
     }
 }
