@@ -20,10 +20,10 @@ class CreatePesananDummy extends Seeder
        // Ubah 'product_id' menjadi 'produk_id'
 $produk = DB::table('produk')->select('produk_id', 'umkm_id', 'harga')->get();
             
-        if ($produk->isEmpty()) {
-            echo "ERROR: Data produk tidak ditemukan! Jalankan seeder produk terlebih dahulu.\n";
-            return;
-        }
+       if ($produkData->isEmpty()) { 
+        echo "ERROR: Data produk tidak ditemukan! Jalankan seeder produk terlebih dahulu.\n";
+        return;
+    }
 
         // 2. AMBIL/BUAT DATA PELANGGAN
         if (!Schema::hasTable('pelanggan')) {
