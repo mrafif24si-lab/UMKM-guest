@@ -17,7 +17,7 @@ class PesananController extends Controller
             ->when($request->status, function($q) use ($request) {
                 return $q->where('status', $request->status);
             })
-            // ✅ PERBAIKAN: Hapus 'produk' dari sini karena relasinya sudah dihapus
+
             ->with(['warga', 'umkm']) 
             ->orderBy('created_at', 'desc')
             ->paginate(10)

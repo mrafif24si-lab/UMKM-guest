@@ -227,6 +227,10 @@ Route::middleware(['checkislogin'])->group(function () {
         Route::resource('warga', WargaController::class);
         Route::delete('/warga/delete-media/{mediaId}', [WargaController::class, 'deleteMedia'])->name('warga.delete-media');
 
+        //   // USER
+        // Route::resource('user', UserController::class);
+        // Route::delete('/user/delete-media/{mediaId}', [UserController::class, 'deleteMedia'])->name('user.delete-media');
+
         // PESANAN (PERBAIKAN UTAMA DISINI)
         // Route::resource otomatis membuat route PUT untuk update
         Route::resource('pesanan', PesananController::class);

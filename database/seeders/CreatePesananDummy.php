@@ -11,90 +11,91 @@ class CreatePesananDummy extends Seeder
 {
     public function run(): void
     {
-        // TANDA BAHWA KODE BARU SUDAH MASUK
-        echo "\n--------------------------------------------\n";
-        echo "   --- VERSI PERBAIKAN FINAL (DIJAMIN JALAN) ---   \n";
-        echo "--------------------------------------------\n";
-
+        // Gunakan locale Indonesia
         $faker = Factory::create('id_ID');
 
-        // 1. CEK KONEKSI DATABASE PRODUK
-        echo "1. Mengambil data produk...\n";
-        
-        // Menggunakan array murni agar aman dari error object/collection
+        echo "Memulai seeder pesanan...\n";
+
+        // ------------------------------------------------------------------
+        // 1. AMBIL DATA PRODUK (Referensi)
+        // ------------------------------------------------------------------
+        // PENTING: Gunakan ->toArray() agar kompatibel dengan $faker->randomElement()
+        // Kita butuh harga untuk simulasi 'total' dan umkm_id untuk relasi
         $produkData = DB::table('produk')
             ->select('produk_id', 'umkm_id', 'harga')
             ->get()
-            ->map(function ($item) {
-                return (array) $item; // Paksa jadi array
-            })
-            ->toArray();
-
-        // Debug: Tampilkan jumlah produk yang ditemukan
-        $jumlahProduk = count($produkData);
-        echo "   -> Ditemukan: " . $jumlahProduk . " produk.\n";
-
-        if ($jumlahProduk === 0) {
-            echo "❌ ERROR: Tabel 'produk' kosong di Server! Jalankan seeder produk dulu.\n";
+            ->toArray(); 
+            
+        // Validasi: Jika tabel produk kosong, berhenti.
+        if (empty($produkData)) { 
+            echo "ERROR: Data produk tidak ditemukan! Jalankan seeder produk terlebih dahulu.\n";
             return;
         }
 
-        // 2. CEK PELANGGAN
-        echo "2. Mengambil data warga/pelanggan...\n";
+        // ------------------------------------------------------------------
+        // 2. AMBIL DATA WARGA (Pelanggan)
+        // ------------------------------------------------------------------
+        // Cek nama tabel (warga atau users)
         $tabelWarga = Schema::hasTable('warga') ? 'warga' : 'users';
         $kolomIdWarga = Schema::hasColumn($tabelWarga, 'warga_id') ? 'warga_id' : 'id';
-        
+
+        // Ambil ID pelanggan sebagai Array
         $pelangganIds = DB::table($tabelWarga)->pluck($kolomIdWarga)->toArray();
 
+        // Fallback jika tidak ada warga (mencegah error array kosong)
         if (empty($pelangganIds)) {
-            echo "   -> Warning: Tidak ada warga. Menggunakan ID dummy [1].\n";
-            $pelangganIds = [1];
-        } else {
-            echo "   -> Ditemukan: " . count($pelangganIds) . " warga.\n";
+             echo "Warning: Tabel warga kosong. Menggunakan ID dummy [1].\n";
+             $pelangganIds = [1]; 
         }
 
-        // 3. MULAI LOOPING
-        echo "3. Mulai membuat pesanan...\n";
+        // ------------------------------------------------------------------
+        // 3. PROSES INSERT DATA PESANAN
+        // ------------------------------------------------------------------
+        echo "Membuat 50 data pesanan dummy...\n";
+
         $statusPesanan = ['pending', 'processing', 'completed', 'cancelled'];
         $metodePembayaran = ['Transfer Bank', 'Cash on Delivery', 'E-Wallet'];
         
-        $berhasil = 0;
+        $pesananIds = [];
 
         foreach (range(1, 50) as $index) {
-            try {
-                $produk = $faker->randomElement($produkData);
-                $pelangganId = $faker->randomElement($pelangganIds);
+            // A. Pilih Data Random
+            $produk = $faker->randomElement($produkData);
+            $pelangganId = $faker->randomElement($pelangganIds);
+            
+            // B. Hitung Simulasi Total Harga
+            // (Catatan: Total asli idealnya hitungan dari detail_pesanan, tapi untuk dummy pesanan kita tembak dulu)
+            $hargaProduk = $produk->harga;
+            $jumlahDummy = $faker->numberBetween(1, 5);
+            $totalBayar = $hargaProduk * $jumlahDummy;
+            
+            // C. Tentukan Status & Tanggal
+            $status = $faker->randomElement($statusPesanan);
+            // Jika completed, buat tanggal mundur ke belakang
+            $createdAt = ($status === 'completed') 
+                ? $faker->dateTimeBetween('-3 months', 'now')
+                : now();
 
-                // Akses array (karena sudah dikonversi di atas)
-                $harga = $produk['harga'];
-                $umkmId = $produk['umkm_id'];
-                
-                $jumlah = $faker->numberBetween(1, 5);
-                $total = $harga * $jumlah;
-                $status = $faker->randomElement($statusPesanan);
-                $createdAt = $status === 'completed' ? $faker->dateTimeBetween('-3 months', 'now') : now();
-
-                // Insert
-                DB::table('pesanan')->insert([
-                    'nomor_pesanan' => 'ORD-' . strtoupper($faker->bothify('??####')),
-                    'warga_id'      => $pelangganId,
-                    'umkm_id'       => $umkmId,
-                    'total'         => $total,
-                    'status'        => $status,
-                    'alamat_kirim'  => $faker->address(),
-                    'rt'            => (string) $faker->numberBetween(1, 10),
-                    'rw'            => (string) $faker->numberBetween(1, 10),
-                    'metode_bayar'  => $faker->randomElement($metodePembayaran),
-                    'bukti_bayar'   => $status === 'completed' ? 'dummy.jpg' : null,
-                    'created_at'    => $createdAt,
-                    'updated_at'    => $createdAt,
-                ]);
-                $berhasil++;
-            } catch (\Exception $e) {
-                echo "   ❌ Gagal di baris $index: " . $e->getMessage() . "\n";
-            }
+            // D. Insert ke Tabel 'pesanan'
+            // Struktur kolom disesuaikan dengan gambar database Anda
+            $pesananId = DB::table('pesanan')->insertGetId([
+                'nomor_pesanan' => 'ORD-' . strtoupper($faker->bothify('??####')), 
+                'warga_id'      => $pelangganId,        // FK ke Warga
+                'umkm_id'       => $produk->umkm_id,    // FK ke UMKM (diambil dari produk)
+                'total'         => $totalBayar,         // Nama kolom di tabel adalah 'total'
+                'status'        => $status,
+                'alamat_kirim'  => $faker->address(),
+                'rt'            => (string) $faker->numberBetween(1, 10), // Cast string untuk kolom VARCHAR
+                'rw'            => (string) $faker->numberBetween(1, 10), // Cast string untuk kolom VARCHAR
+                'metode_bayar'  => $faker->randomElement($metodePembayaran),
+                'bukti_bayar'   => $status === 'completed' ? 'bukti_dummy.jpg' : null,
+                'created_at'    => $createdAt,
+                'updated_at'    => $createdAt,
+            ]);
+            
+            $pesananIds[] = $pesananId;
         }
 
-        echo "\n✅ SUKSES! Total " . $berhasil . " pesanan berhasil dibuat.\n";
+        echo "✅ Sukses! " . count($pesananIds) . " data pesanan berhasil dibuat.\n";
     }
 }

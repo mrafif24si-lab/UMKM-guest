@@ -120,7 +120,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        // Redirect cerdas berdasarkan role
+      
         if ($user->role === 'admin') {
             return redirect()->route('user.index')->with('success', 'Selamat datang Admin!');
         } elseif ($user->role === 'warga') {

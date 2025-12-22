@@ -14,14 +14,12 @@ return new class extends Migration
             // Primary Key
             $table->id('pesanan_id');
             
-            // 1. Identitas Pesanan (Sesuai Blade)
-            $table->string('nomor_pesanan')->unique(); // name="nomor_pesanan"
+            // 1. Identitas Pesanan 
+            $table->string('nomor_pesanan')->unique();
             
-            // 2. Foreign Keys
-            // Menggunakan warga_id sesuai form select option
+            // 2. Foreign Key
             $table->unsignedBigInteger('warga_id'); 
             
-            // Asumsi: UMKM ID diambil dari sistem/login, bukan input user
             // Jika pesanan ini spesifik untuk satu UMKM
             $table->unsignedBigInteger('umkm_id')->nullable(); 
 

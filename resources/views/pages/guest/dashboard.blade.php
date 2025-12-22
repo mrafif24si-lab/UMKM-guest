@@ -124,52 +124,7 @@
             </div>
         </div>
     </div>
-    <!-- Banners Section End -->
-
-    <!-- Fresh Vegetables Section Start -->
-    <div class="container-fluid py-5">
-        <div class="container py-5">
-            <div class="row g-4">
-                <div class="col-lg-6">
-                    <h1 class="mb-4">Fresh Organic Vegetables</h1>
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="service-content bg-light rounded p-4">
-                                <h5 class="text-primary">Vegetable</h5>
-                                <h6 class="mb-3">Parsely</h6>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tat incididunt.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="service-content bg-light rounded p-4">
-                                <h5 class="text-primary">Vegetable</h5>
-                                <h6 class="mb-3">Banana</h6>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tat incididunt.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="service-content bg-light rounded p-4">
-                                <h5 class="text-primary">Vegetable</h5>
-                                <h6 class="mb-3">Bell Papper</h6>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tat incididunt.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="service-content bg-light rounded p-4">
-                                <h5 class="text-primary">Vegetable</h5>
-                                <h6 class="mb-3">Potatoes</h6>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tat incididunt.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <img src="{{ asset('assets-guest/img/vegetable-banner.png') }}" class="img-fluid rounded" alt="Fresh Vegetables">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Fresh Vegetables Section End --> 
+    
 <!-- Products Shop Start-->
 <div class="container-fluid fruite py-5">
     <div class="container py-5">
@@ -214,54 +169,59 @@
                         <div class="col-lg-12">
                             <div class="row g-4">
                                 <!-- Loop produk dari database -->
-                                @forelse($produkTerbaik as $produk)
-                                    <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <div class="rounded position-relative fruite-item h-100">
-                                            <div class="fruite-img">
-                                                {{-- LOGIKA PENAMPILAN GAMBAR --}}
-                                                @if($produk->media->count() > 0)
-                                                    @php
-                                                        $gambarPertama = $produk->media->first();
-                                                    @endphp
-                                                    
-                                                    <img src="{{ asset('storage/media/' . $gambarPertama->file_name) }}" 
-                                                         class="img-fluid w-100 rounded-top" 
-                                                         style="height: 200px; object-fit: cover;"
-                                                         alt="{{ $produk->nama_produk }}"
-                                                         onerror="this.onerror=null; this.src='{{ asset('assets-guest/img/placeholder.jpg') }}'">
-                                                @else
-                                                    {{-- Tampilkan Placeholder jika memang tidak ada gambar di database --}}
-                                                    <img src="{{ asset('assets-guest/img/placeholder.jpg') }}" 
-                                                         class="img-fluid w-100 rounded-top" 
-                                                         style="height: 200px; object-fit: cover;"
-                                                         alt="No Image">
-                                                @endif
-                                            </div>
-                                            
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                                {{ $produk->jenis_produk }}
-                                            </div>
-                                            
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom h-100 d-flex flex-column">
-                                                <h4 class="mb-2">{{ $produk->nama_produk }}</h4>
-                                                <p class="mb-3 flex-grow-1" style="min-height: 60px;">
-                                                    {{ Str::limit($produk->deskripsi, 80) }}
-                                                </p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap mt-auto">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">Rp. {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                                                    <a href="{{ route('produk.show', $produk->produk_id) }}" 
-                                                       class="btn border border-secondary rounded-pill px-3 text-primary">
-                                                        <i class="fa fa-eye me-2 text-primary"></i>Lihat
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="col-12 text-center">
-                                        <p>Belum ada produk yang tersedia.</p>
-                                    </div>
-                                @endforelse
+                            <!-- Loop produk dari database -->
+@forelse($produkTerbaik as $produk)
+    <div class="col-md-6 col-lg-4 col-xl-3">
+        <div class="rounded position-relative fruite-item h-100">
+            <div class="fruite-img">
+                {{-- LOGIKA PENAMPILAN GAMBAR --}}
+                @if($produk->media->count() > 0)
+                    @php
+                        $gambarPertama = $produk->media->first();
+                    @endphp
+                    
+                    <img src="{{ asset('storage/media/' . $gambarPertama->file_name) }}" 
+                         class="img-fluid w-100 rounded-top" 
+                         style="height: 200px; object-fit: cover;"
+                         alt="{{ $produk->nama_produk }}"
+                         onerror="this.onerror=null; this.src='{{ asset('assets-guest/img/placeholder.jpg') }}'">
+                @else
+                    {{-- Tampilkan Placeholder jika memang tidak ada gambar di database --}}
+                    <img src="{{ asset('assets-guest/img/placeholder.jpg') }}" 
+                         class="img-fluid w-100 rounded-top" 
+                         style="height: 200px; object-fit: cover;"
+                         alt="No Image">
+                @endif
+            </div>
+            
+            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                {{ $produk->jenis_produk }}
+            </div>
+            
+            <div class="p-4 border border-secondary border-top-0 rounded-bottom h-100 d-flex flex-column">
+                <h4 class="mb-2">{{ $produk->nama_produk }}</h4>
+                <p class="mb-3 flex-grow-1" style="min-height: 60px;">
+                    {{ Str::limit($produk->deskripsi, 80) }}
+                </p>
+                <div class="d-flex justify-content-between flex-lg-wrap mt-auto">
+                    <p class="text-dark fs-5 fw-bold mb-0">Rp. {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                    {{-- TOMBOL BELI DENGAN IKON KERANJANG --}}
+                    <button type="button" 
+                            class="btn btn-success border-0 rounded-pill px-3 text-white beli-produk"
+                            data-produk-id="{{ $produk->produk_id }}"
+                            data-produk-nama="{{ $produk->nama_produk }}"
+                            data-produk-harga="{{ $produk->harga }}">
+                        <i class="fas fa-shopping-cart me-2"></i>Beli
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+@empty
+    <div class="col-12 text-center">
+        <p>Belum ada produk yang tersedia.</p>
+    </div>
+@endforelse
                             </div>
                         </div>
                     </div>
@@ -295,6 +255,7 @@
 </div>
 
 <style>
+    
     /* CSS tambahan untuk mengatasi masalah deskripsi */
     .fruite-item {
         display: flex;
@@ -358,4 +319,5 @@ $('.nav-pills a').on('shown.bs.tab', function(e) {
 });
 </script>
 <!-- Products Shop End-->
+ 
 @endsection

@@ -12,10 +12,9 @@ class Produk extends Model
     use HasFactory;
 
     protected $table = 'produk';
-    protected $primaryKey = 'produk_id'; // Kunci utama kamu
+    protected $primaryKey = 'produk_id'; 
     public $timestamps = true;
 
-    // [PENTING] Tambahkan ini agar Route Resource tahu ID mana yang dipakai
     public function getRouteKeyName()
     {
         return 'produk_id';

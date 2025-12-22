@@ -16,12 +16,10 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        // 5. TAMBAHKAN 'role' ke filterableColumns
         $filterableColumns = ['huruf_awal', 'role'];
         
         $searchableColumns = ['name', 'email'];
         
-        // 6. TAMBAHKAN ->with('media')
         $users = User::filter($request, $filterableColumns)
             ->search($request, $searchableColumns)
             ->with('media')

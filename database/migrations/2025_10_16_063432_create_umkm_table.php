@@ -9,9 +9,9 @@
         public function up(): void
         {
             Schema::create('umkm', function (Blueprint $table) {
-                $table->id('umkm_id'); // Tetap menggunakan id() untuk konsistensi
+                $table->id('umkm_id');
                 $table->string('nama_usaha');
-                $table->unsignedInteger('pemilik_warga_id'); // Diubah ke unsignedBigInteger
+                $table->unsignedInteger('pemilik_warga_id'); 
                 $table->text('alamat');
                 $table->string('rt', 3);
                 $table->string('rw', 3);

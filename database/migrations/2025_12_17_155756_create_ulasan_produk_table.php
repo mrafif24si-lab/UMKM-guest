@@ -15,15 +15,12 @@ return new class extends Migration
         Schema::create('ulasan_produk', function (Blueprint $table) {
             $table->id('ulasan_id'); // Primary key
             
-            // --- PERBAIKAN DI SINI ---
-            // Menggunakan unsignedInteger karena tabel induk (warga) bertipe INT(10)
             $table->unsignedInteger('produk_id'); 
             $table->unsignedInteger('warga_id');  
-            // -------------------------
 
             $table->tinyInteger('rating')->unsigned(); // Rating 1-5
             $table->text('komentar')->nullable(); // Komentar bisa kosong
-            $table->timestamps(); // created_at dan updated_at
+            $table->timestamps(); 
 
             // Foreign key constraints
             $table->foreign('produk_id')

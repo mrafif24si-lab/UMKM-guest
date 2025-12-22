@@ -16,18 +16,17 @@ class Pesanan extends Model
     protected $primaryKey = 'pesanan_id';
     public $timestamps = true;
 
-    // SESUAIKAN DENGAN DATABASE YANG ADA
     protected $fillable = [
         'nomor_pesanan',
         'warga_id',
-        'umkm_id',       // TAMBAHKAN KARENA MASIH ADA DI DB
+        'umkm_id',      
         'total',
         'status',
         'alamat_kirim',
         'rt',
         'rw',
         'metode_bayar',
-        'bukti_bayar'    // PAKAI SINGLE FILE DULU UNTUK DEMO
+        'bukti_bayar'    
     ];
 
     protected $casts = [

@@ -13,12 +13,10 @@ class DetailPesananController extends Controller
 {
     public function index(Request $request)
     {
-        // Query utama dengan eager loading
         $query = DetailPesanan::query()
             ->with(['pesanan.warga', 'produk.umkm'])
             ->orderBy('created_at', 'desc');
-
-        // 1. SEARCH FUNCTIONALITY
+            
         if ($request->filled('search')) {
             $search = $request->input('search');
             
