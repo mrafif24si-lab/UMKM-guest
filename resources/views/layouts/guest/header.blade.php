@@ -33,10 +33,10 @@
                     <a href="{{ route('identitas') }}" class="nav-item nav-link {{ request()->is('identitas') ? 'active' : '' }}">Identitas</a>
                 </div>
                 <div class="d-flex m-3 me-0">
-                    <a href="#" class="position-relative me-4 my-auto">
+                    <!-- <a href="#" class="position-relative me-4 my-auto">
                         <i class="fa fa-shopping-bag fa-2x text-primary"></i>
                         <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
-                    </a>
+                    </a> -->
                     <div class="nav-item dropdown my-auto">
                         {{-- BAGIAN 1: TOMBOL PEMICU (TRIGGER) --}}
                         <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" style="padding: 0 !important;">
