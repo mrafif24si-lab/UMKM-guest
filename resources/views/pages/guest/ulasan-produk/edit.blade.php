@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.guest.app')
 
 @section('title', 'Edit Ulasan Produk')
 
@@ -141,50 +141,7 @@
     </div>
 </div>
 
-<style>
-.rating-input {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-}
 
-.star-label {
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: #ffc107;
-}
-
-.star-label:hover {
-    transform: scale(1.2);
-}
-
-.star-label .fas {
-    display: none;
-}
-
-.star-label .far {
-    display: inline;
-}
-
-input[type="radio"]:checked ~ .star-label .fas,
-input[type="radio"]:checked ~ .star-label ~ .star-label .fas {
-    display: inline;
-}
-
-input[type="radio"]:checked ~ .star-label .far,
-input[type="radio"]:checked ~ .star-label ~ .star-label .far {
-    display: none;
-}
-
-input[type="radio"]:checked ~ .star-label {
-    transform: scale(1.1);
-}
-
-.card {
-    border-radius: 20px;
-    overflow: hidden;
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

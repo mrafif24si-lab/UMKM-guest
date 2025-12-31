@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.guest.app')
 
 @section('title', 'Detail Ulasan Produk')
 
@@ -263,63 +263,7 @@
     </div>
 </div>
 
-<style>
-.card {
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #dee2e6;
-}
 
-.card-header {
-    border-radius: 12px 12px 0 0 !important;
-}
-
-.rating-stars .fa-star {
-    margin-right: 5px;
-}
-
-.btn {
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.table-borderless th {
-    font-weight: 600;
-}
-
-.badge {
-    padding: 6px 12px;
-    font-weight: 500;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .card-body {
-        padding: 1.5rem !important;
-    }
-    
-    .d-flex.flex-md-row {
-        flex-direction: column !important;
-        text-align: center;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .action-buttons .btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

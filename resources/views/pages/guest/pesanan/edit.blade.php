@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.guest.app')
 
 @section('title', 'Edit Pesanan')
 
@@ -275,23 +275,5 @@ document.getElementById('bukti_bayar').addEventListener('change', function(event
 });
 </script>
 
-<style>
-.file-card {
-    transition: all 0.3s ease;
-    border: 1px solid #e9ecef;
-}
 
-.file-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.btn {
-    transition: all 0.3s ease !important;
-}
-
-.btn:hover {
-    transform: translateY(-2px) !important;
-}
-</style>
 @endsection

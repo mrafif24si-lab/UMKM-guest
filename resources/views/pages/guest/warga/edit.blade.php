@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.guest.app')
 
 @section('title', 'Edit Data Warga')
 
@@ -199,25 +199,7 @@
     </div>
 </div>
 
-<style>
-.text-gradient {
-    background: linear-gradient(135deg, #F6B35C, #118AB2);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 600;
-}
 
-.border-dashed {
-    border: 2px dashed #dee2e6 !important;
-    border-radius: 15px !important;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: #118AB2;
-    box-shadow: 0 0 0 0.25rem rgba(17, 138, 178, 0.25);
-}
-</style>
 
 <script>
 // Preview file upload dengan gambar

@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.guest.app')
 
 @section('title', 'Tambah Pesanan')
 
@@ -338,82 +338,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<style>
-.form-container {
-    background: var(--card-bg);
-    border-radius: 25px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-    overflow: hidden;
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    position: relative;
-    z-index: 10;
-}
-
-.card-header {
-    background: linear-gradient(135deg, #28a745 0%, #17a2b8 100%) !important;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    border: none;
-    transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
-}
-
-.btn-secondary {
-    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-    border: none;
-}
-
-.btn-outline-secondary {
-    border-color: #6c757d;
-    color: #6c757d;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: #28a745;
-    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
-}
-
-.input-group-text {
-    background-color: #f8f9fa;
-    border-color: #dee2e6;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .form-container {
-        border-radius: 15px;
-    }
-    
-    .card-body {
-        padding: 2rem !important;
-    }
-    
-    .btn-lg {
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .card-body {
-        padding: 1.5rem !important;
-    }
-    
-    .d-flex {
-        flex-direction: column;
-        gap: 10px !important;
-    }
-    
-    .btn-lg {
-        width: 100%;
-    }
-}
-</style>
 @endsection

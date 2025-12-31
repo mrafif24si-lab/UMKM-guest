@@ -1,9 +1,8 @@
-@extends('layouts.guest')
+@extends('layouts.guest.app') {{-- Menggunakan layout baru --}}
 
 @section('title', 'UMKM - Home')
 
 @section('content')
-    <!-- Hero Start -->
     <div class="container-fluid py-5 mb-5 hero-header">
         <div class="container py-5">
             <div class="row g-5 align-items-center">
@@ -44,9 +43,6 @@
             </div>
         </div>
     </div>
-    <!-- Hero End -->
-
-    <!-- Featurs Section Start -->
     <div class="container-fluid featurs py-5">
         <div class="container py-5">
             <div class="row g-4">
@@ -97,9 +93,6 @@
             </div>
         </div>
     </div>
-    <!-- Featurs Section End -->
-
-    <!-- Banners Section Start -->
     <div class="container-fluid banner py-5">
         <div class="container py-5">
             <div class="row g-4">
@@ -125,199 +118,165 @@
         </div>
     </div>
     
-<!-- Products Shop Start-->
-<div class="container-fluid fruite py-5">
-    <div class="container py-5">
-        <div class="tab-class text-center">
-            <div class="row g-4">
-                <div class="col-lg-4 text-start">
-                    <h1>Produk Terbaik Kami</h1>
+    <div class="container-fluid fruite py-5">
+        <div class="container py-5">
+            <div class="tab-class text-center">
+                <div class="row g-4">
+                    <div class="col-lg-4 text-start">
+                        <h1>Produk Terbaik Kami</h1>
+                    </div>
+                    <div class="col-lg-8 text-end">
+                        <ul class="nav nav-pills d-inline-flex text-center mb-5">
+                            <li class="nav-item">
+                                <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
+                                    <span class="text-dark" style="width: 130px;">Semua Produk</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
+                                    <span class="text-dark" style="width: 130px;">Kerajinan</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
+                                    <span class="text-dark" style="width: 130px;">Jasa</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
+                                    <span class="text-dark" style="width: 130px;">Elektronik</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
+                                    <span class="text-dark" style="width: 130px;">Kuliner</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-lg-8 text-end">
-                    <ul class="nav nav-pills d-inline-flex text-center mb-5">
-                        <li class="nav-item">
-                            <a class="d-flex m-2 py-2 bg-light rounded-pill active" data-bs-toggle="pill" href="#tab-1">
-                                <span class="text-dark" style="width: 130px;">Semua Produk</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
-                                <span class="text-dark" style="width: 130px;">Kerajinan</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-3">
-                                <span class="text-dark" style="width: 130px;">Jasa</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-4">
-                                <span class="text-dark" style="width: 130px;">Elektronik</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
-                                <span class="text-dark" style="width: 130px;">Kuliner</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="tab-content">
-                <div id="tab-1" class="tab-pane fade show p-0 active">
-                    <div class="row g-4">
-                        <div class="col-lg-12">
-                            <div class="row g-4">
-                                <!-- Loop produk dari database -->
-                            <!-- Loop produk dari database -->
-@forelse($produkTerbaik as $produk)
-    <div class="col-md-6 col-lg-4 col-xl-3">
-        <div class="rounded position-relative fruite-item h-100">
-            <div class="fruite-img">
-                {{-- LOGIKA PENAMPILAN GAMBAR --}}
-                @if($produk->media->count() > 0)
-                    @php
-                        $gambarPertama = $produk->media->first();
-                    @endphp
-                    
-                    <img src="{{ asset('storage/media/' . $gambarPertama->file_name) }}" 
-                         class="img-fluid w-100 rounded-top" 
-                         style="height: 200px; object-fit: cover;"
-                         alt="{{ $produk->nama_produk }}"
-                         onerror="this.onerror=null; this.src='{{ asset('assets-guest/img/placeholder.jpg') }}'">
-                @else
-                    {{-- Tampilkan Placeholder jika memang tidak ada gambar di database --}}
-                    <img src="{{ asset('assets-guest/img/placeholder.jpg') }}" 
-                         class="img-fluid w-100 rounded-top" 
-                         style="height: 200px; object-fit: cover;"
-                         alt="No Image">
-                @endif
-            </div>
-            
-            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                {{ $produk->jenis_produk }}
-            </div>
-            
-            <div class="p-4 border border-secondary border-top-0 rounded-bottom h-100 d-flex flex-column">
-                <h4 class="mb-2">{{ $produk->nama_produk }}</h4>
-                <p class="mb-3 flex-grow-1" style="min-height: 60px;">
-                    {{ Str::limit($produk->deskripsi, 80) }}
-                </p>
-                <div class="d-flex justify-content-between flex-lg-wrap mt-auto">
-                    <p class="text-dark fs-5 fw-bold mb-0">Rp. {{ number_format($produk->harga, 0, ',', '.') }}</p>
-                    {{-- TOMBOL BELI DENGAN IKON KERANJANG --}}
-                    <button type="button" 
-                            class="btn btn-success border-0 rounded-pill px-3 text-white beli-produk"
-                            data-produk-id="{{ $produk->produk_id }}"
-                            data-produk-nama="{{ $produk->nama_produk }}"
-                            data-produk-harga="{{ $produk->harga }}">
-                        <i class="fas fa-shopping-cart me-2"></i>Beli
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-@empty
-    <div class="col-12 text-center">
-        <p>Belum ada produk yang tersedia.</p>
-    </div>
-@endforelse
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane fade show p-0 active">
+                        <div class="row g-4">
+                            <div class="col-lg-12">
+                                <div class="row g-4">
+                                    @forelse($produkTerbaik as $produk)
+                                        <div class="col-md-6 col-lg-4 col-xl-3">
+                                            <div class="rounded position-relative fruite-item h-100">
+                                                <div class="fruite-img">
+                                                    {{-- LOGIKA PENAMPILAN GAMBAR --}}
+                                                    @if($produk->media->count() > 0)
+                                                        @php
+                                                            $gambarPertama = $produk->media->first();
+                                                        @endphp
+                                                        
+                                                        <img src="{{ asset('storage/media/' . $gambarPertama->file_name) }}" 
+                                                             class="img-fluid w-100 rounded-top" 
+                                                             style="height: 200px; object-fit: cover;"
+                                                             alt="{{ $produk->nama_produk }}"
+                                                             onerror="this.onerror=null; this.src='{{ asset('assets-guest/img/placeholder.jpg') }}'">
+                                                    @else
+                                                        {{-- Tampilkan Placeholder jika memang tidak ada gambar di database --}}
+                                                        <img src="{{ asset('assets-guest/img/placeholder.jpg') }}" 
+                                                             class="img-fluid w-100 rounded-top" 
+                                                             style="height: 200px; object-fit: cover;"
+                                                             alt="No Image">
+                                                    @endif
+                                                </div>
+                                                
+                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                                                    {{ $produk->jenis_produk }}
+                                                </div>
+                                                
+                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom h-100 d-flex flex-column">
+                                                    <h4 class="mb-2">{{ $produk->nama_produk }}</h4>
+                                                    <p class="mb-3 flex-grow-1" style="min-height: 60px;">
+                                                        {{ Str::limit($produk->deskripsi, 80) }}
+                                                    </p>
+                                                    <div class="d-flex justify-content-between flex-lg-wrap mt-auto">
+                                                        <p class="text-dark fs-5 fw-bold mb-0">Rp. {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                                                        {{-- TOMBOL BELI DENGAN IKON KERANJANG --}}
+                                                        <button type="button" 
+                                                                class="btn btn-success border-0 rounded-pill px-3 text-white beli-produk"
+                                                                data-produk-id="{{ $produk->produk_id }}"
+                                                                data-produk-nama="{{ $produk->nama_produk }}"
+                                                                data-produk-harga="{{ $produk->harga }}">
+                                                            <i class="fas fa-shopping-cart me-2"></i>Beli
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <div class="col-12 text-center">
+                                            <p>Belum ada produk yang tersedia.</p>
+                                        </div>
+                                    @endforelse
+                                </div>
                             </div>
                         </div>
+                        
+                        @if($produkTerbaik->count() > 0)
+                        <div class="text-center mt-5">
+                            <a href="{{ route('produk.index') }}" class="btn btn-primary btn-lg px-5">
+                                <i class="fas fa-boxes me-2"></i>Lihat Semua Produk
+                            </a>
+                        </div>
+                        @endif
                     </div>
                     
-                    <!-- Tombol lihat semua produk -->
-                    @if($produkTerbaik->count() > 0)
-                    <div class="text-center mt-5">
-                        <a href="{{ route('produk.index') }}" class="btn btn-primary btn-lg px-5">
-                            <i class="fas fa-boxes me-2"></i>Lihat Semua Produk
-                        </a>
-                    </div>
-                    @endif
-                </div>
-                
-                <!-- Tab lainnya bisa diisi dengan produk berdasarkan kategori -->
-                <div id="tab-2" class="tab-pane fade show p-0">
-                    <!-- Produk Kerajinan akan muncul di sini -->
-                </div>
-                <div id="tab-3" class="tab-pane fade show p-0">
-                    <!-- Produk Jasa akan muncul di sini -->
-                </div>
-                <div id="tab-4" class="tab-pane fade show p-0">
-                    <!-- Produk Elektronik akan muncul di sini -->
-                </div>
-                <div id="tab-5" class="tab-pane fade show p-0">
-                    <!-- Produk Kuliner akan muncul di sini -->
+                    <div id="tab-2" class="tab-pane fade show p-0">
+                        </div>
+                    <div id="tab-3" class="tab-pane fade show p-0">
+                        </div>
+                    <div id="tab-4" class="tab-pane fade show p-0">
+                        </div>
+                    <div id="tab-5" class="tab-pane fade show p-0">
+                        </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<style>
-    
-    /* CSS tambahan untuk mengatasi masalah deskripsi */
-    .fruite-item {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-    
-    .fruite-img {
-        flex-shrink: 0;
-    }
-    
-    .fruite-item .p-4 {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .fruite-item .p-4 p {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        white-space: normal;
-        line-height: 1.5;
-    }
-</style>
+@endsection
 
+{{-- Memindahkan Script ke section khusus agar dibaca setelah jQuery diload di layout --}}
+@section('scripts')
 <script>
-// Fungsi untuk memuat produk berdasarkan kategori
-function loadProdukByKategori(kategori) {
-    $.ajax({
-        url: '{{ route("home") }}',
-        type: 'GET',
-        data: { kategori: kategori },
-        beforeSend: function() {
-            $('#tab-1 .row.g-4').html('<div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
-        },
-        success: function(response) {
-            // Update konten produk
-            // Catatan: Ini perlu penyesuaian jika Anda menggunakan AJAX
-        },
-        error: function() {
-            alert('Terjadi kesalahan saat memuat produk');
-        }
-    });
-}
+    // Fungsi untuk memuat produk berdasarkan kategori
+    function loadProdukByKategori(kategori) {
+        $.ajax({
+            url: '{{ route("home") }}',
+            type: 'GET',
+            data: { kategori: kategori },
+            beforeSend: function() {
+                $('#tab-1 .row.g-4').html('<div class="col-12 text-center py-5"><div class="spinner-border text-primary" role="status"></div></div>');
+            },
+            success: function(response) {
+                // Update konten produk
+                // Catatan: Ini perlu penyesuaian jika Anda menggunakan AJAX
+            },
+            error: function() {
+                alert('Terjadi kesalahan saat memuat produk');
+            }
+        });
+    }
 
-// Event listener untuk tab
-$('.nav-pills a').on('shown.bs.tab', function(e) {
-    var target = $(e.target).attr("href");
-    
-    // Reset semua tab
-    $('.nav-pills a').removeClass('active');
-    $(e.target).addClass('active');
-    
-    // Reset semua tab content
-    $('.tab-pane').removeClass('show active');
-    $(target).addClass('show active');
-    
-    // Anda bisa tambahkan AJAX di sini untuk memuat produk per kategori
-    // var kategori = $(e.target).text().trim();
-    // loadProdukByKategori(kategori);
-});
+    // Event listener untuk tab
+    $('.nav-pills a').on('shown.bs.tab', function(e) {
+        var target = $(e.target).attr("href");
+        
+        // Reset semua tab
+        $('.nav-pills a').removeClass('active');
+        $(e.target).addClass('active');
+        
+        // Reset semua tab content
+        $('.tab-pane').removeClass('show active');
+        $(target).addClass('show active');
+        
+        // Anda bisa tambahkan AJAX di sini untuk memuat produk per kategori
+        // var kategori = $(e.target).text().trim();
+        // loadProdukByKategori(kategori);
+    });
 </script>
-<!-- Products Shop End-->
- 
 @endsection

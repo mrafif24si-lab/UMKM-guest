@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.guest.app')
 
 @section('title', 'Detail Item Pesanan')
 
@@ -210,48 +210,7 @@
     </div>
 </div>
 
-<style>
-.card {
-    border-radius: 15px;
-    border: none;
-    transition: transform 0.3s ease;
-}
 
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-header {
-    border-radius: 15px 15px 0 0 !important;
-}
-
-.table-borderless th {
-    font-weight: 600;
-    color: #6c757d;
-}
-
-.bg-light {
-    background-color: #f8f9fa !important;
-}
-
-.btn {
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.text-gradient {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 800;
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

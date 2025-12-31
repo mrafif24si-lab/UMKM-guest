@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.guest.app')
 
 @section('title', 'Tambah Detail Pesanan')
 
@@ -273,35 +273,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<style>
-.card {
-    border-radius: 20px;
-    overflow: hidden;
-}
 
-.card-header {
-    padding: 20px;
-}
-
-.form-control:focus, .form-select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 0.25rem rgba(246, 179, 92, 0.25);
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    border: none;
-    transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(246, 179, 92, 0.3);
-}
-
-.alert-info {
-    background: rgba(23, 162, 184, 0.1);
-    border-color: rgba(23, 162, 184, 0.3);
-}
-</style>
 @endsection

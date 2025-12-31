@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.guest.app') {{-- Menggunakan layout baru --}}
 
 @section('title', 'Tentang Kami')
 

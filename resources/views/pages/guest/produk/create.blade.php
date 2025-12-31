@@ -1,5 +1,5 @@
 <!-- resources/views/produk/create.blade.php -->
-@extends('layouts.guest')
+@extends('layouts.guest.app')
 
 @section('title', 'Tambah Produk')
 

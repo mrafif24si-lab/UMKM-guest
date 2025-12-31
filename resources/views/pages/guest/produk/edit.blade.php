@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.guest.app')
 
 @section('title', 'Edit Produk')
 
@@ -269,27 +269,4 @@ function confirmDeleteMedia(url) {
 }
 </script>
 
-<style>
-.file-card {
-    transition: all 0.3s ease;
-    border: 1px solid #e9ecef;
-}
-
-.file-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-color: #007bff;
-}
-
-.preview-card {
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    padding: 5px;
-    background: white;
-}
-
-.preview-card img {
-    border-radius: 3px;
-}
-</style>
 @endsection
