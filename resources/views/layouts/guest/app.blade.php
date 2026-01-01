@@ -81,7 +81,6 @@
     </a>
     <div class="whatsapp-tooltip">Hubungi Kami via WhatsApp</div>
 
-    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>
 
     {{-- Memanggil Partial JS --}}
     @include('layouts.guest.js')
