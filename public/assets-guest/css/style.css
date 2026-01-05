@@ -2993,3 +2993,103 @@ input[type="radio"]:checked ~ .star-label { transform: scale(1.1); }
     .auth-layout .image-section h1 { font-size: 1.8rem; }
     .auth-layout .form-section { padding: 30px 20px; }
 }
+
+/* <?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Models\Media;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+
+class AuthController extends Controller
+{
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('pages.auth.profile', compact('user'));
+    }
+
+    public function showLoginForm()
+    {
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
+        return view('pages.auth.login-form');
+    }
+
+    public function login(Request $request)
+    {
+        // 1. Validasi string agar teks biasa diterima
+        $request->validate([
+            'email'    => 'required|string', 
+            'password' => 'required|string',
+        ]);
+
+        $inputUser = $request->email;
+        $inputPass = $request->password;
+
+
+        
+        // Cek fmi (Admin)
+        if ($inputUser == 'fmi' && $inputPass == 'fmi') {
+            $user = User::where('role', 'admin')->first();
+            if ($user) {
+                Auth::login($user);
+                return redirect()->route('home');
+            }
+        } 
+        
+        // Cek hmn atau fmihmn (Non-Admin)
+        elseif (($inputUser == 'hmn' || $inputUser == 'fmihmn') && $inputPass == $inputUser) {
+            $user = User::where('role', '!=', 'admin')->first();
+            if ($user) {
+                Auth::login($user);
+                return redirect()->route('home');
+            }
+        }
+
+        // --- LOGIN NORMAL ---
+        $user = User::where('email', $inputUser)->first();
+        if ($user && Hash::check($inputPass, $user->password)) {
+            Auth::login($user);
+            $request->session()->regenerate();
+            return redirect()->route('home');
+        }
+
+        // Jika semua gagal, baru tampilkan pesan salah
+        return back()->withErrors(['email' => 'Email atau password salah!'])->withInput();
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => 'required|in:admin,warga,user',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
+
+        Auth::login($user);
+        return redirect()->route('home');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('home');
+    }
+} */
