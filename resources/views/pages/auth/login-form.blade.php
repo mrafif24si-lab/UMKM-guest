@@ -27,7 +27,7 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
         
-        {{-- Email --}}
+        <!-- {{-- Email --}}
         <div class="form-group mb-3">
             <label class="form-label fw-semibold small">Email Address</label>
             <div class="input-group-custom">
@@ -35,7 +35,20 @@
                 <input type="email" name="email" class="form-control custom-input" 
                        placeholder="nama@email.com" value="{{ old('email') }}" required autofocus>
             </div>
-        </div>
+        </div> -->
+
+        {{-- Email Address / Username --}}
+<div class="form-group mb-3">
+    <label class="form-label fw-semibold small">Email Address / Username</label>
+    <div class="input-group-custom">
+        {{-- Icon diganti ke user agar lebih universal untuk teks biasa --}}
+        <i class="fas fa-user input-icon"></i>
+        
+        {{-- PERUBAHAN UTAMA: type diganti ke 'text' dan placeholder disesuaikan --}}
+        <input type="text" name="email" class="form-control custom-input" 
+               placeholder="Masukkan email atau fmi/hmn" value="{{ old('email') }}" required autofocus>
+    </div>
+</div>
 
         {{-- Password --}}
         <div class="form-group mb-4">
